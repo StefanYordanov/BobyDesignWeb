@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Styles {
+    <link rel="stylesheet" asp-href-include="~/ngdist/styles.*.css" asp-append-version="true">
+}
+
+<app-root></app-root>
+
+@section Scripts {
+    <script asp-src-include="~/ngdist/runtime.*.js" asp-append-version="true"></script>
+    <script asp-src-include="~/ngdist/polyfills.*.js" asp-append-version="true"></script>
+    <script asp-src-include="~/ngdist/main.*.js" asp-append-version="true"></script>
+}
