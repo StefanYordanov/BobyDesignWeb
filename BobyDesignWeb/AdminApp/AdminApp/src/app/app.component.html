@@ -1,0 +1,9 @@
+<app-navigation-menu></app-navigation-menu>
+<div class="container">
+    <router-outlet></router-outlet>
+    <div *ngIf="loading" class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<ng-container *ngIf="roleItems; else loading">
+    <div *ngFor="let roleItem of roleItems">
+        <span scope="row">{{roleItem.role}}</span>
+        <input class="form-check-input" type="checkbox"  [(ngModel)]="roleItem.active" id="flexCheckDefault">
+    </div>
+    <button type="button" class="btn btn-success btn-sm" (click)="saveRoleItems()">Запази</button>
+</ng-container>
+<ng-template #loading>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+  </ng-template>

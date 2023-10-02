@@ -1,0 +1,16 @@
+<ul class="pagination">
+    <li class="page-item">
+        <a class="page-link" (click)="switchPage(1)" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
+    <ng-container *ngFor="let pageNumber of getPagesRange()">
+        <li class="page-item" [class.active]="currentPage === pageNumber"><a class="page-link"
+                (click)="switchPage(pageNumber)">{{pageNumber}}</a></li>
+    </ng-container>
+    <li class="page-item">
+        <a class="page-link" (click)="switchPage(pagesCount)" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+    </li>
+</ul>
