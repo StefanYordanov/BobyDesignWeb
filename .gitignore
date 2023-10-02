@@ -287,6 +287,8 @@ node_modules/
 
 # Angular
 .angular
+.vscode
+wwwroot/ngdist
 AdminApp/dist
 
 # Visual Studio 6 build log
