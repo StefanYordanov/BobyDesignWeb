@@ -21,6 +21,9 @@ import { CustomersComponent } from './components/customers/customers.component';
 import { CustomersService } from './services/customers.service';
 import { CustomersResolverService } from './components/customers/cusromers-resolver.service';
 import { OrdersCalendarComponent } from './orders-calendar/orders-calendar.component';
+import { MainPageComponent } from './components/main-page/main-page.component';
+import { CalendarViewComponent } from './components/calendar-view/calendar-view.component';
+import { CalendarService } from './services/calendar.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,7 @@ import { OrdersCalendarComponent } from './orders-calendar/orders-calendar.compo
     AllUsersComponent,
     UserRightsComponent,
     PaginationComponent, 
-    WorkMaterialsComponent, CustomersComponent, OrdersCalendarComponent
+    WorkMaterialsComponent, CustomersComponent, OrdersCalendarComponent, MainPageComponent, CalendarViewComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +49,7 @@ import { OrdersCalendarComponent } from './orders-calendar/orders-calendar.compo
     DatePipe,
     CurrencyPipe,
     ApiService, 
+    CalendarService,
     UserService, AllUsersResolverService,
     WorkMaterialsService, WorkMaterialsResolverService,
     CustomersService, CustomersResolverService

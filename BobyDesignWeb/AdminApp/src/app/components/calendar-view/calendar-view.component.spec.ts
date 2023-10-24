@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WorkMaterialsComponent } from './work-materials.component';
+import { CalendarViewComponent } from './calendar-view.component';
 
-describe('WorkMaterialsComponent', () => {
-  let component: WorkMaterialsComponent;
-  let fixture: ComponentFixture<WorkMaterialsComponent>;
+describe('CalendarViewComponent', () => {
+  let component: CalendarViewComponent;
+  let fixture: ComponentFixture<CalendarViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkMaterialsComponent ]
+      declarations: [ CalendarViewComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(WorkMaterialsComponent);
+    fixture = TestBed.createComponent(CalendarViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -6,8 +6,10 @@ import { WorkMaterialsComponent } from './components/work-materials/work-materia
 import { WorkMaterialsResolverService } from './components/work-materials/work-materials/work-materials-resolver.service';
 import { CustomersComponent } from './components/customers/customers.component';
 import { CustomersResolverService } from './components/customers/cusromers-resolver.service';
+import { MainPageComponent } from './components/main-page/main-page.component';
 
 const routes: Routes = [
+  {path: '', component: MainPageComponent },
   {path: 'administration/users', component: AllUsersComponent, resolve: {
     userPage: AllUsersResolverService
   }},
