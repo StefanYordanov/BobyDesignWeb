@@ -1,42 +1,44 @@
-
-<div>
-  <select class="form-control form-select col-sm-2" [(ngModel)]="month" (change)="updateCalendar()">
-    <option [ngValue]="0">Януари</option>
-    <option [ngValue]="1">Февруари</option>
-    <option [ngValue]="2">Март</option>
-    <option [ngValue]="3">Април</option>
-    <option [ngValue]="4">Май</option>
-    <option [ngValue]="5">Юни</option>
-    <option [ngValue]="6">Юли</option>
-    <option [ngValue]="7">Август</option>
-    <option [ngValue]="8">Септември</option>
-    <option [ngValue]="9">Октомври</option>
-    <option [ngValue]="10">Ноември</option>
-    <option [ngValue]="11">Декември</option>
-</select>
+<div class="row">
+  <button type="button" (click)="previousMonth()" class="btn btn-light col-1">&lt;</button>
+  <div class="col-3"><input [(ngModel)]="year" (change)="updateCalendar()" type="number" class="form-control"></div>
+  <div class="col-7"><select class="form-control form-select" [(ngModel)]="month" (change)="updateCalendar()">
+      <option [ngValue]="0">Януари</option>
+      <option [ngValue]="1">Февруари</option>
+      <option [ngValue]="2">Март</option>
+      <option [ngValue]="3">Април</option>
+      <option [ngValue]="4">Май</option>
+      <option [ngValue]="5">Юни</option>
+      <option [ngValue]="6">Юли</option>
+      <option [ngValue]="7">Август</option>
+      <option [ngValue]="8">Септември</option>
+      <option [ngValue]="9">Октомври</option>
+      <option [ngValue]="10">Ноември</option>
+      <option [ngValue]="11">Декември</option>
+    </select>
+  </div>
+  <button type="button" (click)="nextMonth()" class="btn btn-light col-1">&gt;</button>
 </div>
-<div class="calendar">
-    <div *ngFor="let calendarCell of calendarCells"  class="calendar-cell">
-        <span [class.outside-month-boundaries]="!calendarCell.withinMonthBoundaries" 
-        [class.bg-primary]="calendarCell.isToday" 
-        [class.bg-light]="!calendarCell.isToday" 
-        [class.text-dark]="!calendarCell.isToday" 
-          class="badge rounded-pill bg-primary">{{calendarCell.date.getDate()}}</span>
-        <!-- <h6 [class.outside-month-boundaries]="!calendarCell.withinMonthBoundaries">{{calendarCell.date.getDate()}}</h6> -->
+<div *ngIf="calendarCells" class="calendar">
+  <div *ngFor="let calendarCell of calendarCells" class="calendar-cell">
+    <span [class.outside-month-boundaries]="!calendarCell.withinMonthBoundaries"
+      [class.bg-primary]="calendarCell.isToday" [class.bg-light]="!calendarCell.isToday"
+      [class.text-dark]="!calendarCell.isToday"
+      class="badge rounded-pill bg-primary">{{calendarCell.date.getDate()}}</span>
+    <!-- <h6 [class.outside-month-boundaries]="!calendarCell.withinMonthBoundaries">{{calendarCell.date.getDate()}}</h6> -->
 
-        <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-              <span class="badge bg-warning badge-light">9</span> <span class="hide-on-small">Поръчки</span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </div>
-        <!-- <ng-container *ngFor="let item of createRandomRange(5)">
+    <div *ngIf="groupedOrders && groupedOrders[calendarCell.date.getTime()] as orders" class="dropdown">
+      <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        <span class="badge bg-warning badge-light"> {{orders.length}}</span> <span class="hide-on-small">Поръчки</span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li *ngFor="let order of orders"><a class="dropdown-item" href="#">{{order.description}} -
+            {{order.customer.name}}/{{order.customer.phoneNumber}}/{{order.customer.email}}</a></li>
+      </ul>
+    </div>
+    <!-- <ng-container *ngFor="let item of createRandomRange(5)">
             <button type="button" class="btn btn-primary btn-sm">Иван Иванов - пръстен </button>
         </ng-container> -->
-        
-    </div>
+
+  </div>
 </div>

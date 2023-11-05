@@ -36,6 +36,16 @@ namespace BobyDesignWeb.Data
             {
                await _userManager.AddToRoleAsync(mainAdmin, UserRolesConstants.Admin);
             }
+
+            if (!_ctx.JewelryShops.Any()) 
+            {
+                _ctx.JewelryShops.Add(new()
+                {
+                    JewelryShopDescription = "Магазинът в Хита",
+                    JewelryShopName = "Сливница"
+                });
+                _ctx.SaveChanges();
+            }
         }
     }
 }

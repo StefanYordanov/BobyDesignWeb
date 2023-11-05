@@ -20,10 +20,11 @@ import { WorkMaterialsResolverService } from './components/work-materials/work-m
 import { CustomersComponent } from './components/customers/customers.component';
 import { CustomersService } from './services/customers.service';
 import { CustomersResolverService } from './components/customers/cusromers-resolver.service';
-import { OrdersCalendarComponent } from './orders-calendar/orders-calendar.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { CalendarViewComponent } from './components/calendar-view/calendar-view.component';
 import { CalendarService } from './services/calendar.service';
+import { OrdersService } from './services/orders.service';
+import { ModalFrameComponent } from './components/modal-frame/modal-frame.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { CalendarService } from './services/calendar.service';
     AllUsersComponent,
     UserRightsComponent,
     PaginationComponent, 
-    WorkMaterialsComponent, CustomersComponent, OrdersCalendarComponent, MainPageComponent, CalendarViewComponent
+    ModalFrameComponent,
+    WorkMaterialsComponent, CustomersComponent, MainPageComponent, CalendarViewComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,7 @@ import { CalendarService } from './services/calendar.service';
     DatePipe,
     CurrencyPipe,
     ApiService, 
-    CalendarService,
+    CalendarService, OrdersService,
     UserService, AllUsersResolverService,
     WorkMaterialsService, WorkMaterialsResolverService,
     CustomersService, CustomersResolverService
