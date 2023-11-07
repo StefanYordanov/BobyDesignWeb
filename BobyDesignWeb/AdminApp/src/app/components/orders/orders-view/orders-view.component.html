@@ -1,1 +1,40 @@
-<p>orders-view works!</p>
+<ng-container *ngIf="ordersPage">
+
+    <div class="form-group row">
+        <label for="staticEmail" class="col-sm-1 col-form-label">Търсене</label>
+        <div class="col-sm-4">
+          <input [(ngModel)]="searchPhrase" type="text" class="form-control">
+        </div>
+        <button type="button" class="btn btn-primary col-sm-2" (click)="applySearch()">Търсене</button>
+    </div>
+
+    <app-pagination [pagesCount] = "ordersPage.pagesCount" [currentPage] = "ordersPage.currentPage" (pageChanged) = "switchPage($event)"></app-pagination>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Поръчител</th>
+                <th scope="col">Краен срок</th>
+                <th scope="col">Обща цена</th>
+                <th scope="col">Депозит</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let order of ordersPage.items">
+                <tr>
+                    <td scope="row">{{order.id}}</td>
+                    <td scope="row">{{order.description}}</td>
+                    <td scope="row">{{order.customer.name}} | {{order.customer.phoneNumber}}</td>
+                     <td scope="row">{{order.finishingDate | date: 'dd/MM/yyyy'}}</td>
+                     <td scope="row">{{order.totalPrice | currency:'BGN':'лв.'}}</td>
+                     <td scope="row">{{order.deposit | currency:'BGN':'лв.'}}</td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+    
+    <app-pagination [pagesCount] = "ordersPage.pagesCount" [currentPage] = "ordersPage.currentPage" (pageChanged) = "switchPage($event)"></app-pagination>
+
+</ng-container>

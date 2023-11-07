@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CalendarCell } from 'src/app/models/calendar.model';
 import { Order } from 'src/app/models/order.model';
 import { CalendarService } from 'src/app/services/calendar.service';
@@ -11,9 +11,12 @@ import { OrdersService } from 'src/app/services/orders.service';
 })
 export class CalendarViewComponent implements OnInit {
 
+  @Input() isPicker = false;
+
   year: number;
   month: number;
   calendarCells?: CalendarCell[];
+  selectedDate?: Date;
   groupedOrders?: {
     [key: number]: Order[]
   }
@@ -29,11 +32,11 @@ export class CalendarViewComponent implements OnInit {
     await this.updateCalendar();
   }
 
-  createRandomRange(maxRange: number): number[] {
-
-    const number = Math.floor(Math.random() * (maxRange + 1));
-    return new Array(number).fill(0)
-      .map((n, index) => index + 1);
+  clickCalendarCell(calendarCell: CalendarCell){
+    if(!this.isPicker) {
+      return;
+    }
+    this.selectedDate = calendarCell.date;
   }
 
   setYear(year: number) {

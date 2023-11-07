@@ -20,6 +20,7 @@ export interface OrderQuery {
     fromDate?: string;
     toDate?: string;
     searchPhrase?: string;
+    customerId?: number
 }
 
 export interface OrderCraftingComponent {

@@ -25,6 +25,8 @@ import { CalendarViewComponent } from './components/calendar-view/calendar-view.
 import { CalendarService } from './services/calendar.service';
 import { OrdersService } from './services/orders.service';
 import { ModalFrameComponent } from './components/modal-frame/modal-frame.component';
+import { OrdersViewResolverService } from './components/orders/orders-view/orders-view-resolver.service';
+import { OrdersViewComponent } from './components/orders/orders-view/orders-view.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,7 @@ import { ModalFrameComponent } from './components/modal-frame/modal-frame.compon
     UserRightsComponent,
     PaginationComponent, 
     ModalFrameComponent,
-    WorkMaterialsComponent, CustomersComponent, MainPageComponent, CalendarViewComponent
+    WorkMaterialsComponent, CustomersComponent, MainPageComponent, CalendarViewComponent, OrdersViewComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +53,8 @@ import { ModalFrameComponent } from './components/modal-frame/modal-frame.compon
     DatePipe,
     CurrencyPipe,
     ApiService, 
-    CalendarService, OrdersService,
+    CalendarService, 
+    OrdersService, OrdersViewResolverService,
     UserService, AllUsersResolverService,
     WorkMaterialsService, WorkMaterialsResolverService,
     CustomersService, CustomersResolverService

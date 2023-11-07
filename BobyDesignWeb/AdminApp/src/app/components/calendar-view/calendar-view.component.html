@@ -19,7 +19,8 @@
   <button type="button" (click)="nextMonth()" class="btn btn-light col-1">&gt;</button>
 </div>
 <div *ngIf="calendarCells" class="calendar">
-  <div *ngFor="let calendarCell of calendarCells" class="calendar-cell">
+  <div *ngFor="let calendarCell of calendarCells" class="calendar-cell" 
+  [class.bg-primary]="selectedDate && calendarCell.date.getTime() === selectedDate.getTime()" (click)="clickCalendarCell(calendarCell)">
     <span [class.outside-month-boundaries]="!calendarCell.withinMonthBoundaries"
       [class.bg-primary]="calendarCell.isToday" [class.bg-light]="!calendarCell.isToday"
       [class.text-dark]="!calendarCell.isToday"
@@ -36,9 +37,6 @@
             {{order.customer.name}}/{{order.customer.phoneNumber}}/{{order.customer.email}}</a></li>
       </ul>
     </div>
-    <!-- <ng-container *ngFor="let item of createRandomRange(5)">
-            <button type="button" class="btn btn-primary btn-sm">Иван Иванов - пръстен </button>
-        </ng-container> -->
 
   </div>
 </div>

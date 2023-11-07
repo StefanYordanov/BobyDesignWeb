@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BobyDesignWeb.styles.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>    
     <div class="built-in-main">
@@ -42,6 +40,7 @@
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item" href="#/work-materials">Работни Материали</a></li>
                                             <li><a class="dropdown-item" href="#/customers">Клиенти</a></li>
+                                            <li><a class="dropdown-item" href="#/orders-view" routerLinkActive="active">Поръчки</a></li>
                                         </ul>
                                     </li>
                                 }

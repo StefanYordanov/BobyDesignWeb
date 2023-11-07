@@ -14,17 +14,17 @@ namespace BobyDesignWeb.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<OrderViewModel> GetOrders(DateTime? fromDate, DateTime? toDate, string? searchPhrase)
+        public IEnumerable<OrderViewModel> GetOrders(DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId)
         {
-            return OrdersQuery(fromDate, toDate, searchPhrase).ToList();
+            return OrdersQuery(fromDate, toDate, searchPhrase, customerId).ToList();
         }
 
         [HttpGet]
-        public PageViewModel<OrderViewModel> GetOrdersPagination(int page, DateTime? fromDate, DateTime? toDate, string? searchPhrase)
+        public PageViewModel<OrderViewModel> GetOrdersPagination(int page, DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId)
         {
             page = page <= 0 ? 1 : page;
             int pageSize = 20;
-            var ordersQuery = OrdersQuery(fromDate, toDate, searchPhrase);
+            var ordersQuery = OrdersQuery(fromDate, toDate, searchPhrase, customerId);
             var ordersCount = ordersQuery.Count();
             var orders = ordersQuery.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
@@ -36,7 +36,7 @@ namespace BobyDesignWeb.Controllers
             };
         }
 
-        private IQueryable<OrderViewModel> OrdersQuery(DateTime? fromDate, DateTime? toDate, string? searchPhrase)
+        private IQueryable<OrderViewModel> OrdersQuery(DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId)
         {
             fromDate ??= DateTime.MinValue;
             toDate ??= DateTime.MaxValue;
@@ -45,11 +45,14 @@ namespace BobyDesignWeb.Controllers
             return _context.Orders
                 .Include(o => o.Customer)
                 .Include(o => o.ShopUser)
-                .Where(o => o.FinishingDate.Date >= fromDate && o.FinishingDate.Date <= toDate && (o.OrderDescription.ToLower().Contains(searchPhrase) ||
-                    o.Customer.CustomerName.ToLower().Contains(searchPhrase) ||
-                    o.Customer.CustomerEmail.ToLower().Contains(searchPhrase) ||
-                    o.Customer.CustomerPhone.ToLower().Contains(searchPhrase))
-
+                .Where(o => o.FinishingDate.Date >= fromDate && o.FinishingDate.Date <= toDate && 
+                    (customerId == null || customerId == o.CustomerId) && 
+                    (
+                        o.OrderDescription.ToLower().Contains(searchPhrase) ||
+                        o.Customer.CustomerName.ToLower().Contains(searchPhrase) ||
+                        o.Customer.CustomerEmail.ToLower().Contains(searchPhrase) ||
+                        o.Customer.CustomerPhone.ToLower().Contains(searchPhrase)
+                    )
                 ).Select(o =>
                 new OrderViewModel()
                 {
