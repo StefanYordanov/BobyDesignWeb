@@ -9,7 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserRightsComponent implements OnInit {
 
-  @Output() rolesSavedEvent = new EventEmitter<string>();
+  @Output() rolesSavedEvent = new EventEmitter<boolean>();
   @Input() userId = '';
   roleItems?: RoleItem[];
   constructor( private userService: UserService) { }
@@ -23,5 +23,6 @@ export class UserRightsComponent implements OnInit {
       return;
     }
     await this.userService.updateUserRoles(this.userId, this.roleItems);
+    this.rolesSavedEvent.emit(true);
   }
 }

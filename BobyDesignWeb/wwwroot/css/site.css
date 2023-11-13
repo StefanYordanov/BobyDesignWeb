@@ -16,3 +16,14 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.small-margin-top {
+    margin-top: 5px;
+}
+
+.modal-fullscreen {
+    width: 100vw;
+    max-width: none;
+    height: 100%;
+    margin: 0;
+}

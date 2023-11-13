@@ -19,7 +19,7 @@
                     <tr>
                         <td><input [(ngModel)]="newWorkMaterial.name" name="newMaterialName" type="text" class="form-control"></td>
                         <td>
-                            <select class="form-control form-select col-sm-2" [(ngModel)]="newWorkMaterial.pricingType">
+                            <select class="form-control form-select" [(ngModel)]="newWorkMaterial.pricingType">
                                 <option [ngValue]="0">Фиксирано</option>
                                 <option [ngValue]="1">На грам</option>
                             </select>
@@ -34,9 +34,9 @@
                         </ng-container>
                         <td *ngIf="!newWorkMaterial.relevantPrice" colspan="2"></td>
                         <td>
-                                <button [style.width]="'auto'" class="btn btn-primary col-sm-2" (click)="toggleNewMaterialPrice()">
+                                <button [style.width]="'auto'" class="btn btn-primary" (click)="toggleNewMaterialPrice()">
                                     {{ newWorkMaterial.relevantPrice ? 'Отмени цена' : 'Създай с цена' }}</button>
-                                <button [style.width]="'auto'" type="button" class="btn btn-success col-sm-2" (click)="submitNewEntry()">Запази</button>
+                                <button [style.width]="'auto'" type="button" class="btn btn-success" (click)="submitNewEntry()">Запази</button>
                         </td>
                     </tr>
                 </tbody>

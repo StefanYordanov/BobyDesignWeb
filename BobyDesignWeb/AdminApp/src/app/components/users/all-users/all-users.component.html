@@ -28,6 +28,7 @@
                     <th scope="col">Имейл</th>
                     <th scope="col">Телефон</th>
                     <th scope="col">Права</th>
+                    <th *ngIf="userBeingEditedId">Редакция на права</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,9 +40,9 @@
                     <td scope="row">{{user.email}}</td>
                     <td scope="row">{{user.phoneNumber}}</td>
                     <td scope="row"><button type="button" (click)="toggleUserBeingEdited(user.id)" class="btn btn-primary">Редактиране на права</button></td>
-                    <div *ngIf="userBeingEditedId === user.id">
-                        <app-user-rights [userId]="user.id"></app-user-rights>
-                    </div>
+                    <td *ngIf="userBeingEditedId === user.id">
+                        <app-user-rights [userId]="user.id" (rolesSavedEvent)="toggleUserBeingEdited(user.id)"></app-user-rights>
+                    </td>
                 </tr>
                 </ng-container>
             </tbody>

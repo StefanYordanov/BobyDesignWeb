@@ -9,6 +9,13 @@ import { PageView } from '../models/common.model';
 export class CustomersService {
   constructor(private apiService: ApiService) {}
 
+  customerString(customer?:CustomerModel) {
+    if(!customer) {
+      return ''
+    }
+    return customer?.name + '/' + customer?.email +'/' + customer?.phoneNumber
+  }
+
   async editCustomer(model: CustomerModel): Promise<CustomerModel | null> {
     const response = await this.apiService.post<CustomerModel>(
       'customers/edit',
@@ -27,6 +34,18 @@ export class CustomersService {
     return response;
   }
 
+  async getCustomer(id: number): Promise<CustomerModel | null> {
+    let params: Params = {
+      id,
+    };
+    const customer = await this.apiService.get<CustomerModel>(
+      'customers/getCustomer',
+      params
+    );
+    console.log(customer);
+    return customer;
+  }
+
   async getCustomers(
     page: number,
     searchPhrase?: string
@@ -38,11 +57,11 @@ export class CustomersService {
     if (searchPhrase) {
       params['searchPhrase'] = searchPhrase;
     }
-    const workMaterials = await this.apiService.get<PageView<CustomerModel>>(
+    const customersPage = await this.apiService.get<PageView<CustomerModel>>(
       'customers/search',
       params
     );
-    console.log(workMaterials);
-    return workMaterials;
+    console.log(customersPage);
+    return customersPage;
   }
 }

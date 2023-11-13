@@ -1,7 +1,41 @@
 <ng-container *ngIf="ordersPage">
 
     <div class="form-group row">
-        <label for="staticEmail" class="col-sm-1 col-form-label">Търсене</label>
+        <div class="col-sm-1">
+            <app-modal-frame 
+                [title]="'От Дата'"
+                [buttonText]="'От Дата'"
+                [callbacks]="fromDateCallback">
+                <app-calendar-view [isPicker]="true" (dateChanged)="fromDateTemp=$event"></app-calendar-view>
+            </app-modal-frame>
+        </div>
+        <div class="col-sm-5">
+            <input value="{{fromDate?.toDateString()}}" type="text" readonly class="form-control">
+        </div>
+        <div class="col-sm-1">
+            <app-modal-frame 
+                [title]="'До Дата'"
+                [buttonText]="'До Дата'"
+                [callbacks]="toDateCallback">
+                <app-calendar-view [isPicker]="true" (dateChanged)="toDateTemp=$event"></app-calendar-view>
+            </app-modal-frame>
+        </div>
+        <div class="col-sm-5">
+            <input value="{{toDate?.toDateString()}}" type="text" readonly class="form-control">
+        </div>
+        <div class="col-sm-1">
+            <app-modal-frame 
+                [title]="'Клиент'"
+                [buttonText]="'Клиент'"
+                [callbacks]="customerCallback">
+                <app-customer-picker (customerChanged)="customerTemp=$event"></app-customer-picker>
+            </app-modal-frame>
+        </div>
+        <div class="col-sm-4">
+            <input value="{{customerString(customer)}}" type="text" readonly class="form-control">
+        </div>
+
+        <label class="col-sm-1 col-form-label">Търсене</label>
         <div class="col-sm-4">
           <input [(ngModel)]="searchPhrase" type="text" class="form-control">
         </div>

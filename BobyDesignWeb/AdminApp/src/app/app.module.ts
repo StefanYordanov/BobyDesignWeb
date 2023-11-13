@@ -27,6 +27,10 @@ import { OrdersService } from './services/orders.service';
 import { ModalFrameComponent } from './components/modal-frame/modal-frame.component';
 import { OrdersViewResolverService } from './components/orders/orders-view/orders-view-resolver.service';
 import { OrdersViewComponent } from './components/orders/orders-view/orders-view.component';
+import { CustomerPickerComponent } from './components/customers/customer-picker/customer-picker.component';
+import { WorkMaterialPickerComponent } from './components/work-materials/work-material-picker/work-material-picker.component';
+import { CreateOrderComponent } from './components/orders/create-order/create-order.component';
+import { PriceCalculatorService } from './services/price-calculator.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,7 @@ import { OrdersViewComponent } from './components/orders/orders-view/orders-view
     UserRightsComponent,
     PaginationComponent, 
     ModalFrameComponent,
-    WorkMaterialsComponent, CustomersComponent, MainPageComponent, CalendarViewComponent, OrdersViewComponent
+    WorkMaterialsComponent, CustomersComponent, MainPageComponent, CalendarViewComponent, OrdersViewComponent, CustomerPickerComponent, WorkMaterialPickerComponent, CreateOrderComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +61,8 @@ import { OrdersViewComponent } from './components/orders/orders-view/orders-view
     OrdersService, OrdersViewResolverService,
     UserService, AllUsersResolverService,
     WorkMaterialsService, WorkMaterialsResolverService,
-    CustomersService, CustomersResolverService
+    CustomersService, CustomersResolverService,
+    PriceCalculatorService
   ],
   bootstrap: [AppComponent]
 })

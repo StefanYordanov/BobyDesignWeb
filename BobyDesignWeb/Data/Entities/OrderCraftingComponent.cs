@@ -15,5 +15,7 @@
         public Order Order { get; set; }
 
         public decimal WorkMaterialQuantity { get; set; }
+
+        public decimal TotalComponentPrice { get; set; }
     }
 }

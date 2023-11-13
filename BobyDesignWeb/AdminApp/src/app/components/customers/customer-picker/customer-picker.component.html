@@ -47,42 +47,16 @@
                 <th scope="col">Име</th>
                 <th scope="col">Имейл</th>
                 <th scope="col">Телефон</th>
-                <th scope="col">Действия</th>
             </tr>
         </thead>
         <tbody>
             <ng-container *ngFor="let customer of customersPage.items">
-                <ng-container *ngIf="customer.id === customerBeingEditedId && customerBeingEdited; else displayCustomer">
-                    <tr>
-                        <td>{{customerBeingEdited.id}}</td>
-                        <td>
-                            <input [(ngModel)]="customerBeingEdited.name" type="text" class="form-control">
-                        </td>
-                        <td>
-                            <input [(ngModel)]="customerBeingEdited.email" type="text" class="form-control">
-                        </td>
-                        <td>
-                            <input [(ngModel)]="customerBeingEdited.phoneNumber" type="text" class="form-control">
-                        </td>
-                        <td scope="row">
-                            <button [style.width]="'auto'" type="button" class="btn btn-success col-sm-1"
-                                (click)="submitEditedEntry()">Запази</button>
-                            <button [style.width]="'auto'" type="button" class="btn btn-danger col-sm-1"
-                                (click)="cancelEditEntry()">Отмени</button>
-                        </td>
-                    </tr>
-                </ng-container>
-                <ng-template #displayCustomer>
-                    <tr>
+                    <tr (click)="toggleCustomer(customer)" [class.bg-primary]="selectedCustomer && selectedCustomer.id === customer.id">
                         <td scope="row">{{customer.id}}</td>
                         <td scope="row">{{customer.name}}</td>
                         <td scope="row">{{customer.email}}</td>
                         <td scope="row">{{customer.phoneNumber}}</td>
-                        <td scope="row"><button type="button" class="btn btn-primary" (click)="toggleEditCustomer(customer)">Редактиране</button>
-                            <a class="btn btn-primary" routerLink="/orders-view" [queryParams]="{customerId: customer.id}" role="button">Поръчки</a></td>
                     </tr>
-                </ng-template>
-            
             </ng-container>
         </tbody>
     </table>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CalendarCell } from 'src/app/models/calendar.model';
 import { Order } from 'src/app/models/order.model';
 import { CalendarService } from 'src/app/services/calendar.service';
@@ -12,6 +12,7 @@ import { OrdersService } from 'src/app/services/orders.service';
 export class CalendarViewComponent implements OnInit {
 
   @Input() isPicker = false;
+  @Output() dateChanged = new EventEmitter<Date>();
 
   year: number;
   month: number;
@@ -37,6 +38,7 @@ export class CalendarViewComponent implements OnInit {
       return;
     }
     this.selectedDate = calendarCell.date;
+    this.dateChanged.emit(calendarCell.date);
   }
 
   setYear(year: number) {

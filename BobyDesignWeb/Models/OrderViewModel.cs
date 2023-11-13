@@ -20,6 +20,7 @@
         public decimal WorkMaterial {  get; set; }
         public decimal WorkMaterialPrice { get; set; }
         public decimal Quantity { get; set; }
+        public decimal TotalComponentPrice {  get; set; }
     }
 
     public enum OrderStatus

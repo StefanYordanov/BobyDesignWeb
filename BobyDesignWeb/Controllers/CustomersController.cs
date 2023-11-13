@@ -20,6 +20,21 @@ namespace BobyDesignWeb.Controllers
 
         [HttpGet]
         [Authorize(Roles = UserRolesConstants.SellerAndAdmin)]
+        public async Task<CustomerViewModel?> GetCustomer(int id)
+        {
+            return await this._context.Customers.Select(x => new CustomerViewModel()
+            {
+                Id = x.CustomerId,
+                Name = x.CustomerName,
+                Email = x.CustomerEmail,
+                PhoneNumber = x.CustomerPhone,
+                TotalOrdersCost = x.Orders.Sum(x => x.TotalPrice),
+                TotalPaidCost = x.Orders.Sum(x => x.Deposit),
+            }).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = UserRolesConstants.SellerAndAdmin)]
         public async Task<PageViewModel<CustomerViewModel>> Search(int page, string? searchPhrase)
         {
             page = page <= 0 ? 1 : page;
@@ -30,9 +45,9 @@ namespace BobyDesignWeb.Controllers
                 x.CustomerEmail.ToLower().Contains(searchPhrase) ||
                 x.CustomerPhone.ToLower().Contains(searchPhrase));
 
-            int usersCount = customersQuery.Count();
+            int customersCount = customersQuery.Count();
 
-            var users = await customersQuery.OrderBy(x => x.CustomerName).Skip((page - 1) * pageSize).Take(pageSize).Select(x => new CustomerViewModel()
+            var customers = await customersQuery.OrderBy(x => x.CustomerName).Skip((page - 1) * pageSize).Take(pageSize).Select(x => new CustomerViewModel()
             {
                 Id = x.CustomerId,
                 Name = x.CustomerName,
@@ -44,8 +59,8 @@ namespace BobyDesignWeb.Controllers
 
             return new PageViewModel<CustomerViewModel>()
             {
-                Items = users,
-                PagesCount = (int)Math.Ceiling(usersCount / Convert.ToDouble(pageSize)),
+                Items = customers,
+                PagesCount = (int)Math.Ceiling(customersCount / Convert.ToDouble(pageSize)),
                 CurrentPage = page,
             };
         }

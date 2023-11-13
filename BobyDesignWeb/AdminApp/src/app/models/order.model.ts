@@ -27,6 +27,7 @@ export interface OrderCraftingComponent {
     workMaterial: WorkMaterialModel;
     workMaterialPrice: number;
     quantity: number;
+    totalComponentPrice: number
 }
 
 export enum OrderStatus {

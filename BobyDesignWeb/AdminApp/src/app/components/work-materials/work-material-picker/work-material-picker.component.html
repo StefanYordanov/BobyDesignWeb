@@ -1,0 +1,41 @@
+<ng-container *ngIf="workMaterials">
+    <div class="text-center">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Материал</th>
+                    <th scope="col">Ценообразуване</th>
+                    <th scope="col">Акт. цена покупка/гр.</th>
+                    <th scope="col">Акт. цена продан/гр.</th>
+                    <th scope="col">Към дата</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let workMaterial of workMaterials">
+
+                    <tr (click)="toggleWorkMaterial(workMaterial)" [class.bg-primary]="selectedWorkMaterial && selectedWorkMaterial.id === workMaterial.id">
+                        <td scope="row">{{workMaterial.id}}</td>
+                        <td scope="row">{{workMaterial.name}}</td>
+                        <td scope="row">
+                            <select class="form-control form-select" disabled [(ngModel)]="workMaterial.pricingType">
+                                <option [ngValue]="0">Фиксирано</option>
+                                <option [ngValue]="1">На грам</option>
+                            </select>
+                        </td>
+                        <ng-container *ngIf="workMaterial.relevantPrice; else emptyPrice">
+                            <td scope="row">{{workMaterial.relevantPrice.purchasingPrice | currency:'BGN':'лв.'}}
+                            </td>
+                            <td scope="row">{{workMaterial.relevantPrice.sellingPrice | currency:'BGN':'лв.'}}</td>
+                            <td scope="row">{{workMaterial.relevantPrice.lastUpdatedOn | date: 'dd/MM/yyyy HH:mm'}}
+                            </td>
+                        </ng-container>
+                        <ng-template #emptyPrice>
+                            <td scope="row" colspan="3">Няма въведена цена</td>
+                        </ng-template>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</ng-container>
