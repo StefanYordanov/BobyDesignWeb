@@ -1,0 +1,19 @@
+#drawingCanvas {
+    border: black solid 1px;
+    display: flex;
+}
+.drawing-canvas-options-row {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap: 5px;
+    padding: 5px;
+    .color-picker {
+        align-self: center;
+    }
+}
+.drawing-canvas{
+    display: flex;
+}
+.canvas-menu-container{
+    width: min-content;
+}

@@ -1,0 +1,64 @@
+<div class="drawing-canvas row container">
+  <div class="col-lg-6">
+    <canvas id="drawingCanvas" width="400" height="400"></canvas>
+  </div>
+    
+    <div *ngIf="canvas" class="canvas-menu-container col-lg-6">
+        <!-- <div>
+            <button class="btn btn primary" (click)="toggleDrawingMode()">{{ canvas.isDrawingMode ? 'Деактивирай' : 'Активирай' }} режим рисуване</button>
+        </div> -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="currentCanvasMenuMode === canvasMenuModes.Common" 
+              (click)="changeMenuMode(canvasMenuModes.Common)" href="#">Общи</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [class.active]="currentCanvasMenuMode === canvasMenuModes.Drawing"
+              (click)="changeMenuMode(canvasMenuModes.Drawing)" href="#">Рисуване</a>
+            </li>
+          </ul>
+
+
+
+        <div *ngIf="currentCanvasMenuMode === canvasMenuModes.Drawing">
+            <div>
+                <input type="color" id="head" name="head" [(ngModel)]="canvas.freeDrawingBrush.color" />
+                <label for="head">Цвят</label>
+            </div>
+            <div>
+                <label for="customRange1" class="form-label">Дебелина на четката</label>
+                <input type="range" min="1" max="20" class="form-range" [(ngModel)]="canvas.freeDrawingBrush.width">
+            </div>
+        </div>
+        <div *ngIf="currentCanvasMenuMode === canvasMenuModes.Common">
+            
+            <div class="drawing-canvas-options-row">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Фон</label>
+                    </div>
+                    <select class="custom-select" [(ngModel)]="currentCanvasBackgroundUrl" (change)="onChangeBackground()" >
+                      <option selected [ngValue]="undefined">Без фон</option>
+                      <ng-container *ngIf="canvasBackgrounds">
+                        <option *ngFor="let canvasBackground of canvasBackgrounds"
+                        [ngValue]="canvasBackground.url">{{ canvasBackground.name }}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+            </div>
+            <div class="drawing-canvas-options-row">
+                <button class="btn btn-danger" [disabled]="!canvas.getActiveObject()" (click)="removeActiveObjects()">Изтрий селектирани</button>
+            </div>
+            <div class="drawing-canvas-options-row">
+                <button class="btn btn-primary" (click)="addTextBox()">Добави текст</button> 
+                <input class="drawing-canvas-options-cell" type="color" id="head" name="head" 
+                [(ngModel)]="canvas.freeDrawingBrush.color" />
+            </div>
+            <div class="drawing-canvas-options-row">
+              <button class="btn btn-primary" (click)="downloadCanvasContent()">Изтегли</button>
+          </div>
+        </div>
+    </div>
+    
+    
+</div>

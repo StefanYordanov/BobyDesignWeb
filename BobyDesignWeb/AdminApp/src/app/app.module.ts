@@ -31,6 +31,8 @@ import { CustomerPickerComponent } from './components/customers/customer-picker/
 import { WorkMaterialPickerComponent } from './components/work-materials/work-material-picker/work-material-picker.component';
 import { CreateOrderComponent } from './components/orders/create-order/create-order.component';
 import { PriceCalculatorService } from './services/price-calculator.service';
+import { DrawingCanvasComponent } from './drawing-canvas/drawing-canvas.component';
+import { WebContentService } from './services/web-content.service';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,7 @@ import { PriceCalculatorService } from './services/price-calculator.service';
     UserRightsComponent,
     PaginationComponent, 
     ModalFrameComponent,
-    WorkMaterialsComponent, CustomersComponent, MainPageComponent, CalendarViewComponent, OrdersViewComponent, CustomerPickerComponent, WorkMaterialPickerComponent, CreateOrderComponent
+    WorkMaterialsComponent, CustomersComponent, MainPageComponent, CalendarViewComponent, OrdersViewComponent, CustomerPickerComponent, WorkMaterialPickerComponent, CreateOrderComponent, DrawingCanvasComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,8 @@ import { PriceCalculatorService } from './services/price-calculator.service';
     UserService, AllUsersResolverService,
     WorkMaterialsService, WorkMaterialsResolverService,
     CustomersService, CustomersResolverService,
-    PriceCalculatorService
+    PriceCalculatorService,
+    WebContentService
   ],
   bootstrap: [AppComponent]
 })

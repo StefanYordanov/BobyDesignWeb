@@ -115,4 +115,8 @@ export class CreateOrderComponent implements OnInit {
     }
     return this.customersService.customerString(customer);
   }
+
+  createOrder() {
+    
+  }
 }

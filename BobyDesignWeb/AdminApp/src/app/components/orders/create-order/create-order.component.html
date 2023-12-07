@@ -60,5 +60,8 @@
             <label for="description"><strong>Обща цена</strong></label>
             <input [(ngModel)]="newOrder.totalPrice" type="number" class="form-control">
     </div>
+    <div class="form-row">
+        <button class="btn btn-success" (click)="createOrder()">Създай поръчка</button>
+    </div>
 
 </div>
