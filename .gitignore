@@ -368,6 +368,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-wwwroot/images/orders/*
-
-/BobyDesignWeb/wwwroot/images/orders/d1b95d5b-fec4-480c-9bde-6ee3591400b2.png
+/BobyDesignWeb/wwwroot/images/orders/*.png
