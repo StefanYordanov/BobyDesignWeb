@@ -63,7 +63,7 @@
                             <td><input [(ngModel)]="currentlyEditedMaterial.name" type="text"
                                 class="form-control"></td>
                             <td>
-                                <select class="form-control col-sm-2 form-select"
+                                <select class="form-control form-select"
                                     [(ngModel)]="currentlyEditedMaterial.pricingType">
                                     <option [ngValue]="0">Фиксирано</option>
                                     <option [ngValue]="1">На грам</option>
@@ -83,12 +83,12 @@
                             </ng-container>
                             <td *ngIf="!currentlyEditedMaterial.relevantPrice" colspan="3"></td>
                             <td>
-                                    <button [style.width]="'auto'" class="btn btn-primary col-sm-2"
+                                    <button [style.width]="'auto'" class="btn btn-primary"
                                         (click)="toggleEditMaterialPrice(workMaterial)">{{currentlyEditedMaterial.relevantPrice
                                         ? 'Отмени нова цена' : 'Редактирай с цена'}}</button>
-                                    <button [style.width]="'auto'" type="button" class="btn btn-success col-sm-1"
+                                    <button [style.width]="'auto'" type="button" class="btn btn-success"
                                         (click)="submitEditedEntry()">Запази</button>
-                                    <button [style.width]="'auto'" type="button" class="btn btn-danger col-sm-1"
+                                    <button [style.width]="'auto'" type="button" class="btn btn-danger"
                                         (click)="cancelEditEntry()">Отмени</button>
                             </td>
                         </tr>

@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { DrawingCanvasComponent } from 'src/app/drawing-canvas/drawing-canvas.component';
 import { CustomerModel } from 'src/app/models/customers.model';
 import { ModalFrameCallback } from 'src/app/models/modal-frame.model';
-import { Order, OrderCraftingComponent } from 'src/app/models/order.model';
+import { Order, OrderCraftingComponent, OrderStatus } from 'src/app/models/order.model';
 import { WorkMaterialModel } from 'src/app/models/work-materials.model';
+import { BlobService } from 'src/app/services/blob.service';
 import { CustomersService } from 'src/app/services/customers.service';
+import { OrdersService } from 'src/app/services/orders.service';
 import { PriceCalculatorService } from 'src/app/services/price-calculator.service';
 
 
@@ -37,9 +41,22 @@ interface OrderCraftingComponentCreationModel {
   styleUrls: ['./create-order.component.scss'],
 })
 export class CreateOrderComponent implements OnInit {
-  constructor(private customersService: CustomersService, private priceCalculatorService: PriceCalculatorService) {}
+  constructor(private customersService: CustomersService, 
+    private priceCalculatorService: PriceCalculatorService, 
+    private ordersService: OrdersService,
+    private toastr: ToastrService,
+    private blobService: BlobService ) {}
 
   craftingComponents: CraftingComponentFormCreationExtensions[]= [];
+  @ViewChild('drawingCanvas') drawingCanvas!: DrawingCanvasComponent;
+  
+  canvasCallback: ModalFrameCallback<string> = {
+    onOk: () => {
+      this.base64PngContent = this.drawingCanvas.getCanvasAsBase64String() || '';
+      console.log(this.base64PngContent);
+    }
+  }
+  base64PngContent?: string;
 
   newOrder: OrderCreationModel = {
     description: '',
@@ -80,10 +97,10 @@ export class CreateOrderComponent implements OnInit {
         onOk: () => {
           if(newEntry.workMaterialTemp) {
             newEntry.craftingComponent.workMaterial = newEntry.workMaterialTemp,
+            console.log('WOrk material, ', newEntry.craftingComponent.workMaterial)
             newEntry.craftingComponent.workMaterialPrice = newEntry.workMaterialTemp.relevantPrice?.sellingPrice || 0; 
           };
           this.triggerComponentRecalculation(newEntry.craftingComponent);
-          console.log('TOWA!!!', this.craftingComponents, this.newOrder);
         }
       },
       onRemove: () => {
@@ -116,7 +133,42 @@ export class CreateOrderComponent implements OnInit {
     return this.customersService.customerString(customer);
   }
 
-  createOrder() {
+  async createOrder() {
+    if(!this.newOrder.customer) {
+      this.toastr.error('Въведете клиент')
+      return;
+    }
+    if(!this.newOrder.finishingDate) {
+      this.toastr.error('Въведете дата на завършване')
+      return;
+    }
+    if(this.newOrder.craftingComponents.some(cc => cc.workMaterial === undefined)) {
+      this.toastr.error('Има невъведени материали сред компонентите')
+      return;
+    }
+
+    const response = await this.ordersService.createOrder({ 
+      sketchBlob: this.base64PngContent ? this.blobService.dataURIToBlob(this.base64PngContent) : undefined, 
+      model: { ...this.newOrder, id: 0, 
+        customer: this.newOrder.customer,
+        finishingDate: this.newOrder.finishingDate,
+        deposit: this.newOrder.deposit,
+        imageFileName: '',
+        craftingComponents: this.newOrder.craftingComponents.map(cc => {
+          return {...cc, id: 0, workMaterial: cc.workMaterial!}
+        }),
+        shopUser: { id: '', firstName: '', lastName: '', phoneNumber: '', email: '', userName: '' },
+        createdOn: new Date(),
+        status: OrderStatus.Opened
+      
+      }
+    });
+
+    if(response) {
+      this.toastr.success('Успешно създадохте поръчка');
+      console.log(response);
+    }
     
+
   }
 }

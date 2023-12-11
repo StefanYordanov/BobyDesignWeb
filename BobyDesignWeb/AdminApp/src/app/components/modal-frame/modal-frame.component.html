@@ -1,5 +1,5 @@
 <!-- Trigger the modal with a button -->
-<button type="button" class="btn btn-primary" data-toggle="modal" (click)="openModal()">{{buttonText}}</button>
+<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" (click)="openModal()">{{buttonText}}</button>
 
 <!-- Modal -->
 <div #modalElement class="modal fade" role="dialog" [style.display]="opened ? 'block': 'none'" [style.opacity]="opened ? '1': '0'">
@@ -12,9 +12,9 @@
         <h4 class="modal-title">{{title}}</h4>
       </div>
       <div class="modal-body">
-        <ng-container *ngIf="opened">
+        
             <ng-content></ng-content>
-        </ng-container>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="clickOk()" data-dismiss="modal">OK</button>

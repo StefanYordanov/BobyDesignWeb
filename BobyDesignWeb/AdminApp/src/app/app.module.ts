@@ -33,6 +33,8 @@ import { CreateOrderComponent } from './components/orders/create-order/create-or
 import { PriceCalculatorService } from './services/price-calculator.service';
 import { DrawingCanvasComponent } from './drawing-canvas/drawing-canvas.component';
 import { WebContentService } from './services/web-content.service';
+import { BlobService } from './services/blob.service';
+import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,7 @@ import { WebContentService } from './services/web-content.service';
     UserRightsComponent,
     PaginationComponent, 
     ModalFrameComponent,
-    WorkMaterialsComponent, CustomersComponent, MainPageComponent, CalendarViewComponent, OrdersViewComponent, CustomerPickerComponent, WorkMaterialPickerComponent, CreateOrderComponent, DrawingCanvasComponent
+    WorkMaterialsComponent, CustomersComponent, MainPageComponent, CalendarViewComponent, OrdersViewComponent, CustomerPickerComponent, WorkMaterialPickerComponent, CreateOrderComponent, DrawingCanvasComponent, OrderDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +67,7 @@ import { WebContentService } from './services/web-content.service';
     WorkMaterialsService, WorkMaterialsResolverService,
     CustomersService, CustomersResolverService,
     PriceCalculatorService,
-    WebContentService
+    WebContentService, BlobService
   ],
   bootstrap: [AppComponent]
 })

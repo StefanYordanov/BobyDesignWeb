@@ -29,6 +29,8 @@ namespace BobyDesignWeb.Data.Entities
 
         public decimal Deposit { get; set; }
 
+        public string ImageFileName {  get; set; }
+
         public string ShopUserId { get; set; }
 
         public ApplicationUser ShopUser { get; set; }

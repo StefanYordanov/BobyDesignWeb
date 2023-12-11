@@ -1,22 +1,44 @@
 ﻿using BobyDesignWeb.Data;
+using BobyDesignWeb.Data.Entities;
 using BobyDesignWeb.Models;
+using BobyDesignWeb.Utils;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace BobyDesignWeb.Controllers
 {
+    [Authorize(Roles = UserRolesConstants.SellerAndAdmin)]
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public OrdersController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
+
+        private const string imagesPathName = "images";
+        private const string ordersPathName = "orders";
+
+        public OrdersController(ApplicationDbContext context, 
+            UserManager<ApplicationUser> userManager, 
+            IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            this.userManager = userManager;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
         public IEnumerable<OrderViewModel> GetOrders(DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId)
         {
             return OrdersQuery(fromDate, toDate, searchPhrase, customerId).ToList();
+        }
+
+        [HttpGet]
+        public OrderViewModel GetOrder(int orderId)
+        {
+            return GetOrderDetails(orderId) ?? throw new Exception("Няма поръчка със зададеното id");
         }
 
         [HttpGet]
@@ -35,6 +57,122 @@ namespace BobyDesignWeb.Controllers
                 CurrentPage = page,
             };
         }
+        [HttpPost]
+        public async Task<IActionResult> InsertOrder([FromForm] string model, IFormFile? sketchBlob)
+        {
+            var order = JsonConvert.DeserializeObject<OrderViewModel>(model);
+
+            if (order == null)
+            {
+                throw new ArgumentNullException(nameof(model), "Невалиден модел");
+            }
+
+            var orderEntity = new Order()
+            {
+                CustomerId = order.Customer.Id,
+                Deposit = order.Deposit,
+                FinishingDate = order.FinishingDate,
+                JewelryShop = _context.JewelryShops.First(),
+                LaborPrice = order.LaborPrice,
+                OrderCreatedOn = DateTime.UtcNow.ToBulgarianDateTime(),
+                ShopUserId = userManager.GetUserId(User),
+                OrderDescription = order.Description,
+                Status = Data.Entities.OrderStatus.Opened,
+                NotifyCustomer = false,
+                TotalPrice = order.TotalPrice,
+                OrderCraftingComponents = order.CraftingComponents
+                .Select(x => new OrderCraftingComponent()
+                {
+                    TotalComponentPrice = x.TotalComponentPrice,
+                    WorkMaterialId = x.WorkMaterial.Id,
+                    WorkMaterialPrice = x.WorkMaterialPrice,
+                    WorkMaterialQuantity = x.Quantity
+                }).ToList(),
+                ImageFileName = "",
+            };
+
+            _context.Add(orderEntity); ;
+            _context.SaveChanges();
+
+            if (sketchBlob != null && sketchBlob.ContentType == "image/png" && sketchBlob.Length < 2000000)
+            {
+                var fileName = Guid.NewGuid().ToString() + ".png";
+                string filePath = Path.Combine(webHostEnvironment.WebRootPath, imagesPathName, ordersPathName, fileName);
+                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await sketchBlob.CopyToAsync(fileStream);
+                }
+
+                orderEntity.ImageFileName = fileName;
+                _context.SaveChanges();
+                return Ok(GetOrderDetails(orderEntity.OrderId));
+            }
+            return Ok();
+        }
+
+        private OrderViewModel? GetOrderDetails(int orderId)
+        {
+            return this._context.Orders.Where(o => o.OrderId == orderId)
+                .Select(o => new OrderViewModel()
+                {
+                    Id = o.OrderId,
+                    Deposit = o.Deposit,
+                    CreatedOn = o.OrderCreatedOn,
+                    Customer = new CustomerViewModel()
+                    {
+                        Email = o.Customer.CustomerEmail,
+                        Id = o.Customer.CustomerId,
+                        Name = o.Customer.CustomerName,
+                        PhoneNumber = o.Customer.CustomerPhone,
+                    },
+                    Description = o.OrderDescription,
+                    FinishingDate = o.FinishingDate,
+                    Status = (Models.OrderStatus)o.Status,
+                    TotalPrice = o.TotalPrice,
+                    LaborPrice = o.LaborPrice,
+                    ShopUser = new UserViewModel()
+                    {
+                        Id = o.ShopUserId,
+                        Email = o.ShopUser.Email,
+                        FirstName = o.ShopUser.FirstName,
+                        LastName = o.ShopUser.LastName,
+                        PhoneNumber = o.ShopUser.PhoneNumber,
+                        UserName = o.ShopUser.UserName,
+                    },
+                    ImageFileName = '/' + imagesPathName + '/' + ordersPathName + '/' + o.ImageFileName,
+                    CraftingComponents = o.OrderCraftingComponents.Select(occ => new OrderCraftingComponentViewModel()
+                    {
+                        Id = occ.OrderCraftingComponentId,
+                        Quantity = occ.WorkMaterialQuantity,
+                        TotalComponentPrice = occ.TotalComponentPrice,
+                        WorkMaterialPrice = occ.WorkMaterialPrice,
+                        WorkMaterial = new WorkMaterialModel()
+                        {
+                            Id = occ.WorkMaterial.WorkMaterialId,
+                            Name = occ.WorkMaterial.WorkMaterialName,
+                            PricingType = occ.WorkMaterial.WorkMaterialPricingType,
+                            RelevantPrice = occ.WorkMaterial.WorkMaterialPriceForDates.OrderByDescending(x => x.Date)
+                            .Where(x => x.Date < o.OrderCreatedOn)
+                            .Select(x => new LatestWorkMaterialRelevantPriceModel()
+                            {
+                                LastUpdatedOn = x.Date,
+                                SellingPrice = x.SellingPrice,
+                                PurchasingPrice = x.PurchasingPrice,
+                                WorkMaterialId = x.WorkMaterialId,
+                                Id = x.WorkMaterialPriceForDateId,
+                            }).FirstOrDefault()
+                        }
+                    }).ToList()
+                })
+                .FirstOrDefault();
+        }
+
+        private void SaveFileStream(String path, Stream stream)
+        {
+            var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);
+            stream.CopyTo(fileStream);
+            fileStream.Dispose();
+        }
 
         private IQueryable<OrderViewModel> OrdersQuery(DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId)
         {
@@ -43,8 +181,6 @@ namespace BobyDesignWeb.Controllers
             searchPhrase = searchPhrase != null ? searchPhrase.ToLower() : string.Empty;
 
             return _context.Orders
-                .Include(o => o.Customer)
-                .Include(o => o.ShopUser)
                 .Where(o => o.FinishingDate.Date >= fromDate && o.FinishingDate.Date <= toDate && 
                     (customerId == null || customerId == o.CustomerId) && 
                     (
@@ -68,7 +204,7 @@ namespace BobyDesignWeb.Controllers
                     },
                     Description = o.OrderDescription,
                     FinishingDate = o.FinishingDate,
-                    Status = (OrderStatus)o.Status,
+                    Status = (Models.OrderStatus)o.Status,
                     TotalPrice = o.TotalPrice,
                     LaborPrice = o.LaborPrice,
                     ShopUser = new UserViewModel()

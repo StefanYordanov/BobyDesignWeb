@@ -17,7 +17,7 @@ export class ApiService {
 
   apiDomain: string
   constructor(private httpClient: HttpClient, private toastr: ToastrService) { 
-    this.apiDomain = environment.apiDomain
+    this.apiDomain = '';// environment.apiDomain
   }
 
   get<T>(endPoint: string, queryParams: Params = {}): Promise<T | null> {
@@ -39,7 +39,29 @@ export class ApiService {
     
     return lastValueFrom(this.httpClient.post<T>(`${this.apiDomain}${endPoint}`, body, {
       params: queryParams
-    })).catch((err: HttpErrorResponse) => {
+    }).pipe(
+      map(x => {
+        this.convertDates(x);
+        return x;
+      })
+    )).catch((err: HttpErrorResponse) => {
+      this.toastr.error(err.message, err.error);
+      return null;
+    })
+  }
+
+  postFormData<T>(endPoint: string, body: FormData, queryParams: Params = {}): Promise<T | null> {
+    return lastValueFrom(this.httpClient.post<T>(`${this.apiDomain}${endPoint}`, body, {
+      params: queryParams,
+      // headers: {
+      //   'Content-Type' : 'multipart/form-data'
+      // }
+    }).pipe(
+      map(x => {
+        this.convertDates(x);
+        return x;
+      })
+    )).catch((err: HttpErrorResponse) => {
       this.toastr.error(err.message, err.error);
       return null;
     })

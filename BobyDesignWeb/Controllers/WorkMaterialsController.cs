@@ -20,7 +20,7 @@ namespace BobyDesignWeb.Controllers
         }
 
         [HttpGet]
-        public WorkMaterialModel[] GetAll()
+        public WorkMaterialModel[] GetAll(DateTime? pricingDate)
         {
             var query = from workMaterial in _context.WorkMaterials
                         select new WorkMaterialModel
@@ -30,7 +30,9 @@ namespace BobyDesignWeb.Controllers
                             PricingType = workMaterial.WorkMaterialPricingType,
                             RelevantPrice = _context.WorkMaterialPriceForDates.
                             Where(x => x.WorkMaterialId == workMaterial.WorkMaterialId)
-                            .OrderByDescending(x => x.Date).Select(x => new LatestWorkMaterialRelevantPriceModel()
+                            .OrderByDescending(x => x.Date)
+                            .Where(x => pricingDate == null || x.Date < pricingDate)
+                            .Select(x => new LatestWorkMaterialRelevantPriceModel()
                             {
                                 LastUpdatedOn = x.Date,
                                 SellingPrice = x.SellingPrice,

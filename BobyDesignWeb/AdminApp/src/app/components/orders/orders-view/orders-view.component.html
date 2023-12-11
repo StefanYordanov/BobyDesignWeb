@@ -1,5 +1,6 @@
 <ng-container *ngIf="ordersPage">
-
+    <a class="btn btn-primary" routerLink="/orders/create">Създай поръчка</a>
+    <br>
     <div class="form-group row">
         <div class="col-sm-1">
             <app-modal-frame 
@@ -57,7 +58,7 @@
         </thead>
         <tbody>
             <ng-container *ngFor="let order of ordersPage.items">
-                <tr>
+                <tr routerLink="/orders/details" [queryParams]="{orderId: order.id}">
                     <td scope="row">{{order.id}}</td>
                     <td scope="row">{{order.description}}</td>
                     <td scope="row">{{order.customer.name}} | {{order.customer.phoneNumber}}</td>

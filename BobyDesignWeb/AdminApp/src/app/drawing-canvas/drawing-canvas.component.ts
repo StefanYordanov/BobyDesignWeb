@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 
 import { fabric } from 'fabric'
 import { WebContentService } from '../services/web-content.service';
@@ -16,6 +16,7 @@ enum CanvasMenuMode {
 })
 export class DrawingCanvasComponent implements AfterViewInit, OnInit {
 
+  @Input() initialBackground?: CanvasBackground;
   canvas?: fabric.Canvas;
   canvasMenuModes = CanvasMenuMode;
   currentCanvasMenuMode = CanvasMenuMode.Common;
@@ -29,9 +30,14 @@ export class DrawingCanvasComponent implements AfterViewInit, OnInit {
   
   async ngOnInit() {
     this.canvasBackgrounds= await this.webContentService.getCanvasBackgrounds();
+    if(this.initialBackground){
+      this.canvasBackgrounds.push(this.initialBackground)
+      this.currentCanvasBackgroundUrl = this.initialBackground.url;
+    }
   }
   ngAfterViewInit(): void {
     this.canvas = new fabric.Canvas('drawingCanvas', { })
+    console.log('CANVAS!', this.canvas)
   }
 
   onChangeBackground() {
@@ -104,5 +110,20 @@ export class DrawingCanvasComponent implements AfterViewInit, OnInit {
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
+  }
+
+  getCanvasAsBase64String() {
+    if(!this.canvas) {
+      return;
+    }
+    const dataURL = this.canvas.toDataURL({
+      width: this.canvas.width,
+      height: this.canvas.height,
+      left: 0,
+      top: 0,
+      format: 'png',
+    });
+
+    return dataURL;
   }
 }

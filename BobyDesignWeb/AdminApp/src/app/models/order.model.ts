@@ -2,10 +2,16 @@ import { CustomerModel } from "./customers.model";
 import { User } from "./user.model";
 import { WorkMaterialModel } from "./work-materials.model";
 
+export interface SubmitOrder{
+    sketchBlob?: Blob;
+    model: Order;
+}
+
 export interface Order{
     id: number;
     customer: CustomerModel;
     description: string;
+    imageFileName: string;
     createdOn: Date;
     finishingDate: Date;
     craftingComponents: OrderCraftingComponent[];
@@ -24,6 +30,7 @@ export interface OrderQuery {
 }
 
 export interface OrderCraftingComponent {
+    id: number;
     workMaterial: WorkMaterialModel;
     workMaterialPrice: number;
     quantity: number;

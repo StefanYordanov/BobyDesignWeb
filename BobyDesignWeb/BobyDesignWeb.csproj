@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\canvasBackgrounds\" />
+    <Folder Include="wwwroot\images\orders\" />
   </ItemGroup>
 
 </Project>

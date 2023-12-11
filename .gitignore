@@ -369,4 +369,5 @@ MigrationBackup/
 FodyWeavers.xsd
 
 wwwroot/images/orders/*
-*.png
+
+/BobyDesignWeb/wwwroot/images/orders/d1b95d5b-fec4-480c-9bde-6ee3591400b2.png

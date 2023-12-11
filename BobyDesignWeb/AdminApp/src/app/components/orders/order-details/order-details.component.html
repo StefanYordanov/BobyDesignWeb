@@ -1,0 +1,62 @@
+<div *ngIf="order">
+    
+    <div class="form-row">
+        <div class="col-sm-6">
+            <label>Скица</label>
+            <div>
+                <img [src]="order.imageFileName" alt="Липсва скица" width="400px" height="400px">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>№ поръчка</label>
+                <input [value]="order.id" type="number" readonly class="form-control">
+            </div>
+            <div class="form-group small-margin">
+                <label for="description">Описание</label>
+                <p>{{ order.description}} </p>
+                
+                <!-- <textarea class="form-control" id="description" [value]="order.description" rows="3"></textarea>
+             -->
+            </div>
+            <div class="form-group">
+                <label>Клиент</label>
+                <input [value]="customerString(order.customer)" type="text" readonly class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Дата на изработка</label>
+                <input [value]="order.finishingDate && order.finishingDate.toDateString()" type="text" readonly class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="form-group small-margin">
+        <h3>Компоненти:</h3>
+        <div>
+            <div *ngFor="let craftingComponent of order.craftingComponents">
+                <div class="form-row">
+                    <div class="col-sm-3 form-group">
+                        <label for="description">Материал</label>
+                        <input [ngModel]="craftingComponent.workMaterial?.name" readonly type="text" class="form-control">
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label for="description">Цена(лв.)</label>
+                        <input [value]="craftingComponent.workMaterialPrice" readonly type="number" class="form-control">
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label for="description">Количество(гр)</label>
+                        <input [value]="craftingComponent.quantity" 
+                        readonly
+                        type="number" class="form-control">
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label for="description">Сума</label>
+                        <input [value]="craftingComponent.totalComponentPrice"
+                        readonly
+                        type="number" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

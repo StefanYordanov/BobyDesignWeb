@@ -10,6 +10,8 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import { OrdersViewComponent } from './components/orders/orders-view/orders-view.component';
 import { OrdersViewResolverService } from './components/orders/orders-view/orders-view-resolver.service';
 import { CreateOrderComponent } from './components/orders/create-order/create-order.component';
+import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
+import { OrderDetailsResolverService } from './components/orders/order-details/order-details-resolver.service';
 
 const routes: Routes = [
   {path: '', component: MainPageComponent },
@@ -21,7 +23,9 @@ const routes: Routes = [
     ordersPage: OrdersViewResolverService
   }},
   {path: 'orders/create', component: CreateOrderComponent},
-  
+  {path: 'orders/details', component: OrderDetailsComponent, resolve: {
+    order: OrderDetailsResolverService
+  }},
 
   {path: 'work-materials', component: WorkMaterialsComponent, resolve: {
     workMaterials: WorkMaterialsResolverService
