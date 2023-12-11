@@ -1,13 +1,13 @@
 <div *ngIf="order">
     
     <div class="form-row">
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <label>Скица</label>
             <div>
                 <img [src]="order.imageFileName" alt="Липсва скица" width="400px" height="400px">
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <div class="form-group">
                 <label>№ поръчка</label>
                 <input [value]="order.id" type="number" readonly class="form-control">

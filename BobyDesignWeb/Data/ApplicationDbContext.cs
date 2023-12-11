@@ -18,6 +18,8 @@ namespace BobyDesignWeb.Data
 
         public DbSet<Order> Orders { get; set; }
 
+        public DbSet<StoredFile> StoredFiles { get; set; }
+
         public DbSet<OrderCraftingComponent> OrderCraftingComponents { get; set; }
 
         public DbSet<WorkMaterial> WorkMaterials { get; set; }

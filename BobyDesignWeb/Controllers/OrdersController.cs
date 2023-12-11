@@ -89,6 +89,7 @@ namespace BobyDesignWeb.Controllers
                     WorkMaterialQuantity = x.Quantity
                 }).ToList(),
                 ImageFileName = "",
+
             };
 
             _context.Add(orderEntity); ;
@@ -97,11 +98,14 @@ namespace BobyDesignWeb.Controllers
             if (sketchBlob != null && sketchBlob.ContentType == "image/png" && sketchBlob.Length < 2000000)
             {
                 var fileName = Guid.NewGuid().ToString() + ".png";
-                string filePath = Path.Combine(webHostEnvironment.WebRootPath, imagesPathName, ordersPathName, fileName);
-                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await sketchBlob.CopyToAsync(fileStream);
-                }
+                var storedFileEntity = sketchBlob.ToEntity(fileName);
+                
+                orderEntity.StoredFile = storedFileEntity;
+                //string filePath = Path.Combine(webHostEnvironment.WebRootPath, imagesPathName, ordersPathName, fileName);
+                //using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                //{
+                //    await sketchBlob.CopyToAsync(fileStream);
+                //}
 
                 orderEntity.ImageFileName = fileName;
                 _context.SaveChanges();
@@ -139,7 +143,7 @@ namespace BobyDesignWeb.Controllers
                         PhoneNumber = o.ShopUser.PhoneNumber,
                         UserName = o.ShopUser.UserName,
                     },
-                    ImageFileName = '/' + imagesPathName + '/' + ordersPathName + '/' + o.ImageFileName,
+                    ImageFileName = o.StoredFile == null ? null : "/storedFiles/get?fileName=" + o.StoredFile.FileName,
                     CraftingComponents = o.OrderCraftingComponents.Select(occ => new OrderCraftingComponentViewModel()
                     {
                         Id = occ.OrderCraftingComponentId,

@@ -38,5 +38,9 @@ namespace BobyDesignWeb.Data.Entities
         public bool NotifyCustomer { get; set; }
 
         public OrderStatus Status { get; set; }
+
+        public StoredFile? StoredFile { get; set; }
+
+        public int? StoredFileId { get; set; }
     }
 }
