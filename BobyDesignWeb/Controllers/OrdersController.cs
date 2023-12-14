@@ -17,9 +17,6 @@ namespace BobyDesignWeb.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IWebHostEnvironment webHostEnvironment;
 
-        private const string imagesPathName = "images";
-        private const string ordersPathName = "orders";
-
         public OrdersController(ApplicationDbContext context, 
             UserManager<ApplicationUser> userManager, 
             IWebHostEnvironment webHostEnvironment)
