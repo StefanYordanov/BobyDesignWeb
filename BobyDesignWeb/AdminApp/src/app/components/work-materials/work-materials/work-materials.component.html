@@ -10,6 +10,7 @@
                     <tr>
                         <th scope="col">Материал</th>
                         <th scope="col">Ценообразуване</th>
+                        <th scope="col">Мерна единица</th>
                         <th scope="col">Акт. цена покупка/гр.</th>
                         <th scope="col">Акт. цена продан/гр.</th>
                         <th scope="col">Действия</th>
@@ -21,9 +22,10 @@
                         <td>
                             <select class="form-control form-select" [(ngModel)]="newWorkMaterial.pricingType">
                                 <option [ngValue]="0">Фиксирано</option>
-                                <option [ngValue]="1">На грам</option>
+                                <option [ngValue]="1">На {{ newWorkMaterial.measuringUnit.length ? 'количество' : newWorkMaterial.measuringUnit }} количество</option>
                             </select>
                         </td>
+                        <td><input [(ngModel)]="newWorkMaterial.measuringUnit" name="newMaterialMeasuringUnit" type="text" class="form-control"></td>
                         <ng-container *ngIf="newWorkMaterial.relevantPrice">
                             <td>
                                 <input [(ngModel)]="newWorkMaterial.relevantPrice.purchasingPrice" type="number" class="form-control">
@@ -48,6 +50,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Материал</th>
                     <th scope="col">Ценообразуване</th>
+                    <th scope="col">Мерна единица</th>
                     <th scope="col">Акт. цена покупка/гр.</th>
                     <th scope="col">Акт. цена продан/гр.</th>
                     <th scope="col">Към дата</th>
@@ -66,20 +69,23 @@
                                 <select class="form-control form-select"
                                     [(ngModel)]="currentlyEditedMaterial.pricingType">
                                     <option [ngValue]="0">Фиксирано</option>
-                                    <option [ngValue]="1">На грам</option>
+                                    <option [ngValue]="1">На {{ currentlyEditedMaterial.measuringUnit.length ? currentlyEditedMaterial.measuringUnit : 'количество' }}</option>
                                 </select>
                             </td>
+                            <td><input [(ngModel)]="currentlyEditedMaterial.measuringUnit" type="text"
+                                class="form-control">
+                            </td>
+                            
                             <ng-container *ngIf="currentlyEditedMaterial.relevantPrice">
-                                <td>
-                                    <input [(ngModel)]="currentlyEditedMaterial.relevantPrice.purchasingPrice"
-                                        type="number" class="form-control">
-                                </td>
-                                <td>
-                                    <input [(ngModel)]="currentlyEditedMaterial.relevantPrice.sellingPrice"
-                                        type="number" class="form-control">
-                                </td>
-                                <td>
-                                </td>
+                            <td>
+                                <input [(ngModel)]="currentlyEditedMaterial.relevantPrice.purchasingPrice"
+                                    type="number" class="form-control">
+                            </td>
+                            <td>
+                                <input [(ngModel)]="currentlyEditedMaterial.relevantPrice.sellingPrice"
+                                    type="number" class="form-control">
+                            </td>
+                            <td></td>
                             </ng-container>
                             <td *ngIf="!currentlyEditedMaterial.relevantPrice" colspan="3"></td>
                             <td>
@@ -102,9 +108,10 @@
                                 <select class="form-control form-select" disabled
                                     [(ngModel)]="workMaterial.pricingType">
                                     <option [ngValue]="0">Фиксирано</option>
-                                    <option [ngValue]="1">На грам</option>
+                                    <option [ngValue]="1">На {{ workMaterial.measuringUnit.length ? workMaterial.measuringUnit : 'количество' }}</option>
                                 </select>
                             </td>
+                            <td scope="row">{{workMaterial.measuringUnit}}</td>
                             <ng-container *ngIf="workMaterial.relevantPrice; else emptyPrice">
                                 <td scope="row">{{workMaterial.relevantPrice.purchasingPrice | currency:'BGN':'лв.'}}
                                 </td>

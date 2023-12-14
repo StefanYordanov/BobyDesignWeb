@@ -71,7 +71,7 @@ namespace BobyDesignWeb.Controllers
             {
                 CustomerId = order.Customer.Id,
                 Deposit = order.Deposit,
-                FinishingDate = order.FinishingDate,
+                FinishingDate = order.FinishingDate.ToBulgarianDateTime(),
                 JewelryShop = _context.JewelryShops.First(),
                 LaborPrice = order.LaborPrice,
                 OrderCreatedOn = DateTime.UtcNow.ToBulgarianDateTime(),
@@ -84,6 +84,7 @@ namespace BobyDesignWeb.Controllers
                 .Select(x => new OrderCraftingComponent()
                 {
                     TotalComponentPrice = x.TotalComponentPrice,
+                    IsDeposit = x.IsDeposit,
                     WorkMaterialId = x.WorkMaterial.Id,
                     WorkMaterialPrice = x.WorkMaterialPrice,
                     WorkMaterialQuantity = x.Quantity
@@ -130,7 +131,7 @@ namespace BobyDesignWeb.Controllers
                         PhoneNumber = o.Customer.CustomerPhone,
                     },
                     Description = o.OrderDescription,
-                    FinishingDate = o.FinishingDate,
+                    FinishingDate = o.FinishingDate.ToBulgarianDateTime(),
                     Status = (Models.OrderStatus)o.Status,
                     TotalPrice = o.TotalPrice,
                     LaborPrice = o.LaborPrice,
@@ -147,6 +148,7 @@ namespace BobyDesignWeb.Controllers
                     CraftingComponents = o.OrderCraftingComponents.Select(occ => new OrderCraftingComponentViewModel()
                     {
                         Id = occ.OrderCraftingComponentId,
+                        IsDeposit = occ.IsDeposit,
                         Quantity = occ.WorkMaterialQuantity,
                         TotalComponentPrice = occ.TotalComponentPrice,
                         WorkMaterialPrice = occ.WorkMaterialPrice,
@@ -154,6 +156,7 @@ namespace BobyDesignWeb.Controllers
                         {
                             Id = occ.WorkMaterial.WorkMaterialId,
                             Name = occ.WorkMaterial.WorkMaterialName,
+                            MeasuringUnit = occ.WorkMaterial.WorkMaterialMeasuringUnit,
                             PricingType = occ.WorkMaterial.WorkMaterialPricingType,
                             RelevantPrice = occ.WorkMaterial.WorkMaterialPriceForDates.OrderByDescending(x => x.Date)
                             .Where(x => x.Date < o.OrderCreatedOn)
@@ -207,7 +210,7 @@ namespace BobyDesignWeb.Controllers
                         PhoneNumber = o.Customer.CustomerPhone,
                     },
                     Description = o.OrderDescription,
-                    FinishingDate = o.FinishingDate,
+                    FinishingDate = o.FinishingDate.ToBulgarianDateTime(),
                     Status = (Models.OrderStatus)o.Status,
                     TotalPrice = o.TotalPrice,
                     LaborPrice = o.LaborPrice,

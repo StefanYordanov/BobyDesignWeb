@@ -26,6 +26,8 @@
     {
         public int Id { get; set; }
         public WorkMaterialModel WorkMaterial {  get; set; }
+
+        public bool IsDeposit { get; set; }
         public decimal WorkMaterialPrice { get; set; }
         public decimal Quantity { get; set; }
         public decimal TotalComponentPrice {  get; set; }

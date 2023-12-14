@@ -1,46 +1,44 @@
 <ng-container *ngIf="ordersPage">
-    <a class="btn btn-primary" routerLink="/orders/create">Създай поръчка</a>
+    <a class="btn btn-primary mb-1" routerLink="/orders/create">Създай поръчка</a>
     <br>
     <div class="form-group row">
-        <div class="col-sm-1">
+        <div class="col-sm-6 col-md-3">
             <app-modal-frame 
                 [title]="'От Дата'"
                 [buttonText]="'От Дата'"
                 [callbacks]="fromDateCallback">
                 <app-calendar-view [isPicker]="true" (dateChanged)="fromDateTemp=$event"></app-calendar-view>
             </app-modal-frame>
+            <input value="{{fromDate?.toLocaleDateString('bg-BG')}}" type="text" readonly class="form-control">
         </div>
-        <div class="col-sm-5">
-            <input value="{{fromDate?.toDateString()}}" type="text" readonly class="form-control">
-        </div>
-        <div class="col-sm-1">
+        
+        <div class="col-sm-6 col-md-3">
             <app-modal-frame 
                 [title]="'До Дата'"
                 [buttonText]="'До Дата'"
                 [callbacks]="toDateCallback">
                 <app-calendar-view [isPicker]="true" (dateChanged)="toDateTemp=$event"></app-calendar-view>
             </app-modal-frame>
+            <input value="{{toDate?.toLocaleDateString('bg-BG')}}" type="text" readonly class="form-control">
         </div>
-        <div class="col-sm-5">
-            <input value="{{toDate?.toDateString()}}" type="text" readonly class="form-control">
-        </div>
-        <div class="col-sm-1">
+        
+        <div class="col-sm-6 col-md-3">
             <app-modal-frame 
                 [title]="'Клиент'"
                 [buttonText]="'Клиент'"
                 [callbacks]="customerCallback">
                 <app-customer-picker (customerChanged)="customerTemp=$event"></app-customer-picker>
             </app-modal-frame>
-        </div>
-        <div class="col-sm-4">
             <input value="{{customerString(customer)}}" type="text" readonly class="form-control">
         </div>
-
-        <label class="col-sm-1 col-form-label">Търсене</label>
-        <div class="col-sm-4">
-          <input [(ngModel)]="searchPhrase" type="text" class="form-control">
+        <div class="col-sm-6 col-md-3">
+            <label>Търсене</label>
+            <input [(ngModel)]="searchPhrase" type="text" class="form-control">
         </div>
-        <button type="button" class="btn btn-primary col-sm-2" (click)="applySearch()">Търсене</button>
+        <div class="col-sm-6 col-md-3">
+            <button type="button" class="btn btn-primary mt-1" (click)="applySearch()">Търсене</button>
+        </div>
+        
     </div>
 
     <app-pagination [pagesCount] = "ordersPage.pagesCount" [currentPage] = "ordersPage.currentPage" (pageChanged) = "switchPage($event)"></app-pagination>
@@ -61,7 +59,7 @@
                 <tr routerLink="/orders/details" [queryParams]="{orderId: order.id}">
                     <td scope="row">{{order.id}}</td>
                     <td scope="row">{{order.description}}</td>
-                    <td scope="row">{{order.customer.name}} | {{order.customer.phoneNumber}}</td>
+                    <td scope="row">{{customersService.customerString(order.customer)}}</td>
                      <td scope="row">{{order.finishingDate | date: 'dd/MM/yyyy'}}</td>
                      <td scope="row">{{order.totalPrice | currency:'BGN':'лв.'}}</td>
                      <td scope="row">{{order.deposit | currency:'BGN':'лв.'}}</td>

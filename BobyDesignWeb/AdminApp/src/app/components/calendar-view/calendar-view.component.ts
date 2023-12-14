@@ -71,8 +71,8 @@ export class CalendarViewComponent implements OnInit {
       return;
     }
     this.calendarCells = this.calendarService.getMonthCells(this.year, this.month);
-    const fromDate = this.calendarCells[0].date.toLocaleString();
-    const toDate = this.calendarCells[this.calendarCells.length - 1].date.toLocaleString();
+    const fromDate = this.calendarCells[0].date.toDateString();
+    const toDate = this.calendarCells[this.calendarCells.length - 1].date.toDateString();
     const orders = await this.ordersService.getOrders({fromDate, toDate});
     if(orders) {
       this.groupedOrders = orders.reduce((group: {[key: number]: Order[]}, item) => {
@@ -81,7 +81,7 @@ export class CalendarViewComponent implements OnInit {
         }
         group[item.finishingDate.getTime()].push(item);
         return group;
-       }, {})
+       }, {});
     }
   }
 }

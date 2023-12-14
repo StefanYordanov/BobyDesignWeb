@@ -1,6 +1,7 @@
 export interface WorkMaterialModel {
     id: number;
     name: string;
+    measuringUnit: string;
     pricingType: MaterialPricingType
     relevantPrice?: LatestWorkMaterialRelevantPriceModel
 }

@@ -31,6 +31,7 @@ export interface OrderQuery {
 
 export interface OrderCraftingComponent {
     id: number;
+    isDeposit: boolean;
     workMaterial: WorkMaterialModel;
     workMaterialPrice: number;
     quantity: number;

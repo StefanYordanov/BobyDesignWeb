@@ -21,6 +21,8 @@ namespace BobyDesignWeb.Models
 
         public string Name { get; set; } = string.Empty;
 
+        public string MeasuringUnit { get; set; } = string.Empty;
+
         public MaterialPricingType PricingType { get; set; }
 
         public LatestWorkMaterialRelevantPriceModel? RelevantPrice { get; set; }

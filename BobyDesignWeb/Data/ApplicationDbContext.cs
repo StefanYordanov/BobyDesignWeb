@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 
 namespace BobyDesignWeb.Data
 {
@@ -35,10 +36,15 @@ namespace BobyDesignWeb.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
+
             modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole 
-            { Name = UserRolesConstants.Admin, NormalizedName = UserRolesConstants.Admin.ToUpper() });
+            { Name = UserRolesConstants.Admin, NormalizedName = UserRolesConstants.Admin.ToUpper(),
+                Id= "e2875763-6213-4636-8ab1-38d1b687abb2", ConcurrencyStamp= "ec92d97c-486a-475c-8e12-11e26ff7b794"
+            });
             modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole 
-            { Name = UserRolesConstants.Seller, NormalizedName = UserRolesConstants.Seller.ToUpper() });
+            { Name = UserRolesConstants.Seller, NormalizedName = UserRolesConstants.Seller.ToUpper(), 
+                Id= "2b89a0db-4bbc-4a80-9b30-d3df652ca902", ConcurrencyStamp= "56e1e0d0-79b8-4c15-b55-bcbdaecbf0d0"
+            });
         }
     }
 }

@@ -27,6 +27,7 @@ namespace BobyDesignWeb.Controllers
                         {
                             Id = workMaterial.WorkMaterialId,
                             Name = workMaterial.WorkMaterialName,
+                            MeasuringUnit = workMaterial.WorkMaterialMeasuringUnit,
                             PricingType = workMaterial.WorkMaterialPricingType,
                             RelevantPrice = _context.WorkMaterialPriceForDates.
                             Where(x => x.WorkMaterialId == workMaterial.WorkMaterialId)
@@ -51,6 +52,7 @@ namespace BobyDesignWeb.Controllers
             var newWorkMaterialEntry = new WorkMaterial()
             {
                 WorkMaterialName = workMaterial.Name,
+                WorkMaterialMeasuringUnit = workMaterial.MeasuringUnit,
                 WorkMaterialPricingType = workMaterial.PricingType,
             };
 
@@ -89,6 +91,7 @@ namespace BobyDesignWeb.Controllers
             }
 
             existingWorkMaterialEntry.WorkMaterialName = workMaterial.Name;
+            existingWorkMaterialEntry.WorkMaterialMeasuringUnit = workMaterial.MeasuringUnit;
             existingWorkMaterialEntry.WorkMaterialPricingType = workMaterial.PricingType;
 
             if (workMaterial.RelevantPrice != null)

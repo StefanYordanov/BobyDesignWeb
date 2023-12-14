@@ -1,21 +1,48 @@
 <div *ngIf="order">
-    
+    <div class="row">
+        <div class="col-sm-8">
+            <h2>Детайли по поръчка</h2>
+            <strong class="text-success" *ngIf="order.status === orderStatus.Opened">Статус: Отворена</strong>
+            <strong class="text-danger" *ngIf="order.status === orderStatus.Closed">Статус: Затворена</strong>
+        </div>
+        <div class="col-sm-4">
+            <a class="btn btn-primary btn-lg col-12" 
+            routerLink="/orders/print" 
+            [queryParams]="{orderId: order.id}" 
+            role="button">Печат</a>
+        </div>
+    </div>
+    <hr>
+
     <div class="form-row">
-        <div class="col-md-6">
+        <div class="col-sm-6">
             <label>Скица</label>
             <div>
                 <img [src]="order.imageFileName" alt="Липсва скица" width="400px" height="400px">
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>№ поръчка</label>
-                <input [value]="order.id" type="number" readonly class="form-control">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>№ поръчка</label>
+                        <input [value]="order.id" type="number" readonly class="form-control">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Дата на получаване</label>
+                        <input [value]="order.finishingDate && order.finishingDate.toLocaleDateString('bg-BG')"
+                            type="text" readonly class="form-control">
+                    </div>
+                </div>
             </div>
+
             <div class="form-group small-margin">
                 <label for="description">Описание</label>
-                <p>{{ order.description}} </p>
-                
+                <textarea class="form-control" id="description" [(ngModel)]="order.description" readonly
+                    rows="3"></textarea>
+
                 <!-- <textarea class="form-control" id="description" [value]="order.description" rows="3"></textarea>
              -->
             </div>
@@ -23,40 +50,94 @@
                 <label>Клиент</label>
                 <input [value]="customerString(order.customer)" type="text" readonly class="form-control">
             </div>
-            <div class="form-group">
-                <label>Дата на изработка</label>
-                <input [value]="order.finishingDate && order.finishingDate.toDateString()" type="text" readonly class="form-control">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Депозит(лв.)</label>
+                        <input [value]="order.deposit" type="number" readonly class="form-control">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Обща сума(лв.)</label>
+                        <input [value]="order.totalPrice" type="number" readonly class="form-control">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="form-group small-margin">
+    <div *ngIf="getCraftingComponents()?.length" class="form-group small-margin">
         <h3>Компоненти:</h3>
         <div>
-            <div *ngFor="let craftingComponent of order.craftingComponents">
+            <div *ngFor="let craftingComponent of getCraftingComponents()">
                 <div class="form-row">
                     <div class="col-sm-3 form-group">
                         <label for="description">Материал</label>
-                        <input [ngModel]="craftingComponent.workMaterial?.name" readonly type="text" class="form-control">
+                        <input [ngModel]="craftingComponent.workMaterial.name" readonly type="text"
+                            class="form-control">
                     </div>
                     <div class="col-sm-3 form-group">
                         <label for="description">Цена(лв.)</label>
-                        <input [value]="craftingComponent.workMaterialPrice" readonly type="number" class="form-control">
+                        <input [value]="craftingComponent.workMaterialPrice" readonly type="number"
+                            class="form-control">
                     </div>
                     <div class="col-sm-3 form-group">
-                        <label for="description">Количество(гр)</label>
-                        <input [value]="craftingComponent.quantity" 
-                        readonly
-                        type="number" class="form-control">
+                        <label for="description">Количество({{craftingComponent.workMaterial.measuringUnit}})</label>
+                        <input [value]="craftingComponent.quantity" readonly type="number" class="form-control">
                     </div>
                     <div class="col-sm-3 form-group">
                         <label for="description">Сума</label>
-                        <input [value]="craftingComponent.totalComponentPrice"
-                        readonly
-                        type="number" class="form-control">
+                        <input [value]="craftingComponent.totalComponentPrice" readonly type="number"
+                            class="form-control">
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div *ngIf="getCraftingComponents(true)?.length" class="form-group small-margin">
+        <h3>Компоненти Депозит:</h3>
+        <div>
+            <div *ngFor="let craftingComponent of getCraftingComponents(true)">
+                <div class="form-row">
+                    <div class="col-sm-3 form-group">
+                        <label for="description">Материал</label>
+                        <input [ngModel]="craftingComponent.workMaterial.name" readonly type="text"
+                            class="form-control">
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label for="description">Цена(лв.)</label>
+                        <input [value]="craftingComponent.workMaterialPrice" readonly type="number"
+                            class="form-control">
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label for="description">Количество({{craftingComponent.workMaterial.measuringUnit}})</label>
+                        <input [value]="craftingComponent.quantity" readonly type="number" class="form-control">
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label for="description">Сума</label>
+                        <input [value]="craftingComponent.totalComponentPrice" readonly type="number"
+                            class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-sm-3 form-group">
+            <label for="description">Цена на труда</label>
+            <input [(ngModel)]="order.laborPrice" readonly type="number" class="form-control">
+        </div>
+        <div class="col-sm-3 form-group">
+            <label for="description">Депозит</label>
+            <input [(ngModel)]="order.deposit" readonly type="number" class="form-control">
+        </div>
+        <div class="col-sm-3 form-group">
+        </div>
+        <div class="col-sm-3 form-group">
+            <label for="description"><strong>Обща цена</strong></label>
+            <input [(ngModel)]="order.totalPrice" readonly type="number" class="form-control">
+        </div>
+    </div>
 </div>

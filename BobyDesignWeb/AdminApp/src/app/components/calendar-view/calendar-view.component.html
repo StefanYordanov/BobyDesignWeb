@@ -33,7 +33,7 @@
         <span class="badge bg-warning badge-light"> {{orders.length}}</span> <span class="hide-on-small">Поръчки</span>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li *ngFor="let order of orders"><a class="dropdown-item" href="#">{{order.description}} -
+        <li *ngFor="let order of orders"><a class="dropdown-item" [routerLink]="isPicker ? null : '/orders/details'" [queryParams]="{orderId: order.id}">{{order.description}} -
             {{order.customer.name}}/{{order.customer.phoneNumber}}/{{order.customer.email}}</a></li>
       </ul>
     </div>

@@ -9,6 +9,9 @@ namespace BobyDesignWeb.Data.Entities
         [MaxLength(50)]
         public string WorkMaterialName { get; set; }
 
+        [MaxLength(50)]
+        public string WorkMaterialMeasuringUnit { get; set; }
+
         public MaterialPricingType WorkMaterialPricingType { get; set; }
 
         public ICollection<WorkMaterialPriceForDate> WorkMaterialPriceForDates { get; set; }

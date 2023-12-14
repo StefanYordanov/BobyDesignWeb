@@ -35,6 +35,7 @@ import { DrawingCanvasComponent } from './drawing-canvas/drawing-canvas.componen
 import { WebContentService } from './services/web-content.service';
 import { BlobService } from './services/blob.service';
 import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
+import { PrintOrderComponent } from './components/orders/print-order/print-order.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import { OrderDetailsComponent } from './components/orders/order-details/order-d
     UserRightsComponent,
     PaginationComponent, 
     ModalFrameComponent,
-    WorkMaterialsComponent, CustomersComponent, MainPageComponent, CalendarViewComponent, OrdersViewComponent, CustomerPickerComponent, WorkMaterialPickerComponent, CreateOrderComponent, DrawingCanvasComponent, OrderDetailsComponent
+    WorkMaterialsComponent, CustomersComponent, MainPageComponent, CalendarViewComponent, OrdersViewComponent, CustomerPickerComponent, WorkMaterialPickerComponent, CreateOrderComponent, DrawingCanvasComponent, OrderDetailsComponent, PrintOrderComponent
   ],
   imports: [
     BrowserModule,

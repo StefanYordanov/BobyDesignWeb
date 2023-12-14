@@ -4,6 +4,8 @@
     {
         public int OrderCraftingComponentId { get; set; }
 
+        public bool IsDeposit { get; set; }
+
         public int WorkMaterialId { get; set; }
 
         public WorkMaterial WorkMaterial { get; set; }

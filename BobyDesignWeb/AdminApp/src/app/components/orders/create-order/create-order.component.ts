@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DrawingCanvasComponent } from 'src/app/drawing-canvas/drawing-canvas.component';
 import { CustomerModel } from 'src/app/models/customers.model';
@@ -30,6 +31,7 @@ interface OrderCreationModel {
 
 interface OrderCraftingComponentCreationModel {
     workMaterial?: WorkMaterialModel;
+    isDeposit: boolean;
     workMaterialPrice: number;
     quantity: number;
     totalComponentPrice: number
@@ -45,7 +47,7 @@ export class CreateOrderComponent implements OnInit {
     private priceCalculatorService: PriceCalculatorService, 
     private ordersService: OrdersService,
     private toastr: ToastrService,
-    private blobService: BlobService ) {}
+    private blobService: BlobService, private router: Router, ) {}
 
   craftingComponents: CraftingComponentFormCreationExtensions[]= [];
   @ViewChild('drawingCanvas') drawingCanvas!: DrawingCanvasComponent;
@@ -83,9 +85,10 @@ export class CreateOrderComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  addNewCraftingComponent() {
+  addNewCraftingComponent(isDeposit = false) {
     const craftingComponent: OrderCraftingComponentCreationModel = {
         quantity: 0,
+        isDeposit,
         totalComponentPrice: 0,
         workMaterialPrice: 0
     };
@@ -112,6 +115,10 @@ export class CreateOrderComponent implements OnInit {
 
     this.craftingComponents.push(newEntry)
     this.newOrder.craftingComponents.push(craftingComponent);
+  }
+
+  getCraftingComponents(isDeposit = false) {
+    return this.craftingComponents.filter(cc => cc.craftingComponent.isDeposit === isDeposit);
   }
 
   triggerComponentRecalculation(craftingComponent: OrderCraftingComponentCreationModel) {
@@ -167,6 +174,8 @@ export class CreateOrderComponent implements OnInit {
     if(response) {
       this.toastr.success('Успешно създадохте поръчка');
       console.log(response);
+      this.router.navigateByUrl('orders/details?orderId='+response.id);
+      
     }
     
 

@@ -40,7 +40,7 @@ customerCallback: ModalFrameCallback<CustomerModel> = {
   }
 }
 
-constructor(private activatedRoute: ActivatedRoute, private customersService: CustomersService,
+constructor(private activatedRoute: ActivatedRoute, public customersService: CustomersService,
    private router: Router, private ordersService: OrdersService) { }
 
 

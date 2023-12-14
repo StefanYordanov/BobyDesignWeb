@@ -7,6 +7,7 @@ import { MaterialPricingType } from "../models/work-materials.model";
   })
 export class PriceCalculatorService{
     calculateOrderCraftingComponentPrice(craftingComponent: OrderCraftingComponent): number {
+        
         if(!craftingComponent.workMaterial?.relevantPrice) {
             return 0;
         }
@@ -17,7 +18,10 @@ export class PriceCalculatorService{
     }
 
     calculateOrderPrice(order: Order) {
-        const componentsPrice = order.craftingComponents.map(cc => cc.totalComponentPrice)
+        const componentsPrice = order.craftingComponents.map(cc => {
+            const sign = cc.isDeposit ? -1: 1;
+            return cc.totalComponentPrice * sign;
+        })
             .reduce((sum, current) => sum + current, 0);
         return componentsPrice + order.laborPrice;
     }

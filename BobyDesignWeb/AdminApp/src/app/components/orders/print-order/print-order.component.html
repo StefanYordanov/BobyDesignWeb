@@ -1,0 +1,132 @@
+<div *ngIf="order">
+    <ng-container *ngFor="let item of [].constructor(2); let i = index">
+        <hr *ngIf="i!==0">
+        <h2 style="text-align: center;"> 
+            <img src="/images/boby-design-logo.png" alt="FB" width="35px" height="35px">
+            Boby Design Studio</h2>
+        <div class="d-flex justify-content-sm-between">
+            <div>
+                <strong>София HIT Хипермаркет Младост</strong>
+                <br>
+                <strong>София HIT Хипермаркет Люлин</strong>
+                <br>
+                <strong>София Цех</strong>
+            </div>
+            <div style="text-align: right;">
+                <strong>0878 306 599</strong>
+                <br>
+                <strong>0878 306 900</strong>
+                <br>
+                <strong>02/ 82 777 77, 0878 306 600</strong>
+            </div>
+        </div>
+        <hr>
+        <h5 style="display: flex; align-items: center; justify-content: center;">
+            <img src="/images/fb-icon.png"  style="margin-right: 5px;" alt="FB" width="20px" height="20px">
+            Бижута - Boby Design Studio</h5>
+        <div class="form-row">
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>№ поръчка</label>
+                            <input [value]="order.id" type="number" readonly class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Договорена на</label>
+                            <input [value]="order.createdOn && order.createdOn.toLocaleDateString('bg-BG')" type="text"
+                                readonly class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Готова за</label>
+                            <input [value]="order.finishingDate && order.finishingDate.toLocaleDateString('bg-BG')" type="text"
+                                readonly class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Клиент</label>
+                    <input [value]="order.customer.name" type="text" readonly class="form-control">
+                </div>
+
+                <div>
+                    <img [src]="order.imageFileName" alt="Липсва скица" width="400px" height="400px">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input [value]="order.customer.phoneNumber" type="text" readonly class="form-control">
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label><strong>Капаро(лв.)</strong></label>
+                            <input [value]="order.deposit" type="number" readonly class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label><strong>Цена(лв.)</strong></label>
+                            <input [value]="order.totalPrice" type="number" readonly class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-12" *ngIf="getDepositComponentsString().length">
+                        <label><strong>Депозит материали</strong></label>
+                        <input [value]="getDepositComponentsString()" type="text" readonly class="form-control">
+                    </div>
+                </div>
+                <div class="form-group small-margin">
+                    <label for="description">Описание</label>
+                    <textarea class="form-control" id="description" [(ngModel)]="order.description" readonly
+                        rows="3"></textarea>
+
+                    <!-- <textarea class="form-control" id="description" [value]="order.description" rows="3"></textarea>
+             -->
+                </div>
+                <div class="form-group">
+                    <label>Материали</label>
+                    <input [value]="workMaterialsString()" type="text" readonly class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Подпис</label>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <!-- <div class="form-group small-margin">
+        <h3>Компоненти:</h3>
+        <div>
+            <div *ngFor="let craftingComponent of order.craftingComponents">
+                <div class="form-row">
+                    <div class="col-sm-3 form-group">
+                        <label for="description">Материал</label>
+                        <input [ngModel]="craftingComponent.workMaterial?.name" readonly type="text" class="form-control">
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label for="description">Цена(лв.)</label>
+                        <input [value]="craftingComponent.workMaterialPrice" readonly type="number" class="form-control">
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label for="description">Количество(гр)</label>
+                        <input [value]="craftingComponent.quantity" 
+                        readonly
+                        type="number" class="form-control">
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <label for="description">Сума</label>
+                        <input [value]="craftingComponent.totalComponentPrice"
+                        readonly
+                        type="number" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+</div>

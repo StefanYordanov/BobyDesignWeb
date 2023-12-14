@@ -13,7 +13,8 @@ export class CustomersService {
     if(!customer) {
       return ''
     }
-    return customer?.name + '/' + customer?.email +'/' + customer?.phoneNumber
+    return [customer.name, customer.phoneNumber, customer.email]
+    .filter(customerEl=> customerEl && customerEl.trim().length).join('/');
   }
 
   async editCustomer(model: CustomerModel): Promise<CustomerModel | null> {

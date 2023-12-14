@@ -12,6 +12,7 @@ import { OrdersViewResolverService } from './components/orders/orders-view/order
 import { CreateOrderComponent } from './components/orders/create-order/create-order.component';
 import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
 import { OrderDetailsResolverService } from './components/orders/order-details/order-details-resolver.service';
+import { PrintOrderComponent } from './components/orders/print-order/print-order.component';
 
 const routes: Routes = [
   {path: '', component: MainPageComponent },
@@ -24,6 +25,9 @@ const routes: Routes = [
   }},
   {path: 'orders/create', component: CreateOrderComponent},
   {path: 'orders/details', component: OrderDetailsComponent, resolve: {
+    order: OrderDetailsResolverService
+  }},
+  {path: 'orders/print', component: PrintOrderComponent, resolve: {
     order: OrderDetailsResolverService
   }},
 

@@ -69,6 +69,7 @@ export class WorkMaterialsComponent implements OnInit {
       this.newWorkMaterial = {
         id: 0,
         name: '',
+        measuringUnit: '',
         pricingType: MaterialPricingType.Fixed,
         relevantPrice: {
           id: 0,
