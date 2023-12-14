@@ -19,6 +19,10 @@ export class PrintOrderComponent implements OnInit {
       
       setTimeout(() => {
         const hideOnPrintElements = $('.hide-on-print');
+        $('textarea').each(function() {
+          this.style.height = "";
+          this.style.height = (this.scrollHeight + 1) + "px";
+        });
         hideOnPrintElements.hide();
         window.print();
         hideOnPrintElements.show();

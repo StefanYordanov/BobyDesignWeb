@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CalendarCell } from 'src/app/models/calendar.model';
-import { Order } from 'src/app/models/order.model';
+import { Order, OrderStatus } from 'src/app/models/order.model';
 import { CalendarService } from 'src/app/services/calendar.service';
+import { CustomersService } from 'src/app/services/customers.service';
 import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
@@ -14,6 +15,8 @@ export class CalendarViewComponent implements OnInit {
   @Input() isPicker = false;
   @Output() dateChanged = new EventEmitter<Date>();
 
+  orderStatus = OrderStatus;
+
   year: number;
   month: number;
   calendarCells?: CalendarCell[];
@@ -22,7 +25,7 @@ export class CalendarViewComponent implements OnInit {
     [key: number]: Order[]
   }
   
-  constructor(private calendarService: CalendarService, private ordersService: OrdersService) { 
+  constructor(private calendarService: CalendarService, private ordersService: OrdersService, public customersService: CustomersService) { 
     const date = new Date();
     this.year = date.getFullYear();
     this.month = date.getMonth();

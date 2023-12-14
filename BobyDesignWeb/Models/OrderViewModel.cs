@@ -22,6 +22,13 @@
         public UserViewModel ShopUser { get; set; } = new UserViewModel();
     }
 
+    public class PayOrderQuery
+    {
+        public int OrderId { get; set; }
+
+        public decimal Payment { get; set; }
+    }
+
     public class OrderCraftingComponentViewModel
     {
         public int Id { get; set; }

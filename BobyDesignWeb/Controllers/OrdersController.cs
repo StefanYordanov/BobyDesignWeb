@@ -54,7 +54,31 @@ namespace BobyDesignWeb.Controllers
                 CurrentPage = page,
             };
         }
+
         [HttpPost]
+        public ActionResult Pay([FromBody] PayOrderQuery query)
+        {
+            var orderEntity = this._context.Orders.FirstOrDefault((o) => o.OrderId == query.OrderId) ?? throw new ArgumentException("Невалидно id на поръчка");
+            if (orderEntity.Status == Data.Entities.OrderStatus.Closed)
+            {
+                throw new ArgumentException("Поръчката е вече затворена");
+            }
+
+            if (orderEntity.TotalPrice - orderEntity.Deposit < query.Payment)
+            {
+                throw new ArgumentException("Плащате повече от необходимото");
+            }
+
+            orderEntity.Deposit += query.Payment;
+            if (orderEntity.Deposit == orderEntity.TotalPrice)
+            {
+                orderEntity.Status = Data.Entities.OrderStatus.Closed;
+            }
+            this._context.SaveChanges();
+            return Ok(GetOrderDetails(orderEntity.OrderId));
+        }
+
+            [HttpPost]
         public async Task<IActionResult> InsertOrder([FromForm] string model, IFormFile? sketchBlob)
         {
             var order = JsonConvert.DeserializeObject<OrderViewModel>(model);
@@ -109,7 +133,7 @@ namespace BobyDesignWeb.Controllers
                 _context.SaveChanges();
                 return Ok(GetOrderDetails(orderEntity.OrderId));
             }
-            return Ok();
+            return Ok(GetOrderDetails(orderEntity.OrderId));
         }
 
         private OrderViewModel? GetOrderDetails(int orderId)

@@ -1,7 +1,7 @@
 
 import { Injectable } from "@angular/core";
 import { ApiService, Params } from "./api.service";
-import { Order, OrderQuery, SubmitOrder } from "../models/order.model";
+import { Order, OrderQuery, PayOrderQuery, SubmitOrder } from "../models/order.model";
 import { PageView } from "../models/common.model";
 
 @Injectable({
@@ -24,6 +24,11 @@ export class OrdersService{
         formData
       );
       console.log(response);
+      return response;
+    }
+
+    async payOrder(query: PayOrderQuery) : Promise<Order| null> {
+      const response = await this.apiService.post<Order>('orders/pay', query) 
       return response;
     }
 

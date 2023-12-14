@@ -36,9 +36,11 @@ import { WebContentService } from './services/web-content.service';
 import { BlobService } from './services/blob.service';
 import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
 import { PrintOrderComponent } from './components/orders/print-order/print-order.component';
+import { TruncatePipe } from './services/truncate.pipe';
 
 @NgModule({
   declarations: [
+    TruncatePipe,
     AppComponent,
     NavigationMenuComponent,
     AllUsersComponent,
@@ -61,6 +63,7 @@ import { PrintOrderComponent } from './components/orders/print-order/print-order
     // },
     DatePipe,
     CurrencyPipe,
+    
     ApiService, 
     CalendarService, 
     OrdersService, OrdersViewResolverService,

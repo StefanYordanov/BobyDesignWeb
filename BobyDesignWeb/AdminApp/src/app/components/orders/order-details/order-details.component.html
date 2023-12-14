@@ -1,12 +1,17 @@
 <div *ngIf="order">
-    <div class="row">
-        <div class="col-sm-8">
+    <div class="d-flex justify-content-between">
+        <div>
             <h2>Детайли по поръчка</h2>
             <strong class="text-success" *ngIf="order.status === orderStatus.Opened">Статус: Отворена</strong>
             <strong class="text-danger" *ngIf="order.status === orderStatus.Closed">Статус: Затворена</strong>
         </div>
-        <div class="col-sm-4">
-            <a class="btn btn-primary btn-lg col-12" 
+        <div>
+            <app-modal-frame class="mr-1" *ngIf="order.status === orderStatus.Opened" [title]="'Завърши поръчката'" [buttonText]="'Завърши поръчката'" [callbacks]="finishOrderCallback">
+                <h2>Затваряне на поръчката</h2>
+                <h4>Остават за изплащане: {{(order.totalPrice - order.deposit) | currency:'BGN':'лв.'}}</h4>
+            </app-modal-frame>
+
+            <a class="btn btn-primary btn-sm" 
             routerLink="/orders/print" 
             [queryParams]="{orderId: order.id}" 
             role="button">Печат</a>

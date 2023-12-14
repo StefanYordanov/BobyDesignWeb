@@ -30,11 +30,12 @@
     <div *ngIf="groupedOrders && groupedOrders[calendarCell.date.getTime()] as orders" class="dropdown">
       <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
         aria-expanded="false">
-        <span class="badge bg-warning badge-light"> {{orders.length}}</span> <span class="hide-on-small">Поръчки</span>
+        <span class="badge bg-warning badge-light"> {{orders.length}}</span> <span class="hide-on-small"> {{orders.length === 1 ? 'Поръчкa' : 'Поръчки'}}</span>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li *ngFor="let order of orders"><a class="dropdown-item" [routerLink]="isPicker ? null : '/orders/details'" [queryParams]="{orderId: order.id}">{{order.description}} -
-            {{order.customer.name}}/{{order.customer.phoneNumber}}/{{order.customer.email}}</a></li>
+        <li *ngFor="let order of orders"><a class="dropdown-item" [routerLink]="isPicker ? null : '/orders/details'" [queryParams]="{orderId: order.id}">
+          <strong *ngIf="order.status === orderStatus.Closed" class="text-danger">(Затворена)</strong>{{order.description | truncate:[40]}} -
+            {{customersService.customerString(order.customer)}}</a></li>
       </ul>
     </div>
 

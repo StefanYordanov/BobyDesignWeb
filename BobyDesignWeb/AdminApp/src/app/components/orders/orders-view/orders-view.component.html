@@ -58,7 +58,7 @@
             <ng-container *ngFor="let order of ordersPage.items">
                 <tr routerLink="/orders/details" [queryParams]="{orderId: order.id}">
                     <td scope="row">{{order.id}}</td>
-                    <td scope="row">{{order.description}}</td>
+                    <td scope="row">{{order.description | truncate:[40]}}</td>
                     <td scope="row">{{customersService.customerString(order.customer)}}</td>
                      <td scope="row">{{order.finishingDate | date: 'dd/MM/yyyy'}}</td>
                      <td scope="row">{{order.totalPrice | currency:'BGN':'лв.'}}</td>

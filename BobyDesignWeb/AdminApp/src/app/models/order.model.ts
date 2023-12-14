@@ -7,6 +7,11 @@ export interface SubmitOrder{
     model: Order;
 }
 
+export interface PayOrderQuery {
+    orderId: number;
+    payment: number;
+}
+
 export interface Order{
     id: number;
     customer: CustomerModel;
