@@ -37,6 +37,28 @@ namespace BobyDesignWeb.Data
             // Add your customizations after calling base.OnModelCreating(builder);
 
 
+            modelBuilder.Entity<JewelryShop>().HasData(new JewelryShop
+            {
+                JewelryShopId = 1,
+                JewelryShopName = "Сливница",
+                JewelryShopDescription = "Ул. \"Обелско Шосе\" №20",
+                JewelryShopPhoneNumbers = "0878 306 599"
+            });
+            modelBuilder.Entity<JewelryShop>().HasData(new JewelryShop
+            {
+                JewelryShopId = 2,
+                JewelryShopName = "Младост",
+                JewelryShopDescription = "Бул. \"Ал. Малинов\" №75",
+                JewelryShopPhoneNumbers = "0878 306 900"
+            });
+            modelBuilder.Entity<JewelryShop>().HasData(new JewelryShop
+            {
+                JewelryShopId = 3,
+                JewelryShopName = "Цех",
+                JewelryShopDescription = "Цех",
+                JewelryShopPhoneNumbers = "02/ 82 777 77, 0878 306 600"
+            });
+
             modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole 
             { Name = UserRolesConstants.Admin, NormalizedName = UserRolesConstants.Admin.ToUpper(),
                 Id= "e2875763-6213-4636-8ab1-38d1b687abb2", ConcurrencyStamp= "ec92d97c-486a-475c-8e12-11e26ff7b794"

@@ -12,6 +12,8 @@
         public CustomerViewModel Customer { get; set; }
         public string Description { get; set; }
         public DateTime CreatedOn { get; set; }
+
+        public JewleryShopViewModel Shop { get; set; }
         public DateTime FinishingDate { get; set; }
         public ICollection<OrderCraftingComponentViewModel> CraftingComponents { get; set; } = new List<OrderCraftingComponentViewModel>();
         public decimal LaborPrice { get; set; }
@@ -42,7 +44,7 @@
 
     public enum OrderStatus
     {
-        Opened = 0,
-        Closed = 1
+        Opened = 1,
+        Closed = 2
     }
 }

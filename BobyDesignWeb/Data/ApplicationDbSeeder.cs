@@ -27,6 +27,7 @@ namespace BobyDesignWeb.Data
                     FirstName = "Stefan",
                     LastName = "Yordanov",
                     EmailConfirmed = true,
+                    JewelryShop = _ctx.JewelryShops.First()
                 };
 
                 await _userManager.CreateAsync(mainAdmin, "SteepHurriedCosmetics1!");

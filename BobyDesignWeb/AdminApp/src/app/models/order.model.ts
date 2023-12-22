@@ -1,4 +1,5 @@
 import { CustomerModel } from "./customers.model";
+import { JewelryShopModel } from "./jewelry-shop.model";
 import { User } from "./user.model";
 import { WorkMaterialModel } from "./work-materials.model";
 
@@ -18,6 +19,7 @@ export interface Order{
     description: string;
     imageFileName: string;
     createdOn: Date;
+    shop: JewelryShopModel;
     finishingDate: Date;
     craftingComponents: OrderCraftingComponent[];
     laborPrice: number;
@@ -31,7 +33,8 @@ export interface OrderQuery {
     fromDate?: string;
     toDate?: string;
     searchPhrase?: string;
-    customerId?: number
+    customerId?: number;
+    status?: number
 }
 
 export interface OrderCraftingComponent {
@@ -44,6 +47,6 @@ export interface OrderCraftingComponent {
 }
 
 export enum OrderStatus {
-    Opened = 0,
-    Closed = 1
+    Opened = 1,
+    Closed = 2
 }

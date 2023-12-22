@@ -32,6 +32,8 @@ toDateCallback: ModalFrameCallback<Date> = {
   }
 }
 
+status?: number;
+
 customer?: CustomerModel;
 customerTemp?: CustomerModel;
 customerCallback: ModalFrameCallback<CustomerModel> = {
@@ -53,6 +55,7 @@ constructor(private activatedRoute: ActivatedRoute, public customersService: Cus
     this.searchPhrase = this.activatedRoute.snapshot.queryParams["searchPhrase"];
     this.fromDate = this.activatedRoute.snapshot.queryParams["fromDate"] && new Date(this.activatedRoute.snapshot.queryParams["fromDate"]);
     this.toDate = this.activatedRoute.snapshot.queryParams["toDate"] && new Date(this.activatedRoute.snapshot.queryParams["toDate"])
+    this.status = this.activatedRoute.snapshot.queryParams["status"] && Number(this.activatedRoute.snapshot.queryParams["status"]);
     if(this.activatedRoute.snapshot.queryParams["customerId"]){
       this.customer = await this.customersService.getCustomer(Number(this.activatedRoute.snapshot.queryParams["customerId"])) || undefined;
     }
@@ -79,7 +82,8 @@ constructor(private activatedRoute: ActivatedRoute, public customersService: Cus
       searchPhrase: this.searchPhrase,
       fromDate: this.fromDate,
       toDate: this.toDate,
-      customerId: this.customer?.id
+      customerId: this.customer?.id,
+      status: this.status
   };
   this.router.navigate(
     [], 
@@ -92,7 +96,8 @@ constructor(private activatedRoute: ActivatedRoute, public customersService: Cus
       searchPhrase: this.searchPhrase, 
       fromDate: this.fromDate?.toDateString(),
       toDate: this.toDate?.toDateString(),
-      customerId: this.customer?.id
+      customerId: this.customer?.id,
+      status: this.status
     
     },0) || undefined;
   }

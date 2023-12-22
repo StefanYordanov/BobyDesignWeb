@@ -8,6 +8,7 @@ import { Order, OrderCraftingComponent, OrderStatus } from 'src/app/models/order
 import { WorkMaterialModel } from 'src/app/models/work-materials.model';
 import { BlobService } from 'src/app/services/blob.service';
 import { CustomersService } from 'src/app/services/customers.service';
+import { JewelryShopsService } from 'src/app/services/jewelry-shops.service';
 import { OrdersService } from 'src/app/services/orders.service';
 import { PriceCalculatorService } from 'src/app/services/price-calculator.service';
 
@@ -47,7 +48,8 @@ export class CreateOrderComponent implements OnInit {
     private priceCalculatorService: PriceCalculatorService, 
     private ordersService: OrdersService,
     private toastr: ToastrService,
-    private blobService: BlobService, private router: Router, ) {}
+    private blobService: BlobService, private router: Router, 
+    private jewelryShopsService: JewelryShopsService) {}
 
   craftingComponents: CraftingComponentFormCreationExtensions[]= [];
   @ViewChild('drawingCanvas') drawingCanvas!: DrawingCanvasComponent;
@@ -153,6 +155,11 @@ export class CreateOrderComponent implements OnInit {
       this.toastr.error('Има невъведени материали сред компонентите')
       return;
     }
+    const shop = await this.jewelryShopsService.getUserActiveShop();
+    if(!shop) {
+      this.toastr.error('Потребителят няма зададен магазин')
+      return;
+    }
 
     const response = await this.ordersService.createOrder({ 
       sketchBlob: this.base64PngContent ? this.blobService.dataURIToBlob(this.base64PngContent) : undefined, 
@@ -160,6 +167,7 @@ export class CreateOrderComponent implements OnInit {
         customer: this.newOrder.customer,
         finishingDate: this.newOrder.finishingDate,
         deposit: this.newOrder.deposit,
+        shop: shop,
         imageFileName: '',
         craftingComponents: this.newOrder.craftingComponents.map(cc => {
           return {...cc, id: 0, workMaterial: cc.workMaterial!}

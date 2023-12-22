@@ -4,6 +4,7 @@ using BobyDesignWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BobyDesignWeb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231216073133_JewleryShopPhonesLength")]
+    partial class JewleryShopPhonesLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -165,14 +167,14 @@ namespace BobyDesignWeb.Data.Migrations
                         },
                         new
                         {
-                            JewelryShopId = 2,
+                            JewelryShopId = 3,
                             JewelryShopDescription = "Бул. \"Ал. Малинов\" №75",
                             JewelryShopName = "Младост",
                             JewelryShopPhoneNumbers = "0878 306 900"
                         },
                         new
                         {
-                            JewelryShopId = 3,
+                            JewelryShopId = 4,
                             JewelryShopDescription = "Цех",
                             JewelryShopName = "Цех",
                             JewelryShopPhoneNumbers = "02/ 82 777 77, 0878 306 600"
@@ -194,7 +196,7 @@ namespace BobyDesignWeb.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("FinishingDate")
-                        .HasColumnType("Date");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ImageFileName")
                         .IsRequired()

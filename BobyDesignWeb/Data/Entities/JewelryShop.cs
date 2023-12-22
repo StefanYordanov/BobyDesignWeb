@@ -12,6 +12,11 @@ namespace BobyDesignWeb.Data.Entities
         [MaxLength(1000)]
         public string JewelryShopDescription { get; set; }
 
+        [MaxLength(100)]
+        public string JewelryShopPhoneNumbers { get; set; }
+
         public ICollection<Order> Orders { get; set; }
+
+        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
     }
 }

@@ -27,9 +27,9 @@ namespace BobyDesignWeb.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<OrderViewModel> GetOrders(DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId)
+        public IEnumerable<OrderViewModel> GetOrders(DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId, int? status)
         {
-            return OrdersQuery(fromDate, toDate, searchPhrase, customerId).ToList();
+            return OrdersQuery(fromDate, toDate, searchPhrase, customerId, status).ToList();
         }
 
         [HttpGet]
@@ -39,11 +39,11 @@ namespace BobyDesignWeb.Controllers
         }
 
         [HttpGet]
-        public PageViewModel<OrderViewModel> GetOrdersPagination(int page, DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId)
+        public PageViewModel<OrderViewModel> GetOrdersPagination(int page, DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId, int? status)
         {
             page = page <= 0 ? 1 : page;
             int pageSize = 20;
-            var ordersQuery = OrdersQuery(fromDate, toDate, searchPhrase, customerId);
+            var ordersQuery = OrdersQuery(fromDate, toDate, searchPhrase, customerId, status);
             var ordersCount = ordersQuery.Count();
             var orders = ordersQuery.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
@@ -92,8 +92,8 @@ namespace BobyDesignWeb.Controllers
             {
                 CustomerId = order.Customer.Id,
                 Deposit = order.Deposit,
-                FinishingDate = order.FinishingDate.ToBulgarianDateTime(),
-                JewelryShop = _context.JewelryShops.First(),
+                FinishingDate = order.FinishingDate,
+                JewelryShopId = order.Shop.Id,
                 LaborPrice = order.LaborPrice,
                 OrderCreatedOn = DateTime.UtcNow.ToBulgarianDateTime(),
                 ShopUserId = userManager.GetUserId(User),
@@ -152,7 +152,7 @@ namespace BobyDesignWeb.Controllers
                         PhoneNumber = o.Customer.CustomerPhone,
                     },
                     Description = o.OrderDescription,
-                    FinishingDate = o.FinishingDate.ToBulgarianDateTime(),
+                    FinishingDate = o.FinishingDate,
                     Status = (Models.OrderStatus)o.Status,
                     TotalPrice = o.TotalPrice,
                     LaborPrice = o.LaborPrice,
@@ -202,7 +202,7 @@ namespace BobyDesignWeb.Controllers
             fileStream.Dispose();
         }
 
-        private IQueryable<OrderViewModel> OrdersQuery(DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId)
+        private IQueryable<OrderViewModel> OrdersQuery(DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId, int? status)
         {
             fromDate ??= DateTime.MinValue;
             toDate ??= DateTime.MaxValue;
@@ -210,6 +210,7 @@ namespace BobyDesignWeb.Controllers
 
             return _context.Orders
                 .Where(o => o.FinishingDate.Date >= fromDate && o.FinishingDate.Date <= toDate && 
+                (status == null || o.Status == (Data.Entities.OrderStatus)status) &&
                     (customerId == null || customerId == o.CustomerId) && 
                     (
                         o.OrderDescription.ToLower().Contains(searchPhrase) ||
@@ -217,7 +218,7 @@ namespace BobyDesignWeb.Controllers
                         o.Customer.CustomerEmail.ToLower().Contains(searchPhrase) ||
                         o.Customer.CustomerPhone.ToLower().Contains(searchPhrase)
                     )
-                ).Select(o =>
+                ).OrderByDescending(o => o.OrderCreatedOn).Select(o =>
                 new OrderViewModel()
                 {
                     Id = o.OrderId,
@@ -231,7 +232,7 @@ namespace BobyDesignWeb.Controllers
                         PhoneNumber = o.Customer.CustomerPhone,
                     },
                     Description = o.OrderDescription,
-                    FinishingDate = o.FinishingDate.ToBulgarianDateTime(),
+                    FinishingDate = o.FinishingDate,
                     Status = (Models.OrderStatus)o.Status,
                     TotalPrice = o.TotalPrice,
                     LaborPrice = o.LaborPrice,

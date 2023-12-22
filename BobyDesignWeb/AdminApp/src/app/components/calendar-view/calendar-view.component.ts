@@ -40,7 +40,12 @@ export class CalendarViewComponent implements OnInit {
     if(!this.isPicker) {
       return;
     }
-    this.selectedDate = calendarCell.date;
+    if(this.selectedDate === calendarCell.date) {
+      this.selectedDate = undefined
+    } else{
+      this.selectedDate = calendarCell.date;
+    }
+    
     this.dateChanged.emit(calendarCell.date);
   }
 

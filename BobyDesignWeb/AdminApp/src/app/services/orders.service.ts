@@ -48,6 +48,9 @@ export class OrdersService{
       if(query.customerId) {
         params['customerId'] = query.customerId;
       }
+      if(query.status !== undefined) {
+        params['status'] = query.status;
+      }
       const orders = await this.apiService.get<Order[]>('orders/getOrders', params);
       console.log(orders);
       return orders;
@@ -78,6 +81,9 @@ export class OrdersService{
       }
       if(query.customerId) {
         params['customerId'] = query.customerId;
+      }
+      if(query.status !== undefined) {
+        params['status'] = query.status;
       }
       if(page) {
         params['page'] = page

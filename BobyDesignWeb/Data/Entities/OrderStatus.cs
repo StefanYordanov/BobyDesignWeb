@@ -2,7 +2,7 @@
 {
     public enum OrderStatus
     {
-        Opened = 0,
-        Closed = 1
+        Opened = 1,
+        Closed = 2
     }
 }

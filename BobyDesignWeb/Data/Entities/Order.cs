@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BobyDesignWeb.Data.Entities
 {
@@ -21,6 +22,7 @@ namespace BobyDesignWeb.Data.Entities
 
         public DateTime OrderCreatedOn { get; set; }
 
+        [Column(TypeName = "Date")]
         public DateTime FinishingDate { get; set; }
 
         public decimal LaborPrice { get; set; }

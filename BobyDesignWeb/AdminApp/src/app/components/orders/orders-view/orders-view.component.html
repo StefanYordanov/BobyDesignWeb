@@ -32,9 +32,18 @@
             <input value="{{customerString(customer)}}" type="text" readonly class="form-control">
         </div>
         <div class="col-sm-6 col-md-3">
+            <label>Статус</label>
+            <select class="form-control form-select" [(ngModel)]="status">
+                <option [ngValue]="undefined">Всички</option>
+                <option [ngValue]="1">Отворени</option>
+                <option [ngValue]="2">Затворени</option>
+              </select>
+        </div>
+        <div class="col-sm-6 col-md-3">
             <label>Търсене</label>
             <input [(ngModel)]="searchPhrase" type="text" class="form-control">
         </div>
+        
         <div class="col-sm-6 col-md-3">
             <button type="button" class="btn btn-primary mt-1" (click)="applySearch()">Търсене</button>
         </div>

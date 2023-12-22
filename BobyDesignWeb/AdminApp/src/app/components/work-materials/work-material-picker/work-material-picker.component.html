@@ -20,7 +20,7 @@
                         <td scope="row">
                             <select class="form-control form-select" disabled [(ngModel)]="workMaterial.pricingType">
                                 <option [ngValue]="0">Фиксирано</option>
-                                <option [ngValue]="1">На грам</option>
+                                <option [ngValue]="1">На {{ workMaterial.measuringUnit.length ? workMaterial.measuringUnit : 'количество' }}</option>
                             </select>
                         </td>
                         <ng-container *ngIf="workMaterial.relevantPrice; else emptyPrice">

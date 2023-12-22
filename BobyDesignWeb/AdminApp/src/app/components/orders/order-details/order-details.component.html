@@ -76,21 +76,21 @@
         <div>
             <div *ngFor="let craftingComponent of getCraftingComponents()">
                 <div class="form-row">
-                    <div class="col-sm-3 form-group">
+                    <div class="col-3 form-group">
                         <label for="description">Материал</label>
                         <input [ngModel]="craftingComponent.workMaterial.name" readonly type="text"
                             class="form-control">
                     </div>
-                    <div class="col-sm-3 form-group">
+                    <div class="col-3 form-group">
                         <label for="description">Цена(лв.)</label>
                         <input [value]="craftingComponent.workMaterialPrice" readonly type="number"
                             class="form-control">
                     </div>
-                    <div class="col-sm-3 form-group">
+                    <div class="col-3 form-group">
                         <label for="description">Количество({{craftingComponent.workMaterial.measuringUnit}})</label>
                         <input [value]="craftingComponent.quantity" readonly type="number" class="form-control">
                     </div>
-                    <div class="col-sm-3 form-group">
+                    <div class="col-3 form-group">
                         <label for="description">Сума</label>
                         <input [value]="craftingComponent.totalComponentPrice" readonly type="number"
                             class="form-control">
@@ -105,21 +105,21 @@
         <div>
             <div *ngFor="let craftingComponent of getCraftingComponents(true)">
                 <div class="form-row">
-                    <div class="col-sm-3 form-group">
+                    <div class="col-3 form-group">
                         <label for="description">Материал</label>
                         <input [ngModel]="craftingComponent.workMaterial.name" readonly type="text"
                             class="form-control">
                     </div>
-                    <div class="col-sm-3 form-group">
+                    <div class="col-3 form-group">
                         <label for="description">Цена(лв.)</label>
                         <input [value]="craftingComponent.workMaterialPrice" readonly type="number"
                             class="form-control">
                     </div>
-                    <div class="col-sm-3 form-group">
+                    <div class="col-3 form-group">
                         <label for="description">Количество({{craftingComponent.workMaterial.measuringUnit}})</label>
                         <input [value]="craftingComponent.quantity" readonly type="number" class="form-control">
                     </div>
-                    <div class="col-sm-3 form-group">
+                    <div class="col-3 form-group">
                         <label for="description">Сума</label>
                         <input [value]="craftingComponent.totalComponentPrice" readonly type="number"
                             class="form-control">

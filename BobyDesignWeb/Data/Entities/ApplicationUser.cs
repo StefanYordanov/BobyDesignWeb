@@ -8,5 +8,9 @@ namespace BobyDesignWeb.Data.Entities
         public string LastName { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+
+        public JewelryShop? JewelryShop { get; set; }
+
+        public int? JewelryShopId { get; set; }
     }
 }

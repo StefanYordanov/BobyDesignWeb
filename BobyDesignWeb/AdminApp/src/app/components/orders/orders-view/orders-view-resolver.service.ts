@@ -18,8 +18,9 @@ export class OrdersViewResolverService implements Resolve<any> {
         const toDate = route.queryParamMap.get('toDate') || undefined;
         const customerId = Number(route.queryParamMap.get('customerId')) || undefined;
         const searchPhrase = route.queryParamMap.get('searchPhrase') || undefined;
+        const status = Number(route.queryParamMap.get('status')) || undefined
         return from(this.ordersService.getOrdersPagination({
-            fromDate, toDate, customerId, searchPhrase
+            fromDate, toDate, customerId, searchPhrase, status
         }, page)).pipe(
             catchError(error => {
                 return of('No data:' + error);

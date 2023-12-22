@@ -2,8 +2,8 @@
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
             <a class="navbar-brand" routerLink="/">BobyDesignWeb</a>
-            <a class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </a>
             <div class="spa-navbar navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -12,25 +12,45 @@
                     <ng-container *ngIf="(userRolesPromise | async) as userRoles">
                         <li *ngIf="userRoles.includes('Admin')" class="nav-item dropdown">
 
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Администрация</a>
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                aria-expanded="false">Администрация</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item"  routerLink="/administration/users" routerLinkActive="active" >Потребители</a></li>
+                                <li><a class="dropdown-item" routerLink="/administration/users"
+                                        routerLinkActive="active">Потребители</a></li>
                             </ul>
                         </li>
-                        <li *ngIf="userRoles.includes('Admin') || userRoles.includes('Seller')" class="nav-item dropdown">
+                        <li *ngIf="userRoles.includes('Admin') || userRoles.includes('Seller')"
+                            class="nav-item dropdown">
 
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Панел на продавача</a>
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                aria-expanded="false">Панел на продавача</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item"  routerLink="/work-materials" routerLinkActive="active" >Работни Материали</a></li>
-                                <li><a class="dropdown-item"  routerLink="/customers" routerLinkActive="active" >Клиенти</a></li>
-                                <li><a class="dropdown-item"  routerLink="/orders-view" routerLinkActive="active" >Поръчки</a></li>
+                                <li><a class="dropdown-item" routerLink="/work-materials"
+                                        routerLinkActive="active">Работни Материали</a></li>
+                                <li><a class="dropdown-item" routerLink="/customers"
+                                        routerLinkActive="active">Клиенти</a></li>
+                                <li><a class="dropdown-item" routerLink="/orders-view"
+                                        routerLinkActive="active">Поръчки</a></li>
                             </ul>
                         </li>
+                        <ng-container *ngIf="userRoles.includes('Admin') || userRoles.includes('Seller')">
+                            <li *ngIf="(jewelryShopsDataPromise | async) as jewelryShopsData" class="nav-item">
+                                <select class="form-control form-select" [(ngModel)]="selectedJewelryShopId"
+                                    (change)="changeJewelryShop()">
+                                    <option [ngValue]="undefined">Няма избран магазин</option>
+
+                                    <ng-container *ngFor="let jewleryShop of jewelryShopsData.all">
+                                        <option [ngValue]="jewleryShop.id">{{jewleryShop.name}}</option>
+                                    </ng-container>
+                                </select>
+                            </li>
+                        </ng-container>
                     </ng-container>
                 </ul>
+
                 <div #loginPartial>
-                    
-                 </div>
+
+                </div>
             </div>
         </div>
     </nav>

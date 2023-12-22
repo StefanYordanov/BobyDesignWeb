@@ -46,26 +46,26 @@
         <div>
             <div *ngFor="let craftingComponent of getCraftingComponents()">
                 <div class="form-row">
-                    <div class="col-md-3 col-sm-6 form-group">
+                    <div class="col-md-3 col-6 form-group">
                         <app-modal-frame [title]="'Материал'" [buttonText]="'Материал'" [callbacks]="craftingComponent.workMaterialCallback">
                             <app-work-material-picker (workMaterialChanged)="craftingComponent.workMaterialTemp=$event"></app-work-material-picker>
                         </app-modal-frame>
                         <button class="btn btn-sm col-sm-6 btn-danger" (click)="craftingComponent.onRemove()">Премахни ред</button>
                         <input [ngModel]="craftingComponent.craftingComponent.workMaterial?.name" readonly type="text" class="form-control">
                     </div>
-                    <div class="col-md-3 col-sm-2 form-group">
+                    <div class="col-md-3 col-2 form-group">
                         <label for="description">Цена(лв.)</label>
                         <input [(ngModel)]="craftingComponent.craftingComponent.workMaterialPrice"
                         (ngModelChange)="triggerComponentRecalculation(craftingComponent.craftingComponent)" 
                         type="number" class="form-control">
                     </div>
-                    <div class="col-md-3 col-sm-2 form-group">
+                    <div class="col-md-3 col-2 form-group">
                         <label for="description">Количество{{craftingComponent.craftingComponent.workMaterial ? '(' + craftingComponent.craftingComponent.workMaterial.measuringUnit + ')' : ''}}</label>
                         <input [(ngModel)]="craftingComponent.craftingComponent.quantity" 
                         (ngModelChange)="triggerComponentRecalculation(craftingComponent.craftingComponent)" 
                         type="number" class="form-control">
                     </div>
-                    <div class="col-md-3 col-sm-2 form-group">
+                    <div class="col-md-3 col-2 form-group">
                         <label for="description">Сума</label>
                         <input [(ngModel)]="craftingComponent.craftingComponent.totalComponentPrice"
                         (ngModelChange)="triggerOrderTotalRecalculation()"
@@ -88,26 +88,26 @@
         <div>
             <div *ngFor="let craftingComponent of getCraftingComponents(true)">
                 <div class="form-row">
-                    <div class="col-md-3 col-sm-6 form-group">
+                    <div class="col-md-3 col-6 form-group">
                         <app-modal-frame [title]="'Материал'" [buttonText]="'Материал'" [callbacks]="craftingComponent.workMaterialCallback">
                             <app-work-material-picker (workMaterialChanged)="craftingComponent.workMaterialTemp=$event"></app-work-material-picker>
                         </app-modal-frame>
                         <button class="btn btn-sm col-sm-6 btn-danger" (click)="craftingComponent.onRemove()">Премахни ред</button>
                         <input [ngModel]="craftingComponent.craftingComponent.workMaterial?.name" readonly type="text" class="form-control">
                     </div>
-                    <div class="col-md-3 col-sm-2 form-group">
+                    <div class="col-md-3 col-2 form-group">
                         <label for="description">Цена(лв.)</label>
                         <input (ngModelChange)="triggerComponentRecalculation(craftingComponent.craftingComponent)" 
                         [(ngModel)]="craftingComponent.craftingComponent.workMaterialPrice" 
                         type="number" class="form-control">
                     </div>
-                    <div class="col-md-3 col-sm-2 form-group">
+                    <div class="col-md-3 col-2 form-group">
                         <label for="description">Количество{{craftingComponent.craftingComponent.workMaterial ? '(' + craftingComponent.craftingComponent.workMaterial.measuringUnit + ')' : ''}}</label>
                         <input [(ngModel)]="craftingComponent.craftingComponent.quantity" 
                         (ngModelChange)="triggerComponentRecalculation(craftingComponent.craftingComponent)" 
                         type="number" class="form-control">
                     </div>
-                    <div class="col-md-3 col-sm-2 form-group">
+                    <div class="col-md-3 col-2 form-group">
                         <label for="description">Сума</label>
                         <input [(ngModel)]="craftingComponent.craftingComponent.totalComponentPrice"
                         (ngModelChange)="triggerOrderTotalRecalculation()"
