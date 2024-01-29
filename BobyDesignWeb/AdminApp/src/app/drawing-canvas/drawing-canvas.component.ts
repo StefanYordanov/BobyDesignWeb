@@ -40,10 +40,12 @@ export class DrawingCanvasComponent implements AfterViewInit, OnInit {
     console.log('CANVAS!', this.canvas)
   }
 
-  onChangeBackground() {
+  onChangeBackground(newBackground?: string) {
     if(!this.canvas){
       return;
     }
+
+    this.currentCanvasBackgroundUrl = newBackground;
 
     if(this.currentCanvasBackgroundUrl) {
       this.canvas.setBackgroundImage(this.currentCanvasBackgroundUrl, 
@@ -111,6 +113,61 @@ export class DrawingCanvasComponent implements AfterViewInit, OnInit {
     anchor.click();
     document.body.removeChild(anchor);
   }
+
+  readUploadImage(event: Event) {
+    
+    const self = this;
+    const inputforupload = event.target as any;
+    const readerobj = new FileReader();
+
+    readerobj.onload = function(){
+      
+      var imgElement = document.createElement('img');
+      imgElement.src = readerobj.result?.toString() || '';
+
+      imgElement.onload = function() {
+    /** seltsam aber scheinbar muss alles in die onload Funktion gepackt werden damit die Bildbröße verfügbar ist...
+        ausserhalb kommen die Variablen für die Bildgröße nicht an... **/
+
+          console.log(imgElement.width);
+          console.log(imgElement.height);
+
+          /** Methode um ein Bild in fabric.js einzufügen **/
+          var imageinstance = new fabric.Image(imgElement, {
+                angle: 0,
+                opacity: 1,
+                cornerSize: 30,
+              });
+      /** Bild skalieren damit es in das Canvas Objekt reinpasst */
+      /** check ob canvas portrait oder landscape format ist **/
+      const cw = $(".canvas-container").width()!;
+      const ch = $(".canvas-container").height()!;
+      if(cw > ch){
+        /** canvas ist landscape **/
+        imageinstance.scaleToWidth($(".canvas-container").width()! - 200);
+        imageinstance.scaleToHeight($(".canvas-container").height()! - 200);
+
+      }else{
+        /** canvas ist portrait **/
+      imageinstance.scaleToHeight($(".canvas-container").height()! - 200);
+      imageinstance.scaleToWidth($(".canvas-container").width()! - 200);
+
+      }
+      //imageinstance.cornerSize(40);
+    //  imageinstance["cornerSize"] = parseFloat(40);
+// removes the right top control
+      if(!self.canvas) {
+        return;
+      }
+      self.canvas.add(imageinstance);
+      self.canvas.centerObject(imageinstance);
+
+
+    };
+    };
+
+    readerobj.readAsDataURL(inputforupload.files[0]);
+}
 
   getCanvasAsBase64String() {
     if(!this.canvas) {

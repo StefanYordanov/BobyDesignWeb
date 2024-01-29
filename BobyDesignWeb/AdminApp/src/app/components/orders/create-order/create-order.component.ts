@@ -103,7 +103,7 @@ export class CreateOrderComponent implements OnInit {
           if(newEntry.workMaterialTemp) {
             newEntry.craftingComponent.workMaterial = newEntry.workMaterialTemp,
             console.log('WOrk material, ', newEntry.craftingComponent.workMaterial)
-            newEntry.craftingComponent.workMaterialPrice = newEntry.workMaterialTemp.relevantPrice?.sellingPrice || 0; 
+            newEntry.craftingComponent.workMaterialPrice = (isDeposit ? newEntry.workMaterialTemp.relevantPrice?.purchasingPrice : newEntry.workMaterialTemp.relevantPrice?.sellingPrice) || 0; 
           };
           this.triggerComponentRecalculation(newEntry.craftingComponent);
         }
@@ -133,6 +133,15 @@ export class CreateOrderComponent implements OnInit {
     this.newOrder.totalPrice = this.priceCalculatorService.calculateOrderPrice(
       <Order>(this.newOrder)
     );
+  }
+
+  workMaterialsString(): string{
+    return this.newOrder?.craftingComponents.filter(cc => !cc.isDeposit && cc.workMaterial).map(cc => cc.workMaterial!.name).join(', ') || ''
+  }
+
+  getDepositComponentsString() {
+    return this.newOrder?.craftingComponents.filter(cc => cc.isDeposit && cc.workMaterial)
+      .map(cc=> `${cc.workMaterial!.name}(${cc.quantity} ${cc.workMaterial!.measuringUnit})`).join(', ') || '';
   }
 
   customerString(customer?:CustomerModel) {

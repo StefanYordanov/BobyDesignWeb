@@ -18,8 +18,6 @@
             </li>
           </ul>
 
-
-
         <div *ngIf="currentCanvasMenuMode === canvasMenuModes.Drawing">
             <div>
                 <input type="color" id="head" name="head" [(ngModel)]="canvas.freeDrawingBrush.color" />
@@ -33,19 +31,34 @@
         <div *ngIf="currentCanvasMenuMode === canvasMenuModes.Common">
             
             <div class="drawing-canvas-options-row">
-                <div class="input-group mb-3">
+                <div class="input-group mb-3" style="overflow-x: scroll;">
                     <div class="input-group-prepend">
-                      <label class="input-group-text" for="inputGroupSelect01">Фон</label>
+                      <label class="input-group-text">Фон</label>
                     </div>
-                    <select class="custom-select" [(ngModel)]="currentCanvasBackgroundUrl" (change)="onChangeBackground()" >
-                      <option selected [ngValue]="undefined">Без фон</option>
-                      <ng-container *ngIf="canvasBackgrounds">
-                        <option *ngFor="let canvasBackground of canvasBackgrounds"
-                        [ngValue]="canvasBackground.url">{{ canvasBackground.name }}</option>
-                      </ng-container>
-                    </select>
+                    <div class="d-inline-flex">
+                      <div 
+                      class="d-inline-block p-1" 
+                      [class.bg-primary]="!currentCanvasBackgroundUrl"
+                        (click)="onChangeBackground(undefined)">
+                        <img src="/images/disable.png" alt="Без фон" width="80px" height="80px" >
+                      </div>
+                      <div *ngFor="let canvasBackground of canvasBackgrounds" 
+                      class="d-inline-block p-1" 
+                      [class.bg-primary]="currentCanvasBackgroundUrl === canvasBackground.url"
+                        (click)="onChangeBackground(canvasBackground.url)">
+                        <img [src]="canvasBackground.url" [alt]="canvasBackground.name" width="80px" height="80px" >
+                      </div>
+                    </div>
                   </div>
             </div>
+
+            <div class="drawing-canvas-options-row">
+              Или
+              <div class="mb-3">
+                <label for="formFile" class="form-label">Изображение</label>
+                <input class="form-control" type="file" id="formFile" accept="image/*;capture=camera" (change)="readUploadImage($event)">
+              </div>
+          </div>
             <div class="drawing-canvas-options-row">
                 <button class="btn btn-danger" [disabled]="!canvas.getActiveObject()" (click)="removeActiveObjects()">Изтрий селектирани</button>
             </div>
