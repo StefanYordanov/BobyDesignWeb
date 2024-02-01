@@ -8,6 +8,12 @@ export interface SubmitOrder{
     model: Order;
 }
 
+export interface SubmitUpdateOrder{
+    sketchBlob?: Blob;
+    deletedCraftingComponentIds: number[];
+    model: Order;
+}
+
 export interface PayOrderQuery {
     orderId: number;
     payment: number;

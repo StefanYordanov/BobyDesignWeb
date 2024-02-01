@@ -33,6 +33,7 @@ export class DrawingCanvasComponent implements AfterViewInit, OnInit {
     if(this.initialBackground){
       this.canvasBackgrounds.push(this.initialBackground)
       this.currentCanvasBackgroundUrl = this.initialBackground.url;
+      this.onChangeBackground(this.currentCanvasBackgroundUrl)
     }
   }
   ngAfterViewInit(): void {

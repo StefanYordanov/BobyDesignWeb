@@ -13,6 +13,7 @@ import { CreateOrderComponent } from './components/orders/create-order/create-or
 import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
 import { OrderDetailsResolverService } from './components/orders/order-details/order-details-resolver.service';
 import { PrintOrderComponent } from './components/orders/print-order/print-order.component';
+import { EditOrderComponent } from './components/orders/edit-order/edit-order.component';
 
 const routes: Routes = [
   {path: '', component: MainPageComponent },
@@ -28,6 +29,9 @@ const routes: Routes = [
     order: OrderDetailsResolverService
   }},
   {path: 'orders/print', component: PrintOrderComponent, resolve: {
+    order: OrderDetailsResolverService
+  }},
+  {path: 'orders/edit', component: EditOrderComponent, resolve: {
     order: OrderDetailsResolverService
   }},
 

@@ -31,7 +31,6 @@ export class OrderDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((response: any) => {
       this.order = response.order;
-      this.order?.craftingComponents.map(cc => cc.workMaterial.name)
     });
   }
 

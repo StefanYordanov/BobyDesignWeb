@@ -78,7 +78,80 @@ namespace BobyDesignWeb.Controllers
             return Ok(GetOrderDetails(orderEntity.OrderId));
         }
 
-            [HttpPost]
+        [HttpPost]
+        public async Task<IActionResult> UpdateOrder([FromForm] string model, IFormFile? sketchBlob)
+        {
+            var order = JsonConvert.DeserializeObject<SubmitEditOrderModel>(model);
+
+            if (order == null || order.Model == null)
+            {
+                throw new ArgumentNullException(nameof(model), "Невалиден модел");
+            }
+
+            var orderEntity = this._context.Orders.Include(o => o.OrderCraftingComponents).FirstOrDefault(o => o.OrderId == order.Model.Id);
+            if (orderEntity == null)
+            {
+                throw new ArgumentException(nameof(model), "Невалидно Id");
+            }
+
+            orderEntity.CustomerId = order.Model.Customer.Id;
+            orderEntity.Deposit = order.Model.Deposit;
+            orderEntity.FinishingDate = order.Model.FinishingDate;
+            orderEntity.JewelryShopId = order.Model.Shop.Id;
+            orderEntity.LaborPrice = order.Model.LaborPrice;
+            orderEntity.OrderDescription = order.Model.Description;
+            orderEntity.Status = (Data.Entities.OrderStatus)order.Model.Status;
+            orderEntity.TotalPrice = order.Model.TotalPrice;
+
+            var craftingComponentsToBeDeleted = orderEntity.OrderCraftingComponents.Where(cc => order.DeletedCraftingComponentIds.Contains(cc.OrderCraftingComponentId));
+            this._context.OrderCraftingComponents.RemoveRange(craftingComponentsToBeDeleted);
+            foreach (var ccModel in order.Model.CraftingComponents) 
+            {
+                if (ccModel.Id > 0)
+                {
+                    var existingCraftingComponentEntity = orderEntity.OrderCraftingComponents
+                        .FirstOrDefault(ccEntity => ccEntity.OrderCraftingComponentId == ccModel.Id);
+                    if (existingCraftingComponentEntity == null)
+                    {
+                        continue;
+                    }
+
+                    existingCraftingComponentEntity.WorkMaterialPrice = ccModel.WorkMaterialPrice;
+                    existingCraftingComponentEntity.WorkMaterialId = ccModel.WorkMaterial.Id;
+                    existingCraftingComponentEntity.WorkMaterialQuantity = ccModel.Quantity;
+                    existingCraftingComponentEntity.TotalComponentPrice = ccModel.TotalComponentPrice;
+                    existingCraftingComponentEntity.IsDeposit = ccModel.IsDeposit;
+                }
+                else
+                {
+                    OrderCraftingComponent newCraftingComponentEntity = new()
+                    {
+                        WorkMaterialPrice = ccModel.WorkMaterialPrice,
+                        WorkMaterialId = ccModel.WorkMaterial.Id,
+                        WorkMaterialQuantity = ccModel.Quantity,
+                        TotalComponentPrice = ccModel.TotalComponentPrice,
+                        IsDeposit = ccModel.IsDeposit
+                    };
+                }
+            }
+
+            _context.SaveChanges();
+
+            if (sketchBlob != null && sketchBlob.ContentType == "image/png" && sketchBlob.Length < 2000000)
+            {
+                var fileName = Guid.NewGuid().ToString() + ".png";
+                var storedFileEntity = sketchBlob.ToEntity(fileName);
+
+                orderEntity.StoredFile = storedFileEntity;
+
+                orderEntity.ImageFileName = fileName;
+                _context.SaveChanges();
+                return Ok(GetOrderDetails(orderEntity.OrderId));
+            }
+            return Ok(GetOrderDetails(orderEntity.OrderId));
+        }
+
+        [HttpPost]
         public async Task<IActionResult> InsertOrder([FromForm] string model, IFormFile? sketchBlob)
         {
             var order = JsonConvert.DeserializeObject<OrderViewModel>(model);
@@ -121,16 +194,20 @@ namespace BobyDesignWeb.Controllers
             {
                 var fileName = Guid.NewGuid().ToString() + ".png";
                 var storedFileEntity = sketchBlob.ToEntity(fileName);
-                
+
+                var existingStoredFileId = orderEntity.StoredFileId;
                 orderEntity.StoredFile = storedFileEntity;
-                //string filePath = Path.Combine(webHostEnvironment.WebRootPath, imagesPathName, ordersPathName, fileName);
-                //using (Stream fileStream = new FileStream(filePath, FileMode.Create))
-                //{
-                //    await sketchBlob.CopyToAsync(fileStream);
-                //}
 
                 orderEntity.ImageFileName = fileName;
                 _context.SaveChanges();
+                if (existingStoredFileId.HasValue)
+                {
+                    var oldStoredFile = new StoredFile() { Id = existingStoredFileId.Value };
+                    this._context.StoredFiles.Attach(oldStoredFile);
+                    this._context.StoredFiles.Remove(oldStoredFile);
+                    this._context.SaveChanges();
+                }
+                
                 return Ok(GetOrderDetails(orderEntity.OrderId));
             }
             return Ok(GetOrderDetails(orderEntity.OrderId));
@@ -164,6 +241,13 @@ namespace BobyDesignWeb.Controllers
                         LastName = o.ShopUser.LastName,
                         PhoneNumber = o.ShopUser.PhoneNumber,
                         UserName = o.ShopUser.UserName,
+                    },
+                    Shop= new JewleryShopViewModel()
+                    {
+                        Id = o.JewelryShopId,
+                        Description = o.JewelryShop.JewelryShopDescription,
+                        Name = o.JewelryShop.JewelryShopName,
+                        PhoneNumbers = o.JewelryShop.JewelryShopPhoneNumbers
                     },
                     ImageFileName = o.StoredFile == null ? null : "/storedFiles/get?fileName=" + o.StoredFile.FileName,
                     CraftingComponents = o.OrderCraftingComponents.Select(occ => new OrderCraftingComponentViewModel()

@@ -11,6 +11,11 @@
                 <h4>Остават за изплащане: {{(order.totalPrice - order.deposit) | currency:'BGN':'лв.'}}</h4>
             </app-modal-frame>
 
+            <a class="btn btn-primary btn-sm mr-1" 
+            routerLink="/orders/edit" 
+            [queryParams]="{orderId: order.id}" 
+            role="button">Редакция</a>
+
             <a class="btn btn-primary btn-sm" 
             routerLink="/orders/print" 
             [queryParams]="{orderId: order.id}" 

@@ -7,10 +7,6 @@ import { MaterialPricingType } from "../models/work-materials.model";
   })
 export class PriceCalculatorService{
     calculateOrderCraftingComponentPrice(craftingComponent: OrderCraftingComponent): number {
-        
-        if(!craftingComponent.workMaterial?.relevantPrice) {
-            return 0;
-        }
         if(craftingComponent.workMaterial?.pricingType === MaterialPricingType.PerGram) {
             return (craftingComponent.workMaterialPrice * craftingComponent.quantity) || 0;
         }

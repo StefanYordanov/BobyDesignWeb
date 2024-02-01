@@ -1,7 +1,7 @@
 
 import { Injectable } from "@angular/core";
 import { ApiService, Params } from "./api.service";
-import { Order, OrderQuery, PayOrderQuery, SubmitOrder } from "../models/order.model";
+import { Order, OrderQuery, PayOrderQuery, SubmitOrder, SubmitUpdateOrder } from "../models/order.model";
 import { PageView } from "../models/common.model";
 
 @Injectable({
@@ -10,6 +10,22 @@ import { PageView } from "../models/common.model";
 export class OrdersService{
     constructor(private apiService: ApiService) {
 
+    }
+
+    async updateOrder(order: SubmitUpdateOrder): Promise<Order | null>{
+      const formData = new FormData();
+      if(order.sketchBlob) {
+        formData.append('sketchBlob', order.sketchBlob)
+      }
+      formData.append('model', JSON.stringify({model : order.model, 
+        deletedCraftingComponentIds: order.deletedCraftingComponentIds}));
+      
+      const response = await this.apiService.postFormData<Order>(
+        'orders/updateOrder',
+        formData
+      );
+      console.log(response);
+      return response;
     }
 
     async createOrder(order: SubmitOrder): Promise<Order | null>{

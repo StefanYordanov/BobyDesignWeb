@@ -1,8 +1,9 @@
 ﻿namespace BobyDesignWeb.Models
 {
-    public class SubmitOrderModel
+    public class SubmitEditOrderModel
     {
-        public string Base64PngContent { get; set; }
+        public bool UpdateImage { get; set; }
+        public IEnumerable<int> DeletedCraftingComponentIds { get; set; } = new List<int>();
         public OrderViewModel Model { get; set; }
     }
 

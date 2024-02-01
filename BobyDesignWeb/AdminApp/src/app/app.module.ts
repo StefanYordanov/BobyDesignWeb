@@ -37,6 +37,7 @@ import { BlobService } from './services/blob.service';
 import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
 import { PrintOrderComponent } from './components/orders/print-order/print-order.component';
 import { TruncatePipe } from './services/truncate.pipe';
+import { EditOrderComponent } from './components/orders/edit-order/edit-order.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,18 @@ import { TruncatePipe } from './services/truncate.pipe';
     UserRightsComponent,
     PaginationComponent, 
     ModalFrameComponent,
-    WorkMaterialsComponent, CustomersComponent, MainPageComponent, CalendarViewComponent, OrdersViewComponent, CustomerPickerComponent, WorkMaterialPickerComponent, CreateOrderComponent, DrawingCanvasComponent, OrderDetailsComponent, PrintOrderComponent
+    WorkMaterialsComponent, 
+    CustomersComponent, 
+    MainPageComponent, 
+    CalendarViewComponent, 
+    OrdersViewComponent, 
+    CustomerPickerComponent, 
+    WorkMaterialPickerComponent, 
+    CreateOrderComponent, 
+    DrawingCanvasComponent, 
+    OrderDetailsComponent, 
+    PrintOrderComponent, 
+    EditOrderComponent
   ],
   imports: [
     BrowserModule,
