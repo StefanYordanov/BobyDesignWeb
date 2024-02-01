@@ -41,6 +41,8 @@ namespace BobyDesignWeb.Data.Entities
 
         public OrderStatus Status { get; set; }
 
+        public OrderPaymentMethod PaymentMethod { get; set; }
+
         public StoredFile? StoredFile { get; set; }
 
         public int? StoredFileId { get; set; }

@@ -8,6 +8,7 @@ import { ModalFrameCallback } from 'src/app/models/modal-frame.model';
 import {
   Order,
   OrderCraftingComponent,
+  OrderPaymentMethod,
   OrderStatus,
 } from 'src/app/models/order.model';
 import { User } from 'src/app/models/user.model';
@@ -41,6 +42,7 @@ interface OrderEditModel {
   shop: JewelryShopModel;
   shopUser: User;
   status: OrderStatus;
+  paymentMethod: OrderPaymentMethod;
   imageFileName: string;
 }
 
@@ -121,6 +123,7 @@ export class EditOrderComponent implements OnInit {
         shop: order.shop,
         shopUser: order.shopUser,
         status: order.status,
+        paymentMethod: order.paymentMethod,
         imageFileName: order.imageFileName,
       };
 

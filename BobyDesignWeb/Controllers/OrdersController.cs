@@ -101,6 +101,7 @@ namespace BobyDesignWeb.Controllers
             orderEntity.LaborPrice = order.Model.LaborPrice;
             orderEntity.OrderDescription = order.Model.Description;
             orderEntity.Status = (Data.Entities.OrderStatus)order.Model.Status;
+            orderEntity.PaymentMethod = order.Model.PaymentMethod;
             orderEntity.TotalPrice = order.Model.TotalPrice;
 
             var craftingComponentsToBeDeleted = orderEntity.OrderCraftingComponents.Where(cc => order.DeletedCraftingComponentIds.Contains(cc.OrderCraftingComponentId));
@@ -172,6 +173,7 @@ namespace BobyDesignWeb.Controllers
                 ShopUserId = userManager.GetUserId(User),
                 OrderDescription = order.Description,
                 Status = Data.Entities.OrderStatus.Opened,
+                PaymentMethod = order.PaymentMethod,
                 NotifyCustomer = false,
                 TotalPrice = order.TotalPrice,
                 OrderCraftingComponents = order.CraftingComponents
@@ -231,6 +233,7 @@ namespace BobyDesignWeb.Controllers
                     Description = o.OrderDescription,
                     FinishingDate = o.FinishingDate,
                     Status = (Models.OrderStatus)o.Status,
+                    PaymentMethod = o.PaymentMethod,
                     TotalPrice = o.TotalPrice,
                     LaborPrice = o.LaborPrice,
                     ShopUser = new UserViewModel()
@@ -318,6 +321,7 @@ namespace BobyDesignWeb.Controllers
                     Description = o.OrderDescription,
                     FinishingDate = o.FinishingDate,
                     Status = (Models.OrderStatus)o.Status,
+                    PaymentMethod = o.PaymentMethod,
                     TotalPrice = o.TotalPrice,
                     LaborPrice = o.LaborPrice,
                     ShopUser = new UserViewModel()

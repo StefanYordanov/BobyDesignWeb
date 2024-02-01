@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CustomerModel } from 'src/app/models/customers.model';
 import { ModalFrameCallback } from 'src/app/models/modal-frame.model';
-import { Order, OrderStatus } from 'src/app/models/order.model';
+import { Order, OrderPaymentMethod, OrderStatus } from 'src/app/models/order.model';
 import { CustomersService } from 'src/app/services/customers.service';
 import { OrdersService } from 'src/app/services/orders.service';
 
@@ -43,6 +43,19 @@ export class OrderDetailsComponent implements OnInit {
       return '';
     }
     return this.customersService.customerString(customer);
+  }
+
+  paymentMethodString(){
+    if(!this.order) {
+      return ''
+    }
+    if(this.order.paymentMethod === OrderPaymentMethod.Cash) {
+      return 'В Брой'
+    }
+    if(this.order.paymentMethod === OrderPaymentMethod.Card) {
+      return 'С карта'
+    }
+    return ''
   }
 
 }

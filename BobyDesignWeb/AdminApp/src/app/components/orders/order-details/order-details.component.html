@@ -6,20 +6,17 @@
             <strong class="text-danger" *ngIf="order.status === orderStatus.Closed">Статус: Затворена</strong>
         </div>
         <div>
-            <app-modal-frame class="mr-1" *ngIf="order.status === orderStatus.Opened" [title]="'Завърши поръчката'" [buttonText]="'Завърши поръчката'" [callbacks]="finishOrderCallback">
+            <app-modal-frame class="mr-1" *ngIf="order.status === orderStatus.Opened" [title]="'Завърши поръчката'"
+                [buttonText]="'Завърши поръчката'" [callbacks]="finishOrderCallback">
                 <h2>Затваряне на поръчката</h2>
                 <h4>Остават за изплащане: {{(order.totalPrice - order.deposit) | currency:'BGN':'лв.'}}</h4>
             </app-modal-frame>
 
-            <a class="btn btn-primary btn-sm mr-1" 
-            routerLink="/orders/edit" 
-            [queryParams]="{orderId: order.id}" 
-            role="button">Редакция</a>
+            <a class="btn btn-primary btn-sm mr-1" routerLink="/orders/edit" [queryParams]="{orderId: order.id}"
+                role="button">Редакция</a>
 
-            <a class="btn btn-primary btn-sm" 
-            routerLink="/orders/print" 
-            [queryParams]="{orderId: order.id}" 
-            role="button">Печат</a>
+            <a class="btn btn-primary btn-sm" routerLink="/orders/print" [queryParams]="{orderId: order.id}"
+                role="button">Печат</a>
         </div>
     </div>
     <hr>
@@ -136,8 +133,8 @@
 
     <div class="form-row">
         <div class="col-sm-3 form-group">
-            <label for="description">Цена на труда</label>
-            <input [(ngModel)]="order.laborPrice" readonly type="number" class="form-control">
+            <label>Метод на плащане</label>
+            <input class="form-control" readonly type="text" [value]="paymentMethodString()">
         </div>
         <div class="col-sm-3 form-group">
             <label for="description">Депозит</label>
@@ -149,5 +146,7 @@
             <label for="description"><strong>Обща цена</strong></label>
             <input [(ngModel)]="order.totalPrice" readonly type="number" class="form-control">
         </div>
+
+
     </div>
 </div>

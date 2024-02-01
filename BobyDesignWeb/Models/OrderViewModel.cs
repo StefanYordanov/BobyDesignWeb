@@ -1,4 +1,6 @@
-﻿namespace BobyDesignWeb.Models
+﻿using BobyDesignWeb.Data.Entities;
+
+namespace BobyDesignWeb.Models
 {
     public class SubmitEditOrderModel
     {
@@ -13,6 +15,7 @@
         public CustomerViewModel Customer { get; set; }
         public string Description { get; set; }
         public DateTime CreatedOn { get; set; }
+        public OrderPaymentMethod PaymentMethod { get; set; }
 
         public JewleryShopViewModel Shop { get; set; }
         public DateTime FinishingDate { get; set; }

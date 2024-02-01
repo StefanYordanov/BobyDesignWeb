@@ -32,6 +32,7 @@ export interface Order{
     totalPrice: number;
     deposit: number;
     status: OrderStatus;
+    paymentMethod: OrderPaymentMethod;
     shopUser: User;
 }
 
@@ -55,4 +56,9 @@ export interface OrderCraftingComponent {
 export enum OrderStatus {
     Opened = 1,
     Closed = 2
+}
+
+export enum OrderPaymentMethod {
+    Cash = 1,
+    Card = 2
 }

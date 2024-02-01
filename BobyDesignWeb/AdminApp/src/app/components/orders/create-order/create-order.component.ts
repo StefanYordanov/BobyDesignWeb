@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DrawingCanvasComponent } from 'src/app/drawing-canvas/drawing-canvas.component';
 import { CustomerModel } from 'src/app/models/customers.model';
 import { ModalFrameCallback } from 'src/app/models/modal-frame.model';
-import { Order, OrderCraftingComponent, OrderStatus } from 'src/app/models/order.model';
+import { Order, OrderCraftingComponent, OrderPaymentMethod, OrderStatus } from 'src/app/models/order.model';
 import { WorkMaterialModel } from 'src/app/models/work-materials.model';
 import { BlobService } from 'src/app/services/blob.service';
 import { CustomersService } from 'src/app/services/customers.service';
@@ -28,6 +28,7 @@ interface OrderCreationModel {
     laborPrice: number;
     totalPrice: number;
     deposit: number;
+    paymentMethod: OrderPaymentMethod
 }
 
 interface OrderCraftingComponentCreationModel {
@@ -62,6 +63,8 @@ export class CreateOrderComponent implements OnInit {
   }
   base64PngContent?: string;
 
+  paymentMethodEnum = OrderPaymentMethod;
+
   newOrder: OrderCreationModel = {
     description: '',
     customer: undefined,
@@ -69,7 +72,8 @@ export class CreateOrderComponent implements OnInit {
     laborPrice: 0,
     totalPrice: 0,
     deposit: 0,
-    finishingDate: undefined
+    finishingDate: undefined,
+    paymentMethod: OrderPaymentMethod.Cash
   };
   customerTemp?: CustomerModel;
   customerCallback: ModalFrameCallback<CustomerModel> = {
@@ -183,7 +187,8 @@ export class CreateOrderComponent implements OnInit {
         }),
         shopUser: { id: '', firstName: '', lastName: '', phoneNumber: '', email: '', userName: '' },
         createdOn: new Date(),
-        status: OrderStatus.Opened
+        status: OrderStatus.Opened,
+        paymentMethod: this.newOrder.paymentMethod
       
       }
     });
