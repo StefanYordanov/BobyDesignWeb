@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BobyDesignWeb.Data.Migrations
+namespace BobyDesignWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231216073027_JewleryShopPhonesAndOptionalForUsers")]
-    partial class JewleryShopPhonesAndOptionalForUsers
+    [Migration("20240205124429_InitForProd")]
+    partial class InitForProd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -150,7 +150,8 @@ namespace BobyDesignWeb.Data.Migrations
 
                     b.Property<string>("JewelryShopPhoneNumbers")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("JewelryShopId");
 
@@ -166,14 +167,14 @@ namespace BobyDesignWeb.Data.Migrations
                         },
                         new
                         {
-                            JewelryShopId = 3,
+                            JewelryShopId = 2,
                             JewelryShopDescription = "Бул. \"Ал. Малинов\" №75",
                             JewelryShopName = "Младост",
                             JewelryShopPhoneNumbers = "0878 306 900"
                         },
                         new
                         {
-                            JewelryShopId = 4,
+                            JewelryShopId = 3,
                             JewelryShopDescription = "Цех",
                             JewelryShopName = "Цех",
                             JewelryShopPhoneNumbers = "02/ 82 777 77, 0878 306 600"
@@ -195,7 +196,7 @@ namespace BobyDesignWeb.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("FinishingDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("Date");
 
                     b.Property<string>("ImageFileName")
                         .IsRequired()
@@ -217,6 +218,9 @@ namespace BobyDesignWeb.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
 
                     b.Property<string>("ShopUserId")
                         .IsRequired()

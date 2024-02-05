@@ -4,18 +4,16 @@ using BobyDesignWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BobyDesignWeb.Data.Migrations
+namespace BobyDesignWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231213041256_depositCraftingComponents")]
-    partial class depositCraftingComponents
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,6 +44,9 @@ namespace BobyDesignWeb.Data.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("JewelryShopId")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -85,6 +86,8 @@ namespace BobyDesignWeb.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("JewelryShopId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -143,9 +146,37 @@ namespace BobyDesignWeb.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("JewelryShopPhoneNumbers")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.HasKey("JewelryShopId");
 
                     b.ToTable("JewelryShops");
+
+                    b.HasData(
+                        new
+                        {
+                            JewelryShopId = 1,
+                            JewelryShopDescription = "Ул. \"Обелско Шосе\" №20",
+                            JewelryShopName = "Сливница",
+                            JewelryShopPhoneNumbers = "0878 306 599"
+                        },
+                        new
+                        {
+                            JewelryShopId = 2,
+                            JewelryShopDescription = "Бул. \"Ал. Малинов\" №75",
+                            JewelryShopName = "Младост",
+                            JewelryShopPhoneNumbers = "0878 306 900"
+                        },
+                        new
+                        {
+                            JewelryShopId = 3,
+                            JewelryShopDescription = "Цех",
+                            JewelryShopName = "Цех",
+                            JewelryShopPhoneNumbers = "02/ 82 777 77, 0878 306 600"
+                        });
                 });
 
             modelBuilder.Entity("BobyDesignWeb.Data.Entities.Order", b =>
@@ -163,7 +194,7 @@ namespace BobyDesignWeb.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("FinishingDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("Date");
 
                     b.Property<string>("ImageFileName")
                         .IsRequired()
@@ -185,6 +216,9 @@ namespace BobyDesignWeb.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
 
                     b.Property<string>("ShopUserId")
                         .IsRequired()
@@ -287,6 +321,11 @@ namespace BobyDesignWeb.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkMaterialId"), 1L, 1);
 
+                    b.Property<string>("WorkMaterialMeasuringUnit")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("WorkMaterialName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -366,7 +405,7 @@ namespace BobyDesignWeb.Data.Migrations
                         new
                         {
                             Id = "2b89a0db-4bbc-4a80-9b30-d3df652ca902",
-                            ConcurrencyStamp = "56e1e0d0-79b8-4c15-b559-bcbdaecbf0d0",
+                            ConcurrencyStamp = "56e1e0d0-79b8-4c15-b55-bcbdaecbf0d0",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         });
@@ -480,6 +519,15 @@ namespace BobyDesignWeb.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("BobyDesignWeb.Data.Entities.ApplicationUser", b =>
+                {
+                    b.HasOne("BobyDesignWeb.Data.Entities.JewelryShop", "JewelryShop")
+                        .WithMany("ApplicationUsers")
+                        .HasForeignKey("JewelryShopId");
+
+                    b.Navigation("JewelryShop");
                 });
 
             modelBuilder.Entity("BobyDesignWeb.Data.Entities.Order", b =>
@@ -608,6 +656,8 @@ namespace BobyDesignWeb.Data.Migrations
 
             modelBuilder.Entity("BobyDesignWeb.Data.Entities.JewelryShop", b =>
                 {
+                    b.Navigation("ApplicationUsers");
+
                     b.Navigation("Orders");
                 });
 
