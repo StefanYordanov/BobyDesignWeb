@@ -96,7 +96,7 @@ namespace BobyDesignWeb.Controllers
 
             orderEntity.CustomerId = order.Model.Customer.Id;
             orderEntity.Deposit = order.Model.Deposit;
-            orderEntity.FinishingDate = order.Model.FinishingDate;
+            orderEntity.FinishingDate = order.Model.FinishingDate.ToBulgarianDateTime();
             orderEntity.JewelryShopId = order.Model.Shop.Id;
             orderEntity.LaborPrice = order.Model.LaborPrice;
             orderEntity.OrderDescription = order.Model.Description;
@@ -144,11 +144,19 @@ namespace BobyDesignWeb.Controllers
             {
                 var fileName = Guid.NewGuid().ToString() + ".png";
                 var storedFileEntity = sketchBlob.ToEntity(fileName);
-
+                var existingStoredFileId = orderEntity.StoredFileId;
                 orderEntity.StoredFile = storedFileEntity;
 
                 orderEntity.ImageFileName = fileName;
                 _context.SaveChanges();
+                if (existingStoredFileId.HasValue)
+                {
+                    var oldStoredFile = new StoredFile() { Id = existingStoredFileId.Value };
+                    this._context.StoredFiles.Attach(oldStoredFile);
+                    this._context.StoredFiles.Remove(oldStoredFile);
+                    this._context.SaveChanges();
+                }
+
                 return Ok(GetOrderDetails(orderEntity.OrderId));
             }
             return Ok(GetOrderDetails(orderEntity.OrderId));
@@ -168,7 +176,7 @@ namespace BobyDesignWeb.Controllers
             {
                 CustomerId = order.Customer.Id,
                 Deposit = order.Deposit,
-                FinishingDate = order.FinishingDate,
+                FinishingDate = order.FinishingDate.ToBulgarianDateTime(),
                 JewelryShopId = order.Shop.Id,
                 LaborPrice = order.LaborPrice,
                 OrderCreatedOn = DateTime.UtcNow.ToBulgarianDateTime(),
@@ -199,18 +207,10 @@ namespace BobyDesignWeb.Controllers
                 var fileName = Guid.NewGuid().ToString() + ".png";
                 var storedFileEntity = sketchBlob.ToEntity(fileName);
 
-                var existingStoredFileId = orderEntity.StoredFileId;
                 orderEntity.StoredFile = storedFileEntity;
 
                 orderEntity.ImageFileName = fileName;
                 _context.SaveChanges();
-                if (existingStoredFileId.HasValue)
-                {
-                    var oldStoredFile = new StoredFile() { Id = existingStoredFileId.Value };
-                    this._context.StoredFiles.Attach(oldStoredFile);
-                    this._context.StoredFiles.Remove(oldStoredFile);
-                    this._context.SaveChanges();
-                }
                 
                 return Ok(GetOrderDetails(orderEntity.OrderId));
             }
@@ -233,7 +233,7 @@ namespace BobyDesignWeb.Controllers
                         PhoneNumber = o.Customer.CustomerPhone,
                     },
                     Description = o.OrderDescription,
-                    FinishingDate = o.FinishingDate,
+                    FinishingDate = o.FinishingDate.ToBulgarianDateTime(),
                     Status = (Models.OrderStatus)o.Status,
                     PaymentMethod = o.PaymentMethod,
                     TotalPrice = o.TotalPrice,
@@ -321,7 +321,7 @@ namespace BobyDesignWeb.Controllers
                         PhoneNumber = o.Customer.CustomerPhone,
                     },
                     Description = o.OrderDescription,
-                    FinishingDate = o.FinishingDate,
+                    FinishingDate = o.FinishingDate.ToBulgarianDateTime(),
                     Status = (Models.OrderStatus)o.Status,
                     PaymentMethod = o.PaymentMethod,
                     TotalPrice = o.TotalPrice,
