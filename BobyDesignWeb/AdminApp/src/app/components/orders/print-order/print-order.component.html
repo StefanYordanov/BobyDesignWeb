@@ -66,14 +66,14 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label><strong>Капаро(лв.)</strong></label>
-                            <input [value]="order.deposit" type="number" readonly class="form-control">
+                            <input [value]="order.deposit.toFixed(2)" type="number" readonly class="form-control">
                         </div>
                     </div>
                     
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label><strong>Цена(лв.)</strong></label>
-                            <input [value]="'≈' + order.totalPrice" type="text" readonly class="form-control">
+                            <input [value]="'≈' + order.totalPrice.toFixed(2)" type="text" readonly class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-12" *ngIf="getDepositComponentsString().length">

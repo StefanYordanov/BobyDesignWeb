@@ -139,7 +139,7 @@ export class EditOrderComponent implements OnInit {
       for (let i = 0, len = order.craftingComponents.length; i < len; i++) {
         const orderComponent = order.craftingComponents[i];
         const craftingComponent: OrderCraftingComponentCreationModel = orderComponent;
-
+        
         const newEntry: CraftingComponentFormCreationExtensions = {
           craftingComponent,
           workMaterialTemp: undefined,
@@ -335,7 +335,7 @@ export class EditOrderComponent implements OnInit {
         shop: this.editOrder.shop,
         imageFileName: '',
         craftingComponents: this.editOrder.craftingComponents.map((cc) => {
-          return { ...cc, id: 0, workMaterial: cc.workMaterial! };
+          return { ...cc, id: cc.id || 0, workMaterial: cc.workMaterial! };
         }),
         shopUser: {
           id: '',

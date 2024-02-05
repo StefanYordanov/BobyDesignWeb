@@ -133,6 +133,8 @@ namespace BobyDesignWeb.Controllers
                         TotalComponentPrice = ccModel.TotalComponentPrice,
                         IsDeposit = ccModel.IsDeposit
                     };
+
+                    orderEntity.OrderCraftingComponents.Add(newCraftingComponentEntity);
                 }
             }
 

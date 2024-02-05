@@ -116,9 +116,16 @@
                 </div>
                 <div class="form-group">
                     <div class="form-row">
+                        <label>Метод на плащане</label>
+                        <select class="form-control form-select" [(ngModel)]="editOrder.paymentMethod">
+                            <option [ngValue]="1">В брой</option>
+                            <option [ngValue]="2">С Карта</option>
+                          </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-row">
                         <button class="btn btn-success" (click)="confirmEditOrder()">Редактирай поръчка</button> 
-                        
-                        <!-- <button class="btn btn-success" (click)="log()">konzola</button> -->
                     </div>
                 </div>
             </div>

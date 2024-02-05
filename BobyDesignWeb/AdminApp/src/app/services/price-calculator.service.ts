@@ -6,9 +6,15 @@ import { MaterialPricingType } from "../models/work-materials.model";
     providedIn: 'root',
   })
 export class PriceCalculatorService{
+    
+
     calculateOrderCraftingComponentPrice(craftingComponent: OrderCraftingComponent): number {
         if(craftingComponent.workMaterial?.pricingType === MaterialPricingType.PerGram) {
-            return (craftingComponent.workMaterialPrice * craftingComponent.quantity) || 0;
+            const unroundedPrice = (craftingComponent.workMaterialPrice * craftingComponent.quantity);
+            
+            const roundedPrice = Number(unroundedPrice.toFixed(2))
+            console.log(unroundedPrice, roundedPrice)
+            return roundedPrice || 0;
         }
         return craftingComponent.workMaterialPrice || 0
     }
@@ -16,9 +22,9 @@ export class PriceCalculatorService{
     calculateOrderPrice(order: Order) {
         const componentsPrice = order.craftingComponents.map(cc => {
             const sign = cc.isDeposit ? -1: 1;
-            return cc.totalComponentPrice * sign;
+            return Number(cc.totalComponentPrice.toFixed(2)) * sign;
         })
             .reduce((sum, current) => sum + current, 0);
-        return componentsPrice + order.laborPrice;
+        return Number((componentsPrice + order.laborPrice).toFixed(2));
     }
 }
