@@ -331,7 +331,7 @@ export class EditOrderComponent implements OnInit {
         id: this.editOrder.id,
         customer: this.editOrder.customer,
         finishingDate: this.editOrder.finishingDate,
-        deposit: this.editOrder.deposit,
+        deposit: this.editOrder.deposit || 0,
         shop: this.editOrder.shop,
         imageFileName: '',
         craftingComponents: this.editOrder.craftingComponents.map((cc) => {

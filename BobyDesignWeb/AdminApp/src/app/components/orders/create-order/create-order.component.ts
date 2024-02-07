@@ -179,7 +179,7 @@ export class CreateOrderComponent implements OnInit {
       model: { ...this.newOrder, id: 0, 
         customer: this.newOrder.customer,
         finishingDate: this.newOrder.finishingDate,
-        deposit: this.newOrder.deposit,
+        deposit: this.newOrder.deposit || 0,
         shop: shop,
         imageFileName: '',
         craftingComponents: this.newOrder.craftingComponents.map(cc => {

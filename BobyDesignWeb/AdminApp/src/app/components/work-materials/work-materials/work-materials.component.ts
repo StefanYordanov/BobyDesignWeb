@@ -102,6 +102,11 @@ export class WorkMaterialsComponent implements OnInit {
     if (!this.currentlyEditedMaterial) {
       return;
     }
+    if (this.currentlyEditedMaterial.relevantPrice && this.currentlyEditedMaterial.relevantPrice.purchasingPrice > this.currentlyEditedMaterial.relevantPrice?.sellingPrice) {
+      this.toastr.error("Цена продажба не може да е по-малка от цена замяна");
+      return;
+    }
+
     const editedEntry = await this.workMaterialService.editWorkMaterial(this.currentlyEditedMaterial)
     this.currentlyEditedMaterial = undefined;
     this.currentlyEditedMaterialId = undefined;
@@ -128,8 +133,11 @@ export class WorkMaterialsComponent implements OnInit {
     if (!this.newWorkMaterial) {
       return;
     }
-    if (!this.newWorkMaterial.relevantPrice?.purchasingPrice && !this.newWorkMaterial.relevantPrice?.purchasingPrice) {
+    if (!this.newWorkMaterial.relevantPrice?.purchasingPrice && !this.newWorkMaterial.relevantPrice?.sellingPrice) {
       this.newWorkMaterial!.relevantPrice = undefined;
+    } else if (this.newWorkMaterial.relevantPrice?.purchasingPrice > this.newWorkMaterial.relevantPrice?.sellingPrice) {
+      this.toastr.error("Цена продажба не може да е по-малка от цена замяна");
+      return;
     }
 
     const model = await this.workMaterialService.addNewWorkMaterial(this.newWorkMaterial);
@@ -137,7 +145,7 @@ export class WorkMaterialsComponent implements OnInit {
       this.workMaterials.push(model);
     }
     this.toggleNewMaterialMenu();
-    this.toastr.success("Успешно създаване на материал")
+    this.toastr.success("Успешно създаване на материал");
   }
 }
 
