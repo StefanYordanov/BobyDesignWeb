@@ -13,4 +13,23 @@ export class DateService{
         day: '2-digit'
       });
    }
+
+   stringToDateOnly(stringDate: string) : DateOnlyModel {
+    return this.stringToDateOnlyByFormat(stringDate, 'dd/MM/yyyy', '/')
+   }
+
+   private stringToDateOnlyByFormat(_date: string,_format: string,_delimiter: string): DateOnlyModel
+   {
+               const formatLowerCase=_format.toLowerCase();
+               const formatItems=formatLowerCase.split(_delimiter);
+               const dateItems=_date.split(_delimiter);
+               const monthIndex=formatItems.indexOf("mm");
+               const dayIndex=formatItems.indexOf("dd");
+               const yearIndex=formatItems.indexOf("yyyy");
+               return {
+                year: Number(dateItems[yearIndex]),
+                month: Number(dateItems[monthIndex]),
+                day: Number(dateItems[dayIndex])
+               }
+   }
 }

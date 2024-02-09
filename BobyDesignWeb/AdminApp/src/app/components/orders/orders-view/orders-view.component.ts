@@ -54,8 +54,8 @@ constructor(private activatedRoute: ActivatedRoute, public customersService: Cus
     });
     
     this.searchPhrase = this.activatedRoute.snapshot.queryParams["searchPhrase"];
-    this.fromDate = this.activatedRoute.snapshot.queryParams["fromDate"] && this.dateService.dateOnlyToString(this.activatedRoute.snapshot.queryParams["fromDate"]);
-    this.toDate = this.activatedRoute.snapshot.queryParams["toDate"] && this.dateService.dateOnlyToString(this.activatedRoute.snapshot.queryParams["toDate"]);
+    this.fromDate = this.activatedRoute.snapshot.queryParams["fromDate"] && this.dateService.stringToDateOnly(this.activatedRoute.snapshot.queryParams["fromDate"]);
+    this.toDate = this.activatedRoute.snapshot.queryParams["toDate"] && this.dateService.stringToDateOnly(this.activatedRoute.snapshot.queryParams["toDate"]);
     this.status = this.activatedRoute.snapshot.queryParams["status"] && Number(this.activatedRoute.snapshot.queryParams["status"]);
     if(this.activatedRoute.snapshot.queryParams["customerId"]){
       this.customer = await this.customersService.getCustomer(Number(this.activatedRoute.snapshot.queryParams["customerId"])) || undefined;
