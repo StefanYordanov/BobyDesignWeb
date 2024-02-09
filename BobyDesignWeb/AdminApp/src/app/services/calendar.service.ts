@@ -28,7 +28,7 @@ export class CalendarService{
         const today = (new Date()).setHours(0, 0, 0, 0);
         return result.map(d=> {
             return {
-                date: d,
+                date: {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()},
                 withinMonthBoundaries: d.getMonth() === month,
                 isToday: (new Date(d)).setHours(0, 0, 0, 0) === today
             }

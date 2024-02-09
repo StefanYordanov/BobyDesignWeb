@@ -1,3 +1,4 @@
+import { DateOnlyModel } from "./common.model";
 import { CustomerModel } from "./customers.model";
 import { JewelryShopModel } from "./jewelry-shop.model";
 import { User } from "./user.model";
@@ -26,7 +27,7 @@ export interface Order{
     imageFileName: string;
     createdOn: Date;
     shop: JewelryShopModel;
-    finishingDate: Date;
+    finishingDate: DateOnlyModel;
     craftingComponents: OrderCraftingComponent[];
     laborPrice: number;
     totalPrice: number;

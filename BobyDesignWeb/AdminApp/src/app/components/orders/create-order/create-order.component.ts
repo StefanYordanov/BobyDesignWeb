@@ -2,12 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DrawingCanvasComponent } from 'src/app/drawing-canvas/drawing-canvas.component';
+import { DateOnlyModel } from 'src/app/models/common.model';
 import { CustomerModel } from 'src/app/models/customers.model';
 import { ModalFrameCallback } from 'src/app/models/modal-frame.model';
 import { Order, OrderCraftingComponent, OrderPaymentMethod, OrderStatus } from 'src/app/models/order.model';
 import { WorkMaterialModel } from 'src/app/models/work-materials.model';
 import { BlobService } from 'src/app/services/blob.service';
 import { CustomersService } from 'src/app/services/customers.service';
+import { DateService } from 'src/app/services/date.service';
 import { JewelryShopsService } from 'src/app/services/jewelry-shops.service';
 import { OrdersService } from 'src/app/services/orders.service';
 import { PriceCalculatorService } from 'src/app/services/price-calculator.service';
@@ -23,7 +25,7 @@ interface CraftingComponentFormCreationExtensions {
 interface OrderCreationModel {
     customer?: CustomerModel;
     description: string;
-    finishingDate?: Date;
+    finishingDate?: DateOnlyModel;
     craftingComponents: OrderCraftingComponentCreationModel[];
     laborPrice: number;
     totalPrice: number;
@@ -50,7 +52,9 @@ export class CreateOrderComponent implements OnInit {
     private ordersService: OrdersService,
     private toastr: ToastrService,
     private blobService: BlobService, private router: Router, 
-    private jewelryShopsService: JewelryShopsService) {}
+    private jewelryShopsService: JewelryShopsService, public dateService: DateService) {
+      
+    }
 
   craftingComponents: CraftingComponentFormCreationExtensions[]= [];
   @ViewChild('drawingCanvas') drawingCanvas!: DrawingCanvasComponent;
@@ -82,8 +86,8 @@ export class CreateOrderComponent implements OnInit {
     },
   };
 
-  finishingDateTemp?: Date;
-  finishingDateCallback: ModalFrameCallback<Date> = {
+  finishingDateTemp?: DateOnlyModel;
+  finishingDateCallback: ModalFrameCallback<DateOnlyModel> = {
     onOk: () => {
       this.newOrder.finishingDate = this.finishingDateTemp
     }

@@ -20,14 +20,14 @@
 </div>
 <div *ngIf="calendarCells" class="calendar">
   <div *ngFor="let calendarCell of calendarCells" class="calendar-cell" 
-  [class.bg-primary]="selectedDate && calendarCell.date.getTime() === selectedDate.getTime()" (click)="clickCalendarCell(calendarCell)">
+  [class.bg-primary]="selectedDate && dateService.dateOnlyToString(calendarCell.date) === dateService.dateOnlyToString(selectedDate)" (click)="clickCalendarCell(calendarCell)">
     <span [class.outside-month-boundaries]="!calendarCell.withinMonthBoundaries"
       [class.bg-primary]="calendarCell.isToday" [class.bg-light]="!calendarCell.isToday"
       [class.text-dark]="!calendarCell.isToday"
-      class="badge rounded-pill bg-primary">{{calendarCell.date.getDate()}}</span>
+      class="badge rounded-pill bg-primary">{{calendarCell.date.day}}</span>
     <!-- <h6 [class.outside-month-boundaries]="!calendarCell.withinMonthBoundaries">{{calendarCell.date.getDate()}}</h6> -->
 
-    <div *ngIf="groupedOrders && groupedOrders[calendarCell.date.getTime()] as orders" class="dropdown">
+    <div *ngIf="groupedOrders && groupedOrders[dateService.dateOnlyToString(calendarCell.date)] as orders" class="dropdown">
       <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
         aria-expanded="false">
         <span class="badge bg-warning badge-light"> {{orders.length}}</span> <span class="hide-on-small"> {{orders.length === 1 ? 'Поръчкa' : 'Поръчки'}}</span>

@@ -1,5 +1,7 @@
+import { DateOnlyModel } from "./common.model";
+
 export interface CalendarCell{
-    date: Date;
+    date: DateOnlyModel;
     withinMonthBoundaries: boolean;
     isToday: boolean;
 }

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { PageView } from 'src/app/models/common.model';
+import { DateOnlyModel, PageView } from 'src/app/models/common.model';
 import { CustomerModel } from 'src/app/models/customers.model';
 import { ModalFrameCallback } from 'src/app/models/modal-frame.model';
 import { Order } from 'src/app/models/order.model';
 import { CustomersService } from 'src/app/services/customers.service';
+import { DateService } from 'src/app/services/date.service';
 import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
@@ -16,16 +17,16 @@ export class OrdersViewComponent implements OnInit {
 
 ordersPage?: PageView<Order>;
 searchPhrase: string = '';
-fromDate?: Date;
-fromDateTemp?: Date;
+fromDate?: DateOnlyModel;
+fromDateTemp?: DateOnlyModel;
 fromDateCallback: ModalFrameCallback<Date> = {
   onOk: () => {
     this.fromDate = this.fromDateTemp
   }
 }
 
-toDate?: Date;
-toDateTemp?: Date;
+toDate?: DateOnlyModel;
+toDateTemp?: DateOnlyModel;
 toDateCallback: ModalFrameCallback<Date> = {
   onOk: () => {
     this.toDate = this.toDateTemp
@@ -43,7 +44,7 @@ customerCallback: ModalFrameCallback<CustomerModel> = {
 }
 
 constructor(private activatedRoute: ActivatedRoute, public customersService: CustomersService,
-   private router: Router, private ordersService: OrdersService) { }
+   private router: Router, private ordersService: OrdersService, public dateService: DateService) { }
 
 
 
@@ -53,8 +54,8 @@ constructor(private activatedRoute: ActivatedRoute, public customersService: Cus
     });
     
     this.searchPhrase = this.activatedRoute.snapshot.queryParams["searchPhrase"];
-    this.fromDate = this.activatedRoute.snapshot.queryParams["fromDate"] && new Date(this.activatedRoute.snapshot.queryParams["fromDate"]);
-    this.toDate = this.activatedRoute.snapshot.queryParams["toDate"] && new Date(this.activatedRoute.snapshot.queryParams["toDate"])
+    this.fromDate = this.activatedRoute.snapshot.queryParams["fromDate"] && this.dateService.dateOnlyToString(this.activatedRoute.snapshot.queryParams["fromDate"]);
+    this.toDate = this.activatedRoute.snapshot.queryParams["toDate"] && this.dateService.dateOnlyToString(this.activatedRoute.snapshot.queryParams["toDate"]);
     this.status = this.activatedRoute.snapshot.queryParams["status"] && Number(this.activatedRoute.snapshot.queryParams["status"]);
     if(this.activatedRoute.snapshot.queryParams["customerId"]){
       this.customer = await this.customersService.getCustomer(Number(this.activatedRoute.snapshot.queryParams["customerId"])) || undefined;
@@ -80,8 +81,8 @@ constructor(private activatedRoute: ActivatedRoute, public customersService: Cus
   async applySearch() {
     const queryParams: Params = { 
       searchPhrase: this.searchPhrase,
-      fromDate: this.fromDate,
-      toDate: this.toDate,
+      fromDate: this.fromDate && this.dateService.dateOnlyToString(this.fromDate),
+      toDate: this.toDate && this.dateService.dateOnlyToString(this.toDate),
       customerId: this.customer?.id,
       status: this.status
   };
@@ -94,8 +95,8 @@ constructor(private activatedRoute: ActivatedRoute, public customersService: Cus
     });
     this.ordersPage = await this.ordersService.getOrdersPagination({
       searchPhrase: this.searchPhrase, 
-      fromDate: this.fromDate?.toDateString(),
-      toDate: this.toDate?.toDateString(),
+      fromDate: this.fromDate && this.dateService.dateOnlyToString(this.fromDate),
+      toDate: this.toDate && this.dateService.dateOnlyToString(this.toDate),
       customerId: this.customer?.id,
       status: this.status
     

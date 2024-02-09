@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Order } from 'src/app/models/order.model';
+import { DateService } from 'src/app/services/date.service';
 
 @Component({
   selector: 'app-print-order',
@@ -10,7 +11,7 @@ import { Order } from 'src/app/models/order.model';
 export class PrintOrderComponent implements OnInit {
 
   
-  constructor(private activatedRoute: ActivatedRoute, private router: Router,) { }
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, public dateService: DateService) { }
   order?: Order
 
   ngOnInit(): void {

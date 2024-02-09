@@ -39,7 +39,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label>Дата на получаване</label>
-                        <input [value]="order.finishingDate && order.finishingDate.toLocaleDateString('bg-BG')"
+                        <input [value]="order.finishingDate && dateService.dateOnlyToString(order.finishingDate)"
                             type="text" readonly class="form-control">
                     </div>
                 </div>

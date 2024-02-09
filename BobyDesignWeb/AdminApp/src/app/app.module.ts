@@ -38,6 +38,7 @@ import { OrderDetailsComponent } from './components/orders/order-details/order-d
 import { PrintOrderComponent } from './components/orders/print-order/print-order.component';
 import { TruncatePipe } from './services/truncate.pipe';
 import { EditOrderComponent } from './components/orders/edit-order/edit-order.component';
+import { DateService } from './services/date.service';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,7 @@ import { EditOrderComponent } from './components/orders/edit-order/edit-order.co
     WorkMaterialsService, WorkMaterialsResolverService,
     CustomersService, CustomersResolverService,
     PriceCalculatorService,
-    WebContentService, BlobService
+    WebContentService, BlobService, DateService
   ],
   bootstrap: [AppComponent]
 })

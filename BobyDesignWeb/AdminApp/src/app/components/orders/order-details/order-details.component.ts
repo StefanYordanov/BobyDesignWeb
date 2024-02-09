@@ -4,6 +4,7 @@ import { CustomerModel } from 'src/app/models/customers.model';
 import { ModalFrameCallback } from 'src/app/models/modal-frame.model';
 import { Order, OrderPaymentMethod, OrderStatus } from 'src/app/models/order.model';
 import { CustomersService } from 'src/app/services/customers.service';
+import { DateService } from 'src/app/services/date.service';
 import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
@@ -13,7 +14,8 @@ import { OrdersService } from 'src/app/services/orders.service';
 })
 export class OrderDetailsComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute, private customersService: CustomersService, private ordersService: OrdersService) { }
+  constructor(private activatedRoute: ActivatedRoute, private customersService: CustomersService, 
+    private ordersService: OrdersService, public dateService: DateService) { }
   order?: Order
   orderStatus = OrderStatus;
 

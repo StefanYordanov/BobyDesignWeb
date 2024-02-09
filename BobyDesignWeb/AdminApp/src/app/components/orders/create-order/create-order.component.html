@@ -10,7 +10,7 @@
                             <app-modal-frame [title]="'Дата на получаване'" [buttonText]="'Дата на получаване'" [callbacks]="finishingDateCallback">
                                 <app-calendar-view [isPicker]="true" (dateChanged)="finishingDateTemp=$event"></app-calendar-view>
                             </app-modal-frame>
-                            <input [ngModel]="newOrder.finishingDate && newOrder.finishingDate.toLocaleDateString('bg-BG')" type="text" readonly class="form-control">
+                            <input [ngModel]="newOrder.finishingDate && dateService.dateOnlyToString(newOrder.finishingDate)" type="text" readonly class="form-control">
                         </div>
                     </div>
                 </div>

@@ -9,7 +9,7 @@
                 [callbacks]="fromDateCallback">
                 <app-calendar-view [isPicker]="true" (dateChanged)="fromDateTemp=$event"></app-calendar-view>
             </app-modal-frame>
-            <input value="{{fromDate?.toLocaleDateString('bg-BG')}}" type="text" readonly class="form-control">
+            <input value="{{fromDate && dateService.dateOnlyToString(fromDate)}}" type="text" readonly class="form-control">
         </div>
         
         <div class="col-sm-6 col-md-3">
@@ -19,7 +19,7 @@
                 [callbacks]="toDateCallback">
                 <app-calendar-view [isPicker]="true" (dateChanged)="toDateTemp=$event"></app-calendar-view>
             </app-modal-frame>
-            <input value="{{toDate?.toLocaleDateString('bg-BG')}}" type="text" readonly class="form-control">
+            <input value="{{toDate && dateService.dateOnlyToString(toDate)}}" type="text" readonly class="form-control">
         </div>
         
         <div class="col-sm-6 col-md-3">
@@ -69,7 +69,7 @@
                     <td scope="row">{{order.id}}</td>
                     <td scope="row">{{order.description | truncate:[40]}}</td>
                     <td scope="row">{{customersService.customerString(order.customer)}}</td>
-                     <td scope="row">{{order.finishingDate | date: 'dd/MM/yyyy'}}</td>
+                     <td scope="row">{{dateService.dateOnlyToString(order.finishingDate)}}</td>
                      <td scope="row">{{order.totalPrice | currency:'BGN':'лв.'}}</td>
                      <td scope="row">{{order.deposit | currency:'BGN':'лв.'}}</td>
                 </tr>

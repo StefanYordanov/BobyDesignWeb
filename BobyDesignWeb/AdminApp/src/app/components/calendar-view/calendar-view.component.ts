@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CalendarCell } from 'src/app/models/calendar.model';
+import { DateOnlyModel } from 'src/app/models/common.model';
 import { Order, OrderStatus } from 'src/app/models/order.model';
 import { CalendarService } from 'src/app/services/calendar.service';
 import { CustomersService } from 'src/app/services/customers.service';
+import { DateService } from 'src/app/services/date.service';
 import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
@@ -13,19 +15,19 @@ import { OrdersService } from 'src/app/services/orders.service';
 export class CalendarViewComponent implements OnInit {
 
   @Input() isPicker = false;
-  @Output() dateChanged = new EventEmitter<Date>();
+  @Output() dateChanged = new EventEmitter<DateOnlyModel>();
 
   orderStatus = OrderStatus;
 
   year: number;
   month: number;
   calendarCells?: CalendarCell[];
-  selectedDate?: Date;
+  selectedDate?: DateOnlyModel;
   groupedOrders?: {
-    [key: number]: Order[]
+    [key: string]: Order[]
   }
   
-  constructor(private calendarService: CalendarService, private ordersService: OrdersService, public customersService: CustomersService) { 
+  constructor(private calendarService: CalendarService, public dateService: DateService, private ordersService: OrdersService, public customersService: CustomersService) { 
     const date = new Date();
     this.year = date.getFullYear();
     this.month = date.getMonth();
@@ -79,15 +81,16 @@ export class CalendarViewComponent implements OnInit {
       return;
     }
     this.calendarCells = this.calendarService.getMonthCells(this.year, this.month);
-    const fromDate = this.calendarCells[0].date.toDateString();
-    const toDate = this.calendarCells[this.calendarCells.length - 1].date.toDateString();
+    const fromDate = this.dateService.dateOnlyToString(this.calendarCells[0].date);
+    const toDate = this.dateService.dateOnlyToString(this.calendarCells[this.calendarCells.length - 1].date);
     const orders = await this.ordersService.getOrders({fromDate, toDate});
     if(orders) {
-      this.groupedOrders = orders.reduce((group: {[key: number]: Order[]}, item) => {
-        if (!group[item.finishingDate.getTime()]) {
-         group[item.finishingDate.getTime()] = [];
+      this.groupedOrders = orders.reduce((group: {[key: string]: Order[]}, item) => {
+        const dateString = this.dateService.dateOnlyToString(item.finishingDate);
+        if (!group[dateString]) {
+         group[dateString] = [];
         }
-        group[item.finishingDate.getTime()].push(item);
+        group[dateString].push(item);
         return group;
        }, {});
     }

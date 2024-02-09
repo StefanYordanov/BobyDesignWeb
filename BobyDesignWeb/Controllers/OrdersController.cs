@@ -27,9 +27,10 @@ namespace BobyDesignWeb.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<OrderViewModel> GetOrders(DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId, int? status)
+        public IEnumerable<OrderViewModel> GetOrders(string? fromDate, string? toDate, string? searchPhrase, int? customerId, int? status)
         {
-            return OrdersQuery(fromDate, toDate, searchPhrase, customerId, status).ToList();
+
+            return OrdersQuery(fromDate?.ToDateTime(), toDate?.ToDateTime(), searchPhrase, customerId, status).ToList();
         }
 
         [HttpGet]
@@ -39,11 +40,11 @@ namespace BobyDesignWeb.Controllers
         }
 
         [HttpGet]
-        public PageViewModel<OrderViewModel> GetOrdersPagination(int page, DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId, int? status)
+        public PageViewModel<OrderViewModel> GetOrdersPagination(int page, string? fromDate, string? toDate, string? searchPhrase, int? customerId, int? status)
         {
             page = page <= 0 ? 1 : page;
             int pageSize = 20;
-            var ordersQuery = OrdersQuery(fromDate, toDate, searchPhrase, customerId, status);
+            var ordersQuery = OrdersQuery(fromDate?.ToDateTime(), toDate?.ToDateTime(), searchPhrase, customerId, status);
             var ordersCount = ordersQuery.Count();
             var orders = ordersQuery.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
@@ -96,7 +97,7 @@ namespace BobyDesignWeb.Controllers
 
             orderEntity.CustomerId = order.Model.Customer.Id;
             orderEntity.Deposit = order.Model.Deposit;
-            orderEntity.FinishingDate = order.Model.FinishingDate.ToBulgarianDateTime();
+            orderEntity.FinishingDate = order.Model.FinishingDate.ToDateTime();
             orderEntity.JewelryShopId = order.Model.Shop.Id;
             orderEntity.LaborPrice = order.Model.LaborPrice;
             orderEntity.OrderDescription = order.Model.Description;
@@ -176,7 +177,7 @@ namespace BobyDesignWeb.Controllers
             {
                 CustomerId = order.Customer.Id,
                 Deposit = order.Deposit,
-                FinishingDate = order.FinishingDate.ToBulgarianDateTime(),
+                FinishingDate = order.FinishingDate.ToDateTime(),
                 JewelryShopId = order.Shop.Id,
                 LaborPrice = order.LaborPrice,
                 OrderCreatedOn = DateTime.UtcNow.ToBulgarianDateTime(),
@@ -233,7 +234,7 @@ namespace BobyDesignWeb.Controllers
                         PhoneNumber = o.Customer.CustomerPhone,
                     },
                     Description = o.OrderDescription,
-                    FinishingDate = o.FinishingDate.ToBulgarianDateTime(),
+                    FinishingDate = o.FinishingDate.ToDateOnlyModel(),
                     Status = (Models.OrderStatus)o.Status,
                     PaymentMethod = o.PaymentMethod,
                     TotalPrice = o.TotalPrice,
@@ -321,7 +322,7 @@ namespace BobyDesignWeb.Controllers
                         PhoneNumber = o.Customer.CustomerPhone,
                     },
                     Description = o.OrderDescription,
-                    FinishingDate = o.FinishingDate.ToBulgarianDateTime(),
+                    FinishingDate = o.FinishingDate.ToDateOnlyModel(),
                     Status = (Models.OrderStatus)o.Status,
                     PaymentMethod = o.PaymentMethod,
                     TotalPrice = o.TotalPrice,
