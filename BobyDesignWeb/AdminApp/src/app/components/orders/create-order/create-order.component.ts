@@ -62,7 +62,6 @@ export class CreateOrderComponent implements OnInit {
   canvasCallback: ModalFrameCallback<string> = {
     onOk: () => {
       this.base64PngContent = this.drawingCanvas.getCanvasAsBase64String() || '';
-      console.log(this.base64PngContent);
     }
   }
   base64PngContent?: string;

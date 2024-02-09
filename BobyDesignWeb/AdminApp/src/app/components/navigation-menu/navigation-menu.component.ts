@@ -42,7 +42,6 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
   ngAfterViewInit()
   {
     const loginContent = $('.built-in-header .login-partial');
-    console.log(loginContent, this.loginPartial);
     $(this.loginPartial.nativeElement).append(loginContent);
   }
 
