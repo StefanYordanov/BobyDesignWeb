@@ -11,6 +11,7 @@ import {
   OrderCraftingComponent,
   OrderPaymentMethod,
   OrderStatus,
+  OrderType,
 } from 'src/app/models/order.model';
 import { User } from 'src/app/models/user.model';
 import { CanvasBackground } from 'src/app/models/web-content.model';
@@ -43,6 +44,8 @@ interface OrderEditModel {
   createdOn: Date;
   shop: JewelryShopModel;
   shopUser: User;
+  linkedOrderId?: number;
+  type: OrderType;
   status: OrderStatus;
   paymentMethod: OrderPaymentMethod;
   imageFileName: string;
@@ -123,6 +126,8 @@ export class EditOrderComponent implements OnInit {
         deposit: order.deposit,
         totalPrice: order.totalPrice,
         createdOn: order.createdOn,
+        type: order.type,
+        linkedOrderId: order.linkedOrderId,
         shop: order.shop,
         shopUser: order.shopUser,
         status: order.status,

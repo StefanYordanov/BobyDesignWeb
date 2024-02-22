@@ -187,6 +187,8 @@ namespace BobyDesignWeb.Controllers
                 PaymentMethod = order.PaymentMethod,
                 NotifyCustomer = false,
                 TotalPrice = order.TotalPrice,
+                OrderType = order.Type,
+                LinkedOrderId = order.LinkedOrderId,
                 OrderCraftingComponents = order.CraftingComponents
                 .Select(x => new OrderCraftingComponent()
                 {
@@ -256,6 +258,8 @@ namespace BobyDesignWeb.Controllers
                         PhoneNumbers = o.JewelryShop.JewelryShopPhoneNumbers
                     },
                     ImageFileName = o.StoredFile == null ? null : "/storedFiles/get?fileName=" + o.StoredFile.FileName,
+                    LinkedOrderId = o.LinkedOrderId,
+                    Type = o.OrderType,
                     CraftingComponents = o.OrderCraftingComponents.Select(occ => new OrderCraftingComponentViewModel()
                     {
                         Id = occ.OrderCraftingComponentId,

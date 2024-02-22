@@ -1,7 +1,10 @@
 <div *ngIf="order">
     <div class="d-flex justify-content-between">
         <div>
-            <h2>Детайли по поръчка</h2>
+            <h2 *ngIf="!order.linkedOrderId">Детайли по поръчка</h2>
+            <h2 *ngIf="order.linkedOrderId">
+                Детайли по рекламация за поръчка № <a routerLink="/orders/details" [queryParams]="{ orderId: order.linkedOrderId }"> {{ order.linkedOrderId }}</a>
+            </h2>
             <strong class="text-success" *ngIf="order.status === orderStatus.Opened">Статус: Отворена</strong>
             <strong class="text-danger" *ngIf="order.status === orderStatus.Closed">Статус: Затворена</strong>
         </div>
@@ -14,6 +17,9 @@
 
             <a class="btn btn-primary btn-sm mr-1" routerLink="/orders/edit" [queryParams]="{orderId: order.id}"
                 role="button">Редакция</a>
+
+            <a class="btn btn-primary btn-sm mr-1" routerLink="/orders/create" [queryParams]="{linkedOrderId: order.id}"
+                role="button">Рекламация</a>
 
             <a class="btn btn-primary btn-sm" routerLink="/orders/print" [queryParams]="{orderId: order.id}"
                 role="button">Печат</a>

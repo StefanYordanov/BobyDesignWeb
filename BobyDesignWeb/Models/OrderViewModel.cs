@@ -24,6 +24,8 @@ namespace BobyDesignWeb.Models
         public decimal TotalPrice { get; set; }
         public decimal Deposit { get; set; }
         public OrderStatus Status { get; set; }
+        public int? LinkedOrderId { get; set; }
+        public OrderType Type { get; set; }
         public string? ImageFileName { get; set; }
         public UserViewModel ShopUser { get; set; } = new UserViewModel();
     }

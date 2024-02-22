@@ -4,6 +4,7 @@ using BobyDesignWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BobyDesignWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240212083745_order-type")]
+    partial class ordertype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -206,9 +208,6 @@ namespace BobyDesignWeb.Migrations
                     b.Property<decimal>("LaborPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("LinkedOrderId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("NotifyCustomer")
                         .HasColumnType("bit");
 
@@ -244,8 +243,6 @@ namespace BobyDesignWeb.Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("JewelryShopId");
-
-                    b.HasIndex("LinkedOrderId");
 
                     b.HasIndex("ShopUserId");
 
@@ -552,10 +549,6 @@ namespace BobyDesignWeb.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BobyDesignWeb.Data.Entities.Order", "LinkedOrder")
-                        .WithMany()
-                        .HasForeignKey("LinkedOrderId");
-
                     b.HasOne("BobyDesignWeb.Data.Entities.ApplicationUser", "ShopUser")
                         .WithMany("Orders")
                         .HasForeignKey("ShopUserId")
@@ -569,8 +562,6 @@ namespace BobyDesignWeb.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("JewelryShop");
-
-                    b.Navigation("LinkedOrder");
 
                     b.Navigation("ShopUser");
 

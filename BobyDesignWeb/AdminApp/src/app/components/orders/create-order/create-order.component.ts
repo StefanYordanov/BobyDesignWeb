@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DrawingCanvasComponent } from 'src/app/drawing-canvas/drawing-canvas.component';
 import { DateOnlyModel } from 'src/app/models/common.model';
 import { CustomerModel } from 'src/app/models/customers.model';
 import { ModalFrameCallback } from 'src/app/models/modal-frame.model';
-import { Order, OrderCraftingComponent, OrderPaymentMethod, OrderStatus } from 'src/app/models/order.model';
+import { Order, OrderCraftingComponent, OrderPaymentMethod, OrderStatus, OrderType } from 'src/app/models/order.model';
 import { WorkMaterialModel } from 'src/app/models/work-materials.model';
 import { BlobService } from 'src/app/services/blob.service';
 import { CustomersService } from 'src/app/services/customers.service';
@@ -27,6 +27,8 @@ interface OrderCreationModel {
     description: string;
     finishingDate?: DateOnlyModel;
     craftingComponents: OrderCraftingComponentCreationModel[];
+    linkedOrderId?: number;
+    type: OrderType;
     laborPrice: number;
     totalPrice: number;
     deposit: number;
@@ -52,7 +54,7 @@ export class CreateOrderComponent implements OnInit {
     private ordersService: OrdersService,
     private toastr: ToastrService,
     private blobService: BlobService, private router: Router, 
-    private jewelryShopsService: JewelryShopsService, public dateService: DateService) {
+    private jewelryShopsService: JewelryShopsService, public dateService: DateService, private activatedRoute: ActivatedRoute) {
       
     }
 
@@ -76,7 +78,8 @@ export class CreateOrderComponent implements OnInit {
     totalPrice: 0,
     deposit: 0,
     finishingDate: undefined,
-    paymentMethod: OrderPaymentMethod.Cash
+    paymentMethod: OrderPaymentMethod.Cash,
+    type: OrderType.Standard,
   };
   customerTemp?: CustomerModel;
   customerCallback: ModalFrameCallback<CustomerModel> = {
@@ -92,7 +95,19 @@ export class CreateOrderComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const linkedOrderId = Number(this.activatedRoute.snapshot.queryParams["linkedOrderId"]);
+    if(linkedOrderId) {
+      this.newOrder.linkedOrderId = linkedOrderId;
+      this.newOrder.type = OrderType.Reclamation;
+      this.ordersService.getOrder(linkedOrderId).then(linkedOrder => {
+        if(linkedOrder) {
+          this.newOrder.customer = linkedOrder.customer;
+        }
+        
+      })
+    }
+  }
 
   addNewCraftingComponent(isDeposit = false) {
     const craftingComponent: OrderCraftingComponentCreationModel = {

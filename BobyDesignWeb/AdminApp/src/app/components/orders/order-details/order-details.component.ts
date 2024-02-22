@@ -34,6 +34,12 @@ export class OrderDetailsComponent implements OnInit {
     this.activatedRoute.data.subscribe((response: any) => {
       this.order = response.order;
     });
+    this.activatedRoute.queryParamMap.subscribe(params => {
+      const orderId = Number(params.get('orderId'));
+      this.ordersService.getOrder(orderId).then(o => {
+        this.order = o || undefined;
+      });
+    })
   }
 
   getCraftingComponents(isDeposit = false) {

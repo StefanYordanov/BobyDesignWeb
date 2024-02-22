@@ -33,6 +33,8 @@ export interface Order{
     totalPrice: number;
     deposit: number;
     status: OrderStatus;
+    linkedOrderId?: number;
+    type: OrderType;
     paymentMethod: OrderPaymentMethod;
     shopUser: User;
 }
@@ -58,6 +60,12 @@ export enum OrderStatus {
     Opened = 1,
     Closed = 2
 }
+
+export enum OrderType {
+    Standard = 1,
+    Reclamation = 2
+}
+
 
 export enum OrderPaymentMethod {
     Cash = 1,
