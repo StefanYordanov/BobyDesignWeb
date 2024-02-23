@@ -95,17 +95,15 @@ export class CreateOrderComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     const linkedOrderId = Number(this.activatedRoute.snapshot.queryParams["linkedOrderId"]);
     if(linkedOrderId) {
       this.newOrder.linkedOrderId = linkedOrderId;
       this.newOrder.type = OrderType.Reclamation;
-      this.ordersService.getOrder(linkedOrderId).then(linkedOrder => {
-        if(linkedOrder) {
-          this.newOrder.customer = linkedOrder.customer;
-        }
-        
-      })
+      const linkedOrder = await this.ordersService.getOrder(linkedOrderId);
+      if(linkedOrder) {
+        this.newOrder.customer = linkedOrder.customer;
+      }
     }
   }
 
