@@ -1,0 +1,16 @@
+"DefaultConnection": "Server=tcp:bobydesignwebdbserver.database.windows.net,1433;Initial Catalog=BobyDesignWebDb;Persist Security Info=False;User ID=StefanYordanov;Password=StarWars1!;MultipleActiveResultSets=False;Encrypt=True;"
+
+
+Username
+qmjnvdlrll
+Password
+RMJ171Q74B7TPCU1$
+
+
+Username
+bobydesign-server-admin
+Password
+16OV4W022KIBU6E7$
+
+
+Data Source=tcp:bobydesign-server.database.windows.net,1433;Initial Catalog=bobydesign-database;User Id=bobydesign-server-admin@bobydesign-server;Password=16OV4W022KIBU6E7$

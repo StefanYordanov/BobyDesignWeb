@@ -273,6 +273,8 @@ namespace BobyDesignWeb.Controllers
                             Name = occ.WorkMaterial.WorkMaterialName,
                             MeasuringUnit = occ.WorkMaterial.WorkMaterialMeasuringUnit,
                             PricingType = occ.WorkMaterial.WorkMaterialPricingType,
+                            Quantity = occ.WorkMaterial.Quantity,
+                            ReservedQuantity = occ.WorkMaterial.ReservedQuantity,
                             RelevantPrice = occ.WorkMaterial.WorkMaterialPriceForDates.OrderByDescending(x => x.Date)
                             .Where(x => x.Date < o.OrderCreatedOn)
                             .Select(x => new LatestWorkMaterialRelevantPriceModel()

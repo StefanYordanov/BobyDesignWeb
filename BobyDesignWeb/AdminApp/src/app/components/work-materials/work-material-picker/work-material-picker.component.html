@@ -23,6 +23,12 @@
                                 <option [ngValue]="1">На {{ workMaterial.measuringUnit.length ? workMaterial.measuringUnit : 'количество' }}</option>
                             </select>
                         </td>
+                        <td><input [(ngModel)]="workMaterial.quantity" type="text"
+                            class="form-control">
+                        </td>
+                        <td><input [(ngModel)]="workMaterial.reservedQuantity" type="text"
+                            class="form-control">
+                        </td>
                         <ng-container *ngIf="workMaterial.relevantPrice; else emptyPrice">
                             <td scope="row">{{workMaterial.relevantPrice.purchasingPrice | currency:'BGN':'лв.'}}
                             </td>

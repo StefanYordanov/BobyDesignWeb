@@ -26,5 +26,9 @@ namespace BobyDesignWeb.Models
         public MaterialPricingType PricingType { get; set; }
 
         public LatestWorkMaterialRelevantPriceModel? RelevantPrice { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal ReservedQuantity { get; set; }
     }
 }

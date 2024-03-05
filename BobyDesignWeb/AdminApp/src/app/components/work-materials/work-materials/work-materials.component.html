@@ -11,6 +11,7 @@
                         <th scope="col">Материал</th>
                         <th scope="col">Ценообразуване</th>
                         <th scope="col">Мерна единица</th>
+                        <th scope="col">Количество</th>
                         <th scope="col">Акт. цена замяна</th>
                         <th scope="col">Акт. цена продан</th>
                         <th scope="col">Действия</th>
@@ -26,6 +27,7 @@
                             </select>
                         </td>
                         <td><input [(ngModel)]="newWorkMaterial.measuringUnit" name="newMaterialMeasuringUnit" type="text" class="form-control"></td>
+                        <td><input [(ngModel)]="newWorkMaterial.quantity" name="newMaterialMeasuringQuantity" type="number" class="form-control"></td>
                         <ng-container *ngIf="newWorkMaterial.relevantPrice">
                             <td>
                                 <input [(ngModel)]="newWorkMaterial.relevantPrice.purchasingPrice" type="number" class="form-control">
@@ -51,6 +53,8 @@
                     <th scope="col">Материал</th>
                     <th scope="col">Ценообразуване</th>
                     <th scope="col">Мерна единица</th>
+                    <th scope="col">Количество</th>
+                    <th scope="col">Резерв. к-во</th>
                     <th scope="col">Акт. цена замяна</th>
                     <th scope="col">Акт. цена продан</th>
                     <th scope="col">Към дата</th>
@@ -73,6 +77,12 @@
                                 </select>
                             </td>
                             <td><input [(ngModel)]="currentlyEditedMaterial.measuringUnit" type="text"
+                                class="form-control">
+                            </td>
+                            <td><input [(ngModel)]="currentlyEditedMaterial.quantity" type="number"
+                                class="form-control">
+                            </td>
+                            <td><input [(ngModel)]="currentlyEditedMaterial.reservedQuantity" type="number" disabled
                                 class="form-control">
                             </td>
                             
@@ -112,6 +122,8 @@
                                 </select>
                             </td>
                             <td scope="row">{{workMaterial.measuringUnit}}</td>
+                            <td scope="row">{{workMaterial.quantity}}</td>
+                            <td scope="row">{{workMaterial.reservedQuantity}}</td>
                             <ng-container *ngIf="workMaterial.relevantPrice; else emptyPrice">
                                 <td scope="row">{{workMaterial.relevantPrice.purchasingPrice | currency:'BGN':'лв.'}}
                                 </td>

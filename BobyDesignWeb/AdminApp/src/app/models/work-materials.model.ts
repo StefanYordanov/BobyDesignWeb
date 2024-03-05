@@ -3,7 +3,9 @@ export interface WorkMaterialModel {
     name: string;
     measuringUnit: string;
     pricingType: MaterialPricingType
-    relevantPrice?: LatestWorkMaterialRelevantPriceModel
+    relevantPrice?: LatestWorkMaterialRelevantPriceModel,
+    quantity: number;
+    reservedQuantity: number;
 }
 
 export enum MaterialPricingType {

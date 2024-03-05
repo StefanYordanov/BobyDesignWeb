@@ -71,6 +71,8 @@ export class WorkMaterialsComponent implements OnInit {
         name: '',
         measuringUnit: '',
         pricingType: MaterialPricingType.Fixed,
+        quantity: 0,
+        reservedQuantity: 0,
         relevantPrice: {
           id: 0,
           purchasingPrice: 0,
