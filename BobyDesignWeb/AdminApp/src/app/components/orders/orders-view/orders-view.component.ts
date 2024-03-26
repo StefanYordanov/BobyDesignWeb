@@ -34,6 +34,7 @@ toDateCallback: ModalFrameCallback<Date> = {
 }
 
 status?: number;
+type?: number;
 
 customer?: CustomerModel;
 customerTemp?: CustomerModel;
@@ -57,6 +58,7 @@ constructor(private activatedRoute: ActivatedRoute, public customersService: Cus
     this.fromDate = this.activatedRoute.snapshot.queryParams["fromDate"] && this.dateService.stringToDateOnly(this.activatedRoute.snapshot.queryParams["fromDate"]);
     this.toDate = this.activatedRoute.snapshot.queryParams["toDate"] && this.dateService.stringToDateOnly(this.activatedRoute.snapshot.queryParams["toDate"]);
     this.status = this.activatedRoute.snapshot.queryParams["status"] && Number(this.activatedRoute.snapshot.queryParams["status"]);
+    this.type = (this.activatedRoute.snapshot.queryParams["type"] && Number(this.activatedRoute.snapshot.queryParams["type"]));
     if(this.activatedRoute.snapshot.queryParams["customerId"]){
       this.customer = await this.customersService.getCustomer(Number(this.activatedRoute.snapshot.queryParams["customerId"])) || undefined;
     }
@@ -84,7 +86,8 @@ constructor(private activatedRoute: ActivatedRoute, public customersService: Cus
       fromDate: this.fromDate && this.dateService.dateOnlyToString(this.fromDate),
       toDate: this.toDate && this.dateService.dateOnlyToString(this.toDate),
       customerId: this.customer?.id,
-      status: this.status
+      status: this.status,
+      type: this.type
   };
   this.router.navigate(
     [], 
@@ -98,7 +101,8 @@ constructor(private activatedRoute: ActivatedRoute, public customersService: Cus
       fromDate: this.fromDate && this.dateService.dateOnlyToString(this.fromDate),
       toDate: this.toDate && this.dateService.dateOnlyToString(this.toDate),
       customerId: this.customer?.id,
-      status: this.status
+      status: this.status,
+      type: this.type
     
     },0) || undefined;
   }

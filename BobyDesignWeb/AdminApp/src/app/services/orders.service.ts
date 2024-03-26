@@ -67,6 +67,9 @@ export class OrdersService{
       if(query.status !== undefined) {
         params['status'] = query.status;
       }
+      if(query.type !== undefined) {
+        params['type'] = query.type;
+      }
       const orders = await this.apiService.get<Order[]>('orders/getOrders', params);
       console.log(orders);
       return orders;
@@ -100,6 +103,9 @@ export class OrdersService{
       }
       if(query.status !== undefined) {
         params['status'] = query.status;
+      }
+      if(query.type !== undefined) {
+        params['type'] = query.type;
       }
       if(page) {
         params['page'] = page

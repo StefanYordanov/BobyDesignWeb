@@ -44,7 +44,9 @@ export interface OrderQuery {
     toDate?: string;
     searchPhrase?: string;
     customerId?: number;
-    status?: number
+    status?: number;
+    type?: number;
+
 }
 
 export interface OrderCraftingComponent {

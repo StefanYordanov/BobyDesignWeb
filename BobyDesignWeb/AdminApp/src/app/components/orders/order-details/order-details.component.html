@@ -9,7 +9,7 @@
             <strong class="text-danger" *ngIf="order.status === orderStatus.Closed">Статус: Затворена</strong>
         </div>
         <div>
-            <app-modal-frame class="mr-1" *ngIf="order.status === orderStatus.Opened" [title]="'Завърши поръчката'"
+            <app-modal-frame class="mr-1" *ngIf="order.status === orderStatus.Opened" [title]="order.linkedOrderId ? 'Завърши рекламацията' : 'Завърши поръчката'"
                 [buttonText]="'Завърши поръчката'" [callbacks]="finishOrderCallback">
                 <h2>Затваряне на поръчката</h2>
                 <h4>Остават за изплащане: {{(order.totalPrice - order.deposit) | currency:'BGN':'лв.'}}</h4>
@@ -18,7 +18,7 @@
             <a class="btn btn-primary btn-sm mr-1" routerLink="/orders/edit" [queryParams]="{orderId: order.id}"
                 role="button">Редакция</a>
 
-            <a class="btn btn-primary btn-sm mr-1" routerLink="/orders/create" [queryParams]="{linkedOrderId: order.id}"
+            <a *ngIf="!order.linkedOrderId" class="btn btn-primary btn-sm mr-1" routerLink="/orders/create" [queryParams]="{linkedOrderId: order.id}"
                 role="button">Рекламация</a>
 
             <a class="btn btn-primary btn-sm" routerLink="/orders/print" [queryParams]="{orderId: order.id}"

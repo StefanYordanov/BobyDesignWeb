@@ -40,6 +40,14 @@
               </select>
         </div>
         <div class="col-sm-6 col-md-3">
+            <label>Вид</label>
+            <select class="form-control form-select" [(ngModel)]="type">
+                <option [ngValue]="undefined">Всички</option>
+                <option [ngValue]="1">Стандартни</option>
+                <option [ngValue]="2">Рекламации</option>
+              </select>
+        </div>
+        <div class="col-sm-6 col-md-3">
             <label>Търсене</label>
             <input [(ngModel)]="searchPhrase" type="text" class="form-control">
         </div>

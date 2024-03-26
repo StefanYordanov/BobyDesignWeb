@@ -27,10 +27,10 @@ namespace BobyDesignWeb.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<OrderViewModel> GetOrders(string? fromDate, string? toDate, string? searchPhrase, int? customerId, int? status)
+        public IEnumerable<OrderViewModel> GetOrders(string? fromDate, string? toDate, string? searchPhrase, int? customerId, int? status, int? type)
         {
 
-            return OrdersQuery(fromDate?.ToDateTime(), toDate?.ToDateTime(), searchPhrase, customerId, status).ToList();
+            return OrdersQuery(fromDate?.ToDateTime(), toDate?.ToDateTime(), searchPhrase, customerId, status, type).ToList();
         }
 
         [HttpGet]
@@ -40,11 +40,11 @@ namespace BobyDesignWeb.Controllers
         }
 
         [HttpGet]
-        public PageViewModel<OrderViewModel> GetOrdersPagination(int page, string? fromDate, string? toDate, string? searchPhrase, int? customerId, int? status)
+        public PageViewModel<OrderViewModel> GetOrdersPagination(int page, string? fromDate, string? toDate, string? searchPhrase, int? customerId, int? status, int? type)
         {
             page = page <= 0 ? 1 : page;
             int pageSize = 20;
-            var ordersQuery = OrdersQuery(fromDate?.ToDateTime(), toDate?.ToDateTime(), searchPhrase, customerId, status);
+            var ordersQuery = OrdersQuery(fromDate?.ToDateTime(), toDate?.ToDateTime(), searchPhrase, customerId, status, type);
             var ordersCount = ordersQuery.Count();
             var orders = ordersQuery.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
@@ -291,14 +291,7 @@ namespace BobyDesignWeb.Controllers
                 .FirstOrDefault();
         }
 
-        private void SaveFileStream(String path, Stream stream)
-        {
-            var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write);
-            stream.CopyTo(fileStream);
-            fileStream.Dispose();
-        }
-
-        private IQueryable<OrderViewModel> OrdersQuery(DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId, int? status)
+        private IQueryable<OrderViewModel> OrdersQuery(DateTime? fromDate, DateTime? toDate, string? searchPhrase, int? customerId, int? status, int? type)
         {
             fromDate ??= DateTime.MinValue;
             toDate ??= DateTime.MaxValue;
@@ -307,6 +300,7 @@ namespace BobyDesignWeb.Controllers
             return _context.Orders
                 .Where(o => o.FinishingDate.Date >= fromDate && o.FinishingDate.Date <= toDate && 
                 (status == null || o.Status == (Data.Entities.OrderStatus)status) &&
+                    (type == null || o.OrderType == (Data.Entities.OrderType)type) &&
                     (customerId == null || customerId == o.CustomerId) && 
                     (
                         o.OrderDescription.ToLower().Contains(searchPhrase) ||
