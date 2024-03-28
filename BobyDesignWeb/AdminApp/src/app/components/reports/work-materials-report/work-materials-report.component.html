@@ -1,0 +1,99 @@
+
+    <div class="form-group row">
+        <div class="col-sm-6 col-md-3">
+            <app-modal-frame 
+                [title]="'От Дата'"
+                [buttonText]="'От Дата'"
+                [callbacks]="fromDateCallback">
+                <app-calendar-view [isPicker]="true" (dateChanged)="fromDateTemp=$event"></app-calendar-view>
+            </app-modal-frame>
+            <input value="{{fromDate && dateService.dateOnlyToString(fromDate)}}" type="text" readonly class="form-control">
+        </div>
+        
+        <div class="col-sm-6 col-md-3">
+            <app-modal-frame 
+                [title]="'До Дата'"
+                [buttonText]="'До Дата'"
+                [callbacks]="toDateCallback">
+                <app-calendar-view [isPicker]="true" (dateChanged)="toDateTemp=$event"></app-calendar-view>
+            </app-modal-frame>
+            <input value="{{toDate && dateService.dateOnlyToString(toDate)}}" type="text" readonly class="form-control">
+        </div>
+        
+        <div class="col-sm-6 col-md-3">
+            <app-modal-frame 
+                [title]="'Материал'"
+                [buttonText]="'Материал'"
+                [callbacks]="workMaterialCallback">
+                <app-work-material-picker (workMaterialChanged)="workMaterialTemp=$event"></app-work-material-picker>
+            </app-modal-frame>
+            <input value="{{workMaterial?.name}}" type="text" readonly class="form-control">
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label>Статус</label>
+            <select class="form-control form-select" [(ngModel)]="status">
+                <option [ngValue]="undefined">Всички</option>
+                <option [ngValue]="1">Отворени</option>
+                <option [ngValue]="2">Затворени</option>
+              </select>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label>Вид</label>
+            <select class="form-control form-select" [(ngModel)]="type">
+                <option [ngValue]="undefined">Всички</option>
+                <option [ngValue]="1">Стандартни</option>
+                <option [ngValue]="2">Рекламации</option>
+              </select>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label>Вид плащане</label>
+            <select class="form-control form-select" [(ngModel)]="paymentMethod">
+                <option [ngValue]="undefined">Всички</option>
+                <option [ngValue]="1">Брой</option>
+                <option [ngValue]="2">Карта</option>
+              </select>
+        </div>
+        
+        <div class="col-sm-6 col-md-3">
+            <button type="button" class="btn btn-primary mt-1" (click)="applySearch()">Търсене</button>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <button type="button" class="btn btn-primary mt-1" (click)="downloadExcelReport()">Изтегляне на Excel справка</button>
+        </div>
+        
+    </div>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col"># поръчка</th>
+                <th scope="col">Създадена на</th>
+                <th scope="col">К-во{{ workMaterial ? '('+ workMaterial.measuringUnit+')' : ''}}</th>
+                <th scope="col">Цена на компонента(лв.)</th>
+                <th scope="col">Депозит?</th>
+            </tr>
+        </thead>
+        <ng-container *ngIf="orderItemsReport">
+            <tbody>
+                <ng-container *ngFor="let orderItemsReportItem of orderItemsReport.items">
+                    <tr routerLink="/orders/details" [queryParams]="{orderId: orderItemsReportItem.id}">
+                        <td scope="row">{{orderItemsReportItem.id}}</td>
+                        <td scope="row">{{dateService.dateToString(orderItemsReportItem.order.orderCreatedOn)}}</td>
+                        <td scope="row">{{orderItemsReportItem.quantity}}</td>
+                         <td scope="row">{{orderItemsReportItem.totalComponentPrice | currency:'BGN':''}}</td>
+                         <td scope="row">{{orderItemsReportItem.isDeposit ? "Да" : "Не"}}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+            <tfoot>
+                <td>Тотал:</td>
+                <td></td>
+                <td>{{orderItemsReport.totalQuantity}}</td>
+                <td>{{orderItemsReport.totalRevenue | currency:'BGN':''}}</td>
+                <td></td>
+            </tfoot>
+        
+        </ng-container>
+        
+    </table>
+

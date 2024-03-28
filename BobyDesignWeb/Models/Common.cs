@@ -18,6 +18,11 @@ namespace BobyDesignWeb.Models
         public int Month { get; set; }
 
         public int Day { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Day.ToString("D2")}/{Month.ToString("D2")}/{Year.ToString("D4")}";
+        }
     }
 
     public static class DateOnlyExtensions

@@ -14,13 +14,16 @@ import { OrderDetailsComponent } from './components/orders/order-details/order-d
 import { OrderDetailsResolverService } from './components/orders/order-details/order-details-resolver.service';
 import { PrintOrderComponent } from './components/orders/print-order/print-order.component';
 import { EditOrderComponent } from './components/orders/edit-order/edit-order.component';
+import { WorkMaterialsReportComponent } from './components/reports/work-materials-report/work-materials-report.component';
 
 const routes: Routes = [
   {path: '', component: MainPageComponent },
   {path: 'administration/users', component: AllUsersComponent, resolve: {
     userPage: AllUsersResolverService
   }},
-
+  { path: 'administration/work-materials-report', 
+    component: WorkMaterialsReportComponent
+  },
   {path: 'orders-view', component: OrdersViewComponent, resolve: {
     ordersPage: OrdersViewResolverService
   }},
@@ -40,7 +43,7 @@ const routes: Routes = [
   }},
   {path: 'customers', component: CustomersComponent, resolve: {
     customersPage: CustomersResolverService
-  }}
+  }},
 ];
 
 @NgModule({

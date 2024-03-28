@@ -48,6 +48,35 @@ namespace BobyDesignWeb.Controllers
             return query.ToArray();
         }
 
+        [HttpGet]
+        public WorkMaterialModel Get(int id, DateTime? pricingDate)
+        {
+            var query = from workMaterial in _context.WorkMaterials
+                        select new WorkMaterialModel
+                        {
+                            Id = workMaterial.WorkMaterialId,
+                            Name = workMaterial.WorkMaterialName,
+                            MeasuringUnit = workMaterial.WorkMaterialMeasuringUnit,
+                            PricingType = workMaterial.WorkMaterialPricingType,
+                            Quantity = workMaterial.Quantity,
+                            ReservedQuantity = workMaterial.ReservedQuantity,
+                            RelevantPrice = _context.WorkMaterialPriceForDates.
+                            Where(x => x.WorkMaterialId == workMaterial.WorkMaterialId)
+                            .OrderByDescending(x => x.Date)
+                            .Where(x => pricingDate == null || x.Date < pricingDate)
+                            .Select(x => new LatestWorkMaterialRelevantPriceModel()
+                            {
+                                LastUpdatedOn = x.Date,
+                                SellingPrice = x.SellingPrice,
+                                PurchasingPrice = x.PurchasingPrice,
+                                WorkMaterialId = x.WorkMaterialId,
+                                Id = x.WorkMaterialPriceForDateId,
+                            }).FirstOrDefault()
+                        };
+
+            return query.FirstOrDefault(wm => wm.Id == id);
+        }
+
         [HttpPost]
         public async Task<ActionResult> InsertWorkMaterial([FromBody] WorkMaterialModel workMaterial)
         {

@@ -32,4 +32,14 @@ export class WorkMaterialsService{
         console.log(workMaterials);
         return workMaterials;
       }
+
+      async get(id: number): Promise<WorkMaterialModel | null> {
+
+        let params: Params = {
+          id: id
+        };
+        const workMaterials = await this.apiService.get<WorkMaterialModel>('workMaterials/get', params);
+        console.log(workMaterials);
+        return workMaterials;
+      }
 }

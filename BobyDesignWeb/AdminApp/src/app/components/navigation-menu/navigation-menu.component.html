@@ -17,6 +17,8 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" routerLink="/administration/users"
                                         routerLinkActive="active">Потребители</a></li>
+                                <li><a class="dropdown-item" routerLink="/administration/work-materials-report"
+                                        routerLinkActive="active">Справка материали</a></li>
                             </ul>
                         </li>
                         <li *ngIf="userRoles.includes('Admin') || userRoles.includes('Seller')"

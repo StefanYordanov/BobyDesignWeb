@@ -13,7 +13,19 @@ export class DateService{
         day: '2-digit'
       });
    }
-
+   dateToString(date: Date) {
+    return this.dateOnlyToString({
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear()
+    })
+    // const date = new Date(dateOnly.year, dateOnly.month - 1, dateOnly.day)
+    // return date.toLocaleDateString('en-GB', {
+    //     year: 'numeric',
+    //     month: '2-digit',
+    //     day: '2-digit'
+    //   });
+   }
    stringToDateOnly(stringDate: string) : DateOnlyModel {
     return this.stringToDateOnlyByFormat(stringDate, 'dd/MM/yyyy', '/')
    }
