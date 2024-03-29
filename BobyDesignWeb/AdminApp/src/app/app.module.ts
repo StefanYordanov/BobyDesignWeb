@@ -41,6 +41,7 @@ import { EditOrderComponent } from './components/orders/edit-order/edit-order.co
 import { DateService } from './services/date.service';
 import { WorkMaterialsReportComponent } from './components/reports/work-materials-report/work-materials-report.component';
 import { ReportsService } from './services/reports.service';
+import { IconComponent } from './components/icon/icon.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { ReportsService } from './services/reports.service';
     OrderDetailsComponent, 
     PrintOrderComponent, 
     EditOrderComponent,
-    WorkMaterialsReportComponent
+    WorkMaterialsReportComponent,
+    IconComponent
   ],
   imports: [
     BrowserModule,

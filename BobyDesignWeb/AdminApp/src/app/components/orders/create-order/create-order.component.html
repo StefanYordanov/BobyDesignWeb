@@ -61,9 +61,7 @@
                         <label>Материали</label>
                         <input [value]="workMaterialsString()" type="text" readonly class="form-control">
                         <button class="btn btn-success mb-1" (click)="addNewCraftingComponent()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                                </svg>
+                            <app-icon iconName="plus"></app-icon>
                                 Добави
                             </button>
     
@@ -91,9 +89,7 @@
                         <label><strong>Капаро материали</strong></label>
                         <input [value]="getDepositComponentsString()" type="text" readonly class="form-control">
                         <button class="btn btn-success mb-1" (click)="addNewCraftingComponent(true)">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                                </svg>
+                            <app-icon iconName="plus"></app-icon>
                                 Добави
                             </button>
                             <div>
@@ -135,154 +131,5 @@
                 </div>
             </div>
         </div>
-
-
     </div>
-
-
-
-
-
-
-
-
-
-    <!-- <div class="row">
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-sm-12 form-group">
-                    <label for="description">Описание</label>
-                    <textarea class="form-control" id="description" [(ngModel)]="newOrder.description" rows="3"></textarea>
-                </div>
-                <div class="col-sm-6 form-group">
-                    <app-modal-frame [title]="'Клиент'" [buttonText]="'Клиент'" [callbacks]="customerCallback">
-                        <app-customer-picker (customerChanged)="customerTemp=$event"></app-customer-picker>
-                    </app-modal-frame>
-                    <input [ngModel]="customerString(newOrder.customer)" type="text" readonly class="form-control">
-                </div>
-                <div class="col-sm-6 form-group">
-                    <app-modal-frame [title]="'Дата на получаване'" [buttonText]="'Дата на получаване'" [callbacks]="finishingDateCallback">
-                        <app-calendar-view [isPicker]="true" (dateChanged)="finishingDateTemp=$event"></app-calendar-view>
-                    </app-modal-frame>
-                    <input [ngModel]="newOrder.finishingDate && newOrder.finishingDate.toLocaleDateString('bg-BG')" type="text" readonly class="form-control">
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <app-modal-frame [title]="'Скица'" [buttonText]="'Скица'" [callbacks]="canvasCallback">
-                <app-drawing-canvas #drawingCanvas></app-drawing-canvas>
-            </app-modal-frame>
-            <div>
-                <img *ngIf="base64PngContent && base64PngContent.length" [src]="base64PngContent" alt="Скица" width="300px" height="300px">
-            </div>
-        </div>
-        
-        <div class="col-sm-4 form-group">
-            
-           
-        </div>
-    </div>
-    <div class="form-group small-margin">
-        <h3>Компоненти:</h3>
-        <button class="btn btn-success mb-1" (click)="addNewCraftingComponent()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                </svg>
-                Добави
-            </button>
-            <br>
-        <div>
-            <div *ngFor="let craftingComponent of getCraftingComponents()">
-                <div class="form-row">
-                    <div class="col-md-3 col-6 form-group">
-                        <app-modal-frame [title]="'Материал'" [buttonText]="'Материал'" [callbacks]="craftingComponent.workMaterialCallback">
-                            <app-work-material-picker (workMaterialChanged)="craftingComponent.workMaterialTemp=$event"></app-work-material-picker>
-                        </app-modal-frame>
-                        <button class="btn btn-sm col-sm-6 btn-danger" (click)="craftingComponent.onRemove()">Премахни ред</button>
-                        <input [ngModel]="craftingComponent.craftingComponent.workMaterial?.name" readonly type="text" class="form-control">
-                    </div>
-                    <div class="col-md-3 col-2 form-group">
-                        <label for="description">Цена(лв.)</label>
-                        <input [(ngModel)]="craftingComponent.craftingComponent.workMaterialPrice"
-                        (ngModelChange)="triggerComponentRecalculation(craftingComponent.craftingComponent)" 
-                        type="number" class="form-control">
-                    </div>
-                    <div class="col-md-3 col-2 form-group">
-                        <label for="description">Количество{{craftingComponent.craftingComponent.workMaterial ? '(' + craftingComponent.craftingComponent.workMaterial.measuringUnit + ')' : ''}}</label>
-                        <input [(ngModel)]="craftingComponent.craftingComponent.quantity" 
-                        (ngModelChange)="triggerComponentRecalculation(craftingComponent.craftingComponent)" 
-                        type="number" class="form-control">
-                    </div>
-                    <div class="col-md-3 col-2 form-group">
-                        <label for="description">Сума</label>
-                        <input [(ngModel)]="craftingComponent.craftingComponent.totalComponentPrice"
-                        (ngModelChange)="triggerOrderTotalRecalculation()"
-                        type="number" class="form-control">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group small-margin">
-        <h3>Депозит Компоненти:</h3>
-        <button class="btn btn-success mb-1" (click)="addNewCraftingComponent(true)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                </svg>
-                Добави депозит компонент
-            </button>
-            <br>
-        <div>
-            <div *ngFor="let craftingComponent of getCraftingComponents(true)">
-                <div class="form-row">
-                    <div class="col-md-3 col-6 form-group">
-                        <app-modal-frame [title]="'Материал'" [buttonText]="'Материал'" [callbacks]="craftingComponent.workMaterialCallback">
-                            <app-work-material-picker (workMaterialChanged)="craftingComponent.workMaterialTemp=$event"></app-work-material-picker>
-                        </app-modal-frame>
-                        <button class="btn btn-sm col-sm-6 btn-danger" (click)="craftingComponent.onRemove()">Премахни ред</button>
-                        <input [ngModel]="craftingComponent.craftingComponent.workMaterial?.name" readonly type="text" class="form-control">
-                    </div>
-                    <div class="col-md-3 col-2 form-group">
-                        <label for="description">Цена(лв.)</label>
-                        <input (ngModelChange)="triggerComponentRecalculation(craftingComponent.craftingComponent)" 
-                        [(ngModel)]="craftingComponent.craftingComponent.workMaterialPrice" 
-                        type="number" class="form-control">
-                    </div>
-                    <div class="col-md-3 col-2 form-group">
-                        <label for="description">Количество{{craftingComponent.craftingComponent.workMaterial ? '(' + craftingComponent.craftingComponent.workMaterial.measuringUnit + ')' : ''}}</label>
-                        <input [(ngModel)]="craftingComponent.craftingComponent.quantity" 
-                        (ngModelChange)="triggerComponentRecalculation(craftingComponent.craftingComponent)" 
-                        type="number" class="form-control">
-                    </div>
-                    <div class="col-md-3 col-2 form-group">
-                        <label for="description">Сума</label>
-                        <input [(ngModel)]="craftingComponent.craftingComponent.totalComponentPrice"
-                        (ngModelChange)="triggerOrderTotalRecalculation()"
-                        type="number" class="form-control">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="col-sm-3 form-group">
-            <label for="description">Цена на труда</label>
-            <input [(ngModel)]="newOrder.laborPrice" (ngModelChange)="triggerOrderTotalRecalculation()" type="number" class="form-control">
-        </div>
-        <div class="col-sm-3 form-group">
-            <label for="description">Депозит</label>
-            <input [(ngModel)]="newOrder.deposit" (ngModelChange)="triggerOrderTotalRecalculation()" type="number" class="form-control">
-        </div>
-        <div class="col-sm-3 form-group">
-        </div>
-        <div class="col-sm-3 form-group">
-            <label for="description"><strong>Обща цена</strong></label>
-            <input [(ngModel)]="newOrder.totalPrice" type="number" class="form-control">
-        </div>
-    </div>
-    <div class="form-row">
-        <button class="btn btn-success" (click)="createOrder()">Създай поръчка</button>
-    </div> -->
-
 </div>
