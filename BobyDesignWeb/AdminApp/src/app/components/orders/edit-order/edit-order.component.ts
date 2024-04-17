@@ -13,6 +13,7 @@ import {
   OrderStatus,
   OrderType,
 } from 'src/app/models/order.model';
+import { SupplierModel } from 'src/app/models/supplier.model';
 import { User } from 'src/app/models/user.model';
 import { CanvasBackground } from 'src/app/models/web-content.model';
 import { WorkMaterialModel } from 'src/app/models/work-materials.model';
@@ -43,6 +44,7 @@ interface OrderEditModel {
   deposit: number;
   createdOn: Date;
   shop: JewelryShopModel;
+  supplier: SupplierModel;
   shopUser: User;
   linkedOrderId?: number;
   type: OrderType;
@@ -130,6 +132,7 @@ export class EditOrderComponent implements OnInit {
         linkedOrderId: order.linkedOrderId,
         shop: order.shop,
         shopUser: order.shopUser,
+        supplier: order.supplier,
         status: order.status,
         paymentMethod: order.paymentMethod,
         imageFileName: order.imageFileName,

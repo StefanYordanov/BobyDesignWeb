@@ -28,6 +28,10 @@ namespace BobyDesignWeb.Controllers
             return new OrderItemsReport()
             {
                 Items = orders,
+                TotalSoldQuantity = orders.Where(o => !o.IsDeposit).Sum(o => o.Quantity),
+                TotalSoldRevenue = orders.Where(o => !o.IsDeposit).Sum(o => o.TotalComponentPrice),
+                TotalDepositQuantity = orders.Where(o => o.IsDeposit).Sum(o => o.Quantity),
+                TotalDepositRevenue = orders.Where(o => o.IsDeposit).Sum(o => o.TotalComponentPrice),
                 TotalQuantity = orders.Sum(o => o.IsDeposit ? -o.Quantity : o.Quantity),
                 TotalRevenue = orders.Sum(o => o.IsDeposit ? -o.TotalComponentPrice : o.TotalComponentPrice)
             };
@@ -36,11 +40,10 @@ namespace BobyDesignWeb.Controllers
         [HttpGet]
         public IActionResult GetWorkMaterialReportFile(int workMaterialId, string? fromDate, string? toDate, int? orderStatus, int? orderType, int? orderPaymentMethod)
         {
-            var ordersQuery = OrderCraftingComponentsQuery(workMaterialId, fromDate?.ToDateTime(), toDate?.ToDateTime(), orderStatus, orderType, orderPaymentMethod);
+            var report = GetWorkMaterialReport(workMaterialId, fromDate, toDate, orderStatus, orderType, orderPaymentMethod);
 
             WorkMaterial workMaterial = context.WorkMaterials.FirstOrDefault(wm => wm.WorkMaterialId == workMaterialId) ?? throw new ArgumentException("invalid work material");
 
-            var orders = ordersQuery.ToList();
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using ExcelPackage pck = new();
             var columnIndexes = new
@@ -66,20 +69,31 @@ namespace BobyDesignWeb.Controllers
             ws.Cells[currentRow, columnIndexes.TotalComponentPrice].Value = "Цена(лв.)";
             ws.Row(currentRow).Style.Font.Bold = true;
             currentRow++;
-            foreach (var orderItem in orders)
+            foreach (var orderItem in report.Items)
             {
                 ws.Cells[currentRow, columnIndexes.Id].Value = orderItem.Order.Id;
                 ws.Cells[currentRow, columnIndexes.OrderCreatedOn].Value = orderItem.Order.OrderCreatedOn.ToDateOnlyModel().ToString();
-                ws.Cells[currentRow, columnIndexes.IsDeposit].Value = orderItem.IsDeposit;
+                ws.Cells[currentRow, columnIndexes.IsDeposit].Value = orderItem.IsDeposit ? "Да" : "Не";
                 ws.Cells[currentRow, columnIndexes.WorkMaterialPrice].Value = orderItem.WorkMaterialPrice;
                 ws.Cells[currentRow, columnIndexes.Quantity].Value = orderItem.Quantity;
                 ws.Cells[currentRow, columnIndexes.TotalComponentPrice].Value = orderItem.TotalComponentPrice;
                 currentRow++;
             }
             currentRow++;
-            ws.Cells[currentRow, columnIndexes.TotalColIndex].Value = "Тотал:";
-            ws.Cells[currentRow, columnIndexes.Quantity].Value = orders.Sum(o => o.IsDeposit ? -o.Quantity : o.Quantity);
-            ws.Cells[currentRow, columnIndexes.TotalComponentPrice].Value = orders.Sum(o => o.IsDeposit ? -o.TotalComponentPrice : o.TotalComponentPrice);
+            currentRow++;
+            ws.Cells[currentRow, columnIndexes.TotalColIndex].Value = "Тотал продажба:";
+            ws.Cells[currentRow, columnIndexes.Quantity].Value = report.TotalSoldQuantity;
+            ws.Cells[currentRow, columnIndexes.TotalComponentPrice].Value = report.TotalSoldRevenue;
+            ws.Row(currentRow).Style.Font.Bold = true;
+            currentRow++;
+            ws.Cells[currentRow, columnIndexes.TotalColIndex].Value = "Тотал Депозит:";
+            ws.Cells[currentRow, columnIndexes.Quantity].Value = report.TotalDepositQuantity;
+            ws.Cells[currentRow, columnIndexes.TotalComponentPrice].Value = report.TotalDepositRevenue;
+            ws.Row(currentRow).Style.Font.Bold = true;
+            currentRow++;
+            ws.Cells[currentRow, columnIndexes.TotalColIndex].Value = "Тотал баланс:";
+            ws.Cells[currentRow, columnIndexes.Quantity].Value = report.TotalQuantity;
+            ws.Cells[currentRow, columnIndexes.TotalComponentPrice].Value = report.TotalRevenue;
             ws.Row(currentRow).Style.Font.Bold = true;
             var fileContents = pck.GetAsByteArray();
 

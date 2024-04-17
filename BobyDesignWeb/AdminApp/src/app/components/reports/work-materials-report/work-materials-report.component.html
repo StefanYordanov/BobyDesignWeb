@@ -86,11 +86,27 @@
                 </ng-container>
             </tbody>
             <tfoot>
-                <td>Тотал:</td>
+                <tr>
+                <td>Тотал продажба:</td>
+                <td></td>
+                <td>{{orderItemsReport.totalSoldQuantity}}</td>
+                <td>{{orderItemsReport.totalSoldRevenue | currency:'BGN':''}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Тотал депозит:</td>
+                <td></td>
+                <td>{{orderItemsReport.totalDepositQuantity}}</td>
+                <td>{{orderItemsReport.totalDepositRevenue | currency:'BGN':''}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Тотал баланс:</td>
                 <td></td>
                 <td>{{orderItemsReport.totalQuantity}}</td>
                 <td>{{orderItemsReport.totalRevenue | currency:'BGN':''}}</td>
                 <td></td>
+            </tr>
             </tfoot>
         
         </ng-container>

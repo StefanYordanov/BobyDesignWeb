@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { JewelryShopsService } from 'src/app/services/jewelry-shops.service';
+import { SuppliersService } from 'src/app/services/suppliers.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -20,9 +21,18 @@ export class NavigationMenuComponent implements OnInit, AfterViewInit {
         selected: data[1]
       }
     })
+    selectedSupplierId?: number
+    suppliersDataPromise = Promise.all([this.suppliersService.getAll(), 
+      this.suppliersService.getDefaultActiveSupplier()]).then(data => {
+        this.selectedSupplierId = data[1]?.id;
+        return {
+          all: data[0],
+          selected: data[1]
+        }
+      })
 
   @ViewChild('loginPartial') loginPartial!: ElementRef;
-  constructor(private userService: UserService, private jewelryShopsService: JewelryShopsService, private toastr: ToastrService) { 
+  constructor(private userService: UserService, private jewelryShopsService: JewelryShopsService, private suppliersService: SuppliersService, private toastr: ToastrService) { 
 
   }
 

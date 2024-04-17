@@ -13,6 +13,7 @@ import { DateService } from 'src/app/services/date.service';
 import { JewelryShopsService } from 'src/app/services/jewelry-shops.service';
 import { OrdersService } from 'src/app/services/orders.service';
 import { PriceCalculatorService } from 'src/app/services/price-calculator.service';
+import { SuppliersService } from 'src/app/services/suppliers.service';
 
 
 interface CraftingComponentFormCreationExtensions {
@@ -54,7 +55,7 @@ export class CreateOrderComponent implements OnInit {
     private ordersService: OrdersService,
     private toastr: ToastrService,
     private blobService: BlobService, private router: Router, 
-    private jewelryShopsService: JewelryShopsService, public dateService: DateService, private activatedRoute: ActivatedRoute) {
+    private jewelryShopsService: JewelryShopsService, private suppliersService: SuppliersService, public dateService: DateService, private activatedRoute: ActivatedRoute) {
       
     }
 
@@ -190,6 +191,13 @@ export class CreateOrderComponent implements OnInit {
       return;
     }
 
+    const supplier = this.suppliersService.active;
+    if(!supplier) {
+      this.toastr.error('Потребителят няма зададен магазин')
+      return;
+    }
+    const supplierId = supplier.id;
+
     const response = await this.ordersService.createOrder({ 
       sketchBlob: this.base64PngContent ? this.blobService.dataURIToBlob(this.base64PngContent) : undefined, 
       model: { ...this.newOrder, id: 0, 
@@ -197,6 +205,7 @@ export class CreateOrderComponent implements OnInit {
         finishingDate: this.newOrder.finishingDate,
         deposit: this.newOrder.deposit || 0,
         shop: shop,
+        supplier: supplier,
         imageFileName: '',
         craftingComponents: this.newOrder.craftingComponents.map(cc => {
           return {...cc, id: 0, workMaterial: cc.workMaterial!}

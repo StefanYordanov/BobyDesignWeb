@@ -70,6 +70,9 @@ export class OrdersService{
       if(query.type !== undefined) {
         params['type'] = query.type;
       }
+      if(query.supplierId !== undefined) {
+        params['supplierId'] = query.supplierId;
+      }
       const orders = await this.apiService.get<Order[]>('orders/getOrders', params);
       console.log(orders);
       return orders;
@@ -109,6 +112,9 @@ export class OrdersService{
       }
       if(page) {
         params['page'] = page
+      }
+      if(query.supplierId !== undefined) {
+        params['supplierId'] = query.supplierId;
       }
       const orders = await this.apiService.get<PageView<Order>>('orders/getOrdersPagination', params);
       console.log(orders);

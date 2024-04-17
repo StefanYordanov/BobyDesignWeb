@@ -11,6 +11,10 @@ export interface OrderReportItem {
 
 export interface OrderItemsReport {
     items: OrderItemReportItem[];
+    totalSoldQuantity: number;
+    totalSoldRevenue: number;
+    totalDepositQuantity: number;
+    totalDepositRevenue: number;
     totalQuantity: number;
     totalRevenue: number;
 }

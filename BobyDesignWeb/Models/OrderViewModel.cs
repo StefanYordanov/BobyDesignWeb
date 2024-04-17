@@ -18,6 +18,7 @@ namespace BobyDesignWeb.Models
         public OrderPaymentMethod PaymentMethod { get; set; }
 
         public JewleryShopViewModel Shop { get; set; }
+        public SupplierViewModel Supplier { get; set; }
         public DateOnlyModel FinishingDate { get; set; }
         public ICollection<OrderCraftingComponentViewModel> CraftingComponents { get; set; } = new List<OrderCraftingComponentViewModel>();
         public decimal LaborPrice { get; set; }

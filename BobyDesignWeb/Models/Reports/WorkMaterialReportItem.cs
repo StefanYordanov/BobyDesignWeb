@@ -16,6 +16,14 @@
     {
         public ICollection<OrderItemReportItem> Items { get; set; } = Array.Empty<OrderItemReportItem>();
 
+        public decimal TotalSoldQuantity { get; set; }
+
+        public decimal TotalSoldRevenue { get; set; }
+
+        public decimal TotalDepositQuantity { get; set; }
+
+        public decimal TotalDepositRevenue { get; set; }
+
         public decimal TotalQuantity { get; set; }
 
         public decimal TotalRevenue {  get; set; }

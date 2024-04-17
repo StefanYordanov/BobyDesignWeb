@@ -179,6 +179,7 @@ namespace BobyDesignWeb.Controllers
                 Deposit = order.Deposit,
                 FinishingDate = order.FinishingDate.ToDateTime(),
                 JewelryShopId = order.Shop.Id,
+                SupplierId = order.Supplier.Id,
                 LaborPrice = order.LaborPrice,
                 OrderCreatedOn = DateTime.UtcNow.ToBulgarianDateTime(),
                 ShopUserId = userManager.GetUserId(User),
@@ -256,6 +257,13 @@ namespace BobyDesignWeb.Controllers
                         Description = o.JewelryShop.JewelryShopDescription,
                         Name = o.JewelryShop.JewelryShopName,
                         PhoneNumbers = o.JewelryShop.JewelryShopPhoneNumbers
+                    },
+                    Supplier = new SupplierViewModel()
+                    {
+                        Id = o.SupplierId,
+                        Description = o.Supplier.SupplierDescription,
+                        Name = o.Supplier.SupplierName,
+                        PhoneNumbers = o.Supplier.SupplierPhoneNumbers
                     },
                     ImageFileName = o.StoredFile == null ? null : "/storedFiles/get?fileName=" + o.StoredFile.FileName,
                     LinkedOrderId = o.LinkedOrderId,

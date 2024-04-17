@@ -19,6 +19,8 @@
                                         routerLinkActive="active">Потребители</a></li>
                                 <li><a class="dropdown-item" routerLink="/administration/work-materials-report"
                                         routerLinkActive="active">Справка материали</a></li>
+                                <li><a class="dropdown-item" href="/Identity/Account/Register"
+                                        >Регистрирай нов служител</a></li>
                             </ul>
                         </li>
                         <li *ngIf="userRoles.includes('Admin') || userRoles.includes('Seller')"
@@ -33,20 +35,28 @@
                                         routerLinkActive="active">Клиенти</a></li>
                                 <li><a class="dropdown-item" routerLink="/orders-view"
                                         routerLinkActive="active">Поръчки</a></li>
+                                        <li *ngIf="(jewelryShopsDataPromise | async) as jewelryShopsData" class="dropdown-item">
+                                            <label>Магазин</label>
+                                            <select class="form-control form-select" [(ngModel)]="selectedJewelryShopId"
+                                                (change)="changeJewelryShop()">
+                                                <option [ngValue]="undefined">Няма избран магазин</option>
+            
+                                                <ng-container *ngFor="let jewleryShop of jewelryShopsData.all">
+                                                    <option [ngValue]="jewleryShop.id">{{jewleryShop.name}}</option>
+                                                </ng-container>
+                                            </select>
+                                        </li>
+            
+                                        <li *ngIf="(suppliersDataPromise | async) as suppliersData" class="dropdown-item">
+                                            <label>Доставчик</label>
+                                            <select class="form-control form-select" [(ngModel)]="selectedSupplierId">
+                                                <ng-container *ngFor="let supplier of suppliersData.all">
+                                                    <option [ngValue]="supplier.id">{{supplier.name}}</option>
+                                                </ng-container>
+                                            </select>
+                                        </li>
                             </ul>
                         </li>
-                        <ng-container *ngIf="userRoles.includes('Admin') || userRoles.includes('Seller')">
-                            <li *ngIf="(jewelryShopsDataPromise | async) as jewelryShopsData" class="nav-item">
-                                <select class="form-control form-select" [(ngModel)]="selectedJewelryShopId"
-                                    (change)="changeJewelryShop()">
-                                    <option [ngValue]="undefined">Няма избран магазин</option>
-
-                                    <ng-container *ngFor="let jewleryShop of jewelryShopsData.all">
-                                        <option [ngValue]="jewleryShop.id">{{jewleryShop.name}}</option>
-                                    </ng-container>
-                                </select>
-                            </li>
-                        </ng-container>
                     </ng-container>
                 </ul>
 

@@ -15,6 +15,10 @@ namespace BobyDesignWeb.Data.Entities
 
         public JewelryShop JewelryShop { get; set; }
 
+        public int SupplierId { get; set; }
+
+        public Supplier Supplier { get; set; }
+
         [MaxLength(500)]
         public string OrderDescription { get; set; }
 

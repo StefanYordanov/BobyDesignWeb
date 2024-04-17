@@ -42,6 +42,7 @@ import { DateService } from './services/date.service';
 import { WorkMaterialsReportComponent } from './components/reports/work-materials-report/work-materials-report.component';
 import { ReportsService } from './services/reports.service';
 import { IconComponent } from './components/icon/icon.component';
+import { SuppliersService } from './services/suppliers.service';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { IconComponent } from './components/icon/icon.component';
     UserService, AllUsersResolverService,
     WorkMaterialsService, WorkMaterialsResolverService,
     CustomersService, CustomersResolverService,
+    SuppliersService,
     PriceCalculatorService,
     WebContentService, BlobService, DateService, ReportsService
   ],

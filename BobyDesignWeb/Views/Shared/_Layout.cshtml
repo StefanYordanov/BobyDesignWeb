@@ -30,6 +30,13 @@
                                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Администрация</a>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item" href="#/administration/users">Потребители</a></li>
+                                            <li>
+                                                <a class="dropdown-item" routerLink="#/administration/work-materials-report"
+                                                   routerLinkActive="active">Справка материали</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Регистрирай нов служител</a>
+                                            </li>
                                         </ul>
                                     </li>
                                 }
@@ -57,9 +64,14 @@
     </div>
 
     <footer class="border-top footer text-muted hide-on-print">
-        <div class="container">
-            &copy; 2023 - BobyDesignWeb
-        </div>
+        
+            <div class="row container">
+                <div class="col-6"><img src="/images/FinancedByEU.png" /><img src="/images/PlanZaVazstIUst.png" /></div>
+            <p class="col-6" style="white-space: initial; line-height: normal; font-size: 0.7rem;">
+                        Системата е финансирана по проект № BG-RRP-3.005-1178-C01 „Решения в областта на информационните и комуникационни технологии и киберсигурността в малките и средните предприятия“, финансиран от Програмата за икономическа трансформация към Националния план за възстановяване и устойчивост.
+                </p>
+            </div>
+        
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

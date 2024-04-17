@@ -27,7 +27,7 @@ namespace BobyDesignWeb.Data
 
         public DbSet<WorkMaterialPriceForDate> WorkMaterialPriceForDates { get; set; }
 
-
+        public DbSet<Supplier> Suppliers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,6 +58,31 @@ namespace BobyDesignWeb.Data
                 JewelryShopDescription = "Цех",
                 JewelryShopPhoneNumbers = "02/ 82 777 77, 0878 306 600"
             });
+
+            modelBuilder.Entity<Supplier>().HasData(new Supplier
+            {
+                SupplierId = 1,
+                SupplierName = "Цех",
+                SupplierDescription = "Цех",
+                SupplierPhoneNumbers = ""
+            });
+            modelBuilder.Entity<Supplier>().HasData(new Supplier
+            {
+                SupplierId = 2,
+                SupplierName = "Кулинан",
+                SupplierDescription = "Кулинан",
+                SupplierPhoneNumbers = ""
+            });
+            modelBuilder.Entity<Supplier>().HasData(new Supplier
+            {
+                SupplierId = 3,
+                SupplierName = "Вичи",
+                SupplierDescription = "Вичи",
+                SupplierPhoneNumbers = ""
+            });
+            
+
+
 
             modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole 
             { Name = UserRolesConstants.Admin, NormalizedName = UserRolesConstants.Admin.ToUpper(),

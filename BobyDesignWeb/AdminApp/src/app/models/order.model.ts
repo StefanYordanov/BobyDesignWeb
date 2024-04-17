@@ -1,6 +1,7 @@
 import { DateOnlyModel } from "./common.model";
 import { CustomerModel } from "./customers.model";
 import { JewelryShopModel } from "./jewelry-shop.model";
+import { SupplierModel } from "./supplier.model";
 import { User } from "./user.model";
 import { WorkMaterialModel } from "./work-materials.model";
 
@@ -27,6 +28,7 @@ export interface Order{
     imageFileName: string;
     createdOn: Date;
     shop: JewelryShopModel;
+    supplier: SupplierModel;
     finishingDate: DateOnlyModel;
     craftingComponents: OrderCraftingComponent[];
     laborPrice: number;
@@ -46,6 +48,7 @@ export interface OrderQuery {
     customerId?: number;
     status?: number;
     type?: number;
+    supplierId?: number;
 
 }
 
