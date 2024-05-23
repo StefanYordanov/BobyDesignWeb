@@ -16,6 +16,6 @@ export class IconComponent implements OnInit {
   }
 
   iconClasses(): string {
-    return `bi bi-${this.iconName}`;
+    return `fa-solid fa-${this.iconName}`;
   }
 }
