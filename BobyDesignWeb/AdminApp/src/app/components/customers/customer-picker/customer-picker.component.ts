@@ -40,8 +40,7 @@ export class CustomerPickerComponent implements OnInit {
     if(this.selectedCustomer && this.selectedCustomer.id === customer.id) {
       this.selectedCustomer = undefined;
     } else {
-      
-    this.selectedCustomer = customer;
+      this.selectedCustomer = customer;
     }
     this.customerChanged.emit(this.selectedCustomer);
   }
@@ -71,6 +70,7 @@ export class CustomerPickerComponent implements OnInit {
     if (model && this.customersPage) {
       this.customersPage.items.push(model);
       this.selectedCustomer = model;
+      this.customerChanged.emit(this.selectedCustomer);
     }
     this.toggleNewCustomerMenu();
     this.toastr.success("Успешно създаване на клиент")

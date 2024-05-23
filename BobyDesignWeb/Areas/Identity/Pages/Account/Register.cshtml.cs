@@ -81,6 +81,10 @@ namespace BobyDesignWeb.Areas.Identity.Pages.Account
             /// </summary>
 
             [Required]
+            [Display(Name = "UserName")]
+            public string UserName { get; set; }
+
+            [Required]
             [Display(Name = "FirstName")]
             public string FirstName { get; set; }
 
@@ -115,7 +119,12 @@ namespace BobyDesignWeb.Areas.Identity.Pages.Account
             {
                 throw new InvalidOperationException("Only admins can create new users");
             }
+            
             ReturnUrl = returnUrl;
+            Input = new InputModel()
+            {
+                UserName = $"user{_context.Users.Count()}"
+            };
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -134,7 +143,7 @@ namespace BobyDesignWeb.Areas.Identity.Pages.Account
                 var user = CreateUser();
                 user.FirstName = Input.FirstName; 
                 user.LastName = Input.LastName;
-                var userName = $"user{_context.Users.Count()}";
+                var userName = Input.UserName;
                 await _userStore.SetUserNameAsync(user, userName, CancellationToken.None);
                 var email = $"{userName}@bobyDesign.com";
                 await _emailStore.SetEmailAsync(user, email, CancellationToken.None);

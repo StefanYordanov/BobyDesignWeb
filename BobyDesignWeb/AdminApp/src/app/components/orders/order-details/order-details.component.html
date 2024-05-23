@@ -147,10 +147,12 @@
             <input [(ngModel)]="order.deposit" readonly type="number" class="form-control">
         </div>
         <div class="col-sm-3 form-group">
-        </div>
-        <div class="col-sm-3 form-group">
             <label for="description"><strong>Обща цена</strong></label>
             <input [(ngModel)]="order.totalPrice" readonly type="number" class="form-control">
+        </div>
+        <div class="col-sm-3 form-group">
+            <label for="description"><strong>Оставащо за доплащане</strong></label>
+            <input [value]="order.totalPrice - order.deposit" readonly type="number" class="form-control">
         </div>
 
 
