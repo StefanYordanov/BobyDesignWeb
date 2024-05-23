@@ -1,9 +1,11 @@
-
-<div *ngIf="userRoles && (userRoles.includes('Admin') || userRoles.includes('Seller')); else not_authorized" >
-    <a class="btn btn-primary mb-1" routerLink="/orders/create">Създай поръчка</a>
-    <br>
-    <app-calendar-view></app-calendar-view>
+<div>
+    <div *ngIf="userRoles && (userRoles.includes('Admin') || userRoles.includes('Seller')); else not_authorized">
+        <a class="btn btn-primary mb-1" routerLink="/orders/create">Създай поръчка</a>
+        <br>
+        <app-calendar-view></app-calendar-view>
+    </div>
+    <ng-template #not_authorized>
+        <p>Добре дошли! За да можете да използвате системата, влезте в профила си и помолете администратора си да Ви
+            даде права.</p>
+    </ng-template>
 </div>
-<ng-template #not_authorized>
-    <p>Добре дошли! За да можете да използвате системата, влезте в профила си и помолете администратора си да Ви даде права.</p>
-</ng-template>
