@@ -43,6 +43,7 @@ import { WorkMaterialsReportComponent } from './components/reports/work-material
 import { ReportsService } from './services/reports.service';
 import { IconComponent } from './components/icon/icon.component';
 import { SuppliersService } from './services/suppliers.service';
+import { WorkMaterialDropdownSelectorComponent } from './components/work-materials/work-material-dropdown-selector/work-material-dropdown-selector.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { SuppliersService } from './services/suppliers.service';
     PrintOrderComponent, 
     EditOrderComponent,
     WorkMaterialsReportComponent,
-    IconComponent
+    IconComponent,
+    WorkMaterialDropdownSelectorComponent
   ],
   imports: [
     BrowserModule,

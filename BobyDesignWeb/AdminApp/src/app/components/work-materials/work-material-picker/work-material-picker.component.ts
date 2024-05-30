@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { WorkMaterialModel } from 'src/app/models/work-materials.model';
 import { WorkMaterialsService } from 'src/app/services/work-materials.service';
 
@@ -10,7 +10,8 @@ import { WorkMaterialsService } from 'src/app/services/work-materials.service';
 export class WorkMaterialPickerComponent implements OnInit {
 
   constructor(private workMaterialService: WorkMaterialsService) { }
-
+  
+  @Input() date?: Date;
   @Output() workMaterialChanged = new EventEmitter<WorkMaterialModel>()
 
   workMaterials?: WorkMaterialModel[];
@@ -28,4 +29,6 @@ export class WorkMaterialPickerComponent implements OnInit {
     }
     this.workMaterialChanged.emit(this.selectedWorkMaterial);
   }
+
+  
 }

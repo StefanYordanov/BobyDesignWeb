@@ -32,6 +32,11 @@ namespace BobyDesignWeb.Models
             return new DateTime(model.Year, model.Month, model.Day);
         }
 
+        public static DateTime ToEndOfDay(this DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, date.Day, 23, 59, 59, 999);
+        }
+
         public static DateOnlyModel ToDateOnlyModel(this DateTime date)
         {
             return new DateOnlyModel { Year = date.Year, Month = date.Month, Day = date.Day };

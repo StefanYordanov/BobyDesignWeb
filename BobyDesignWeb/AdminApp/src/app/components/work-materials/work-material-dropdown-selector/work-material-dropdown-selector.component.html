@@ -1,0 +1,23 @@
+<div>
+    <ng-container *ngIf="selectedWorkMaterial; else emptyWorkMaterial">
+        <div class="input-group">
+            <input [value]="selectedWorkMaterial.name" readonly type="text" class="form-control">
+            <div class="input-group-append">
+                <button class="btn btn-danger" (click)="deselectWorkMaterial()"><app-icon iconName="cancel"></app-icon></button> 
+            </div>
+        </div>
+        
+        
+    </ng-container>
+    <ng-template #emptyWorkMaterial>
+        <input [(ngModel)]="searchPhrase" type="text" class="form-control"
+            (ngModelChange)="this.userQuestionUpdate.next($event)">
+            <div *ngIf="loadedWorkMaterials && loadedWorkMaterials.length" class="dropdown-list search-results-dropdown">
+                <ng-container *ngFor="let workMaterial of loadedWorkMaterials">
+                    <a class="dropdown-item" (click)="clickWorkMaterial(workMaterial)">
+                        {{workMaterialDetailsString(workMaterial)}}
+                    </a>
+                </ng-container>
+            </div>
+    </ng-template>
+</div>

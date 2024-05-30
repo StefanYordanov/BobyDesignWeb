@@ -23,12 +23,30 @@ export class WorkMaterialsService{
       return response;
     }
     
-    async getAllWorkMaterials(): Promise<WorkMaterialModel[] | null> {
+    async getAllWorkMaterials(pricingDate?: Date): Promise<WorkMaterialModel[] | null> {
 
         let params: Params = {
-          
         };
+
+        if(pricingDate) {
+          params['pricingDate'] = pricingDate.toDateString();
+        }
+
         const workMaterials = await this.apiService.get<WorkMaterialModel[]>('workMaterials/getAll', params);
+        console.log(workMaterials);
+        return workMaterials;
+      }
+
+      async getBySearch(search: string, pricingDate?: Date): Promise<WorkMaterialModel[] | null> {
+
+        let params: Params = {
+          search: search,
+        };
+        
+        if(pricingDate) {
+          params['pricingDate'] = pricingDate.toDateString();
+        }
+        const workMaterials = await this.apiService.get<WorkMaterialModel[]>('workMaterials/getBySearch', params);
         console.log(workMaterials);
         return workMaterials;
       }
