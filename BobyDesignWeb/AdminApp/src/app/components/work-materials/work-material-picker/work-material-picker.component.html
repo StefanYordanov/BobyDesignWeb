@@ -6,6 +6,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Материал</th>
                     <th scope="col">Ценообразуване</th>
+                    <th scope="col">Количество</th>
                     <th scope="col">Акт. цена замяна</th>
                     <th scope="col">Акт. цена продан</th>
                     <th scope="col">Към дата</th>
@@ -23,10 +24,7 @@
                                 <option [ngValue]="1">На {{ workMaterial.measuringUnit.length ? workMaterial.measuringUnit : 'количество' }}</option>
                             </select>
                         </td>
-                        <td><input [(ngModel)]="workMaterial.quantity" type="text"
-                            class="form-control">
-                        </td>
-                        <td><input [(ngModel)]="workMaterial.reservedQuantity" type="text"
+                        <td><input [value]="workMaterial.quantity" type="text"
                             class="form-control">
                         </td>
                         <ng-container *ngIf="workMaterial.relevantPrice; else emptyPrice">

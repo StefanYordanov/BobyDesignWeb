@@ -73,7 +73,9 @@
                                                 <app-work-material-picker (workMaterialChanged)="craftingComponent.workMaterialTemp=$event"></app-work-material-picker>
                                             </app-modal-frame>
                                             <button class="btn btn-sm col-sm-6 btn-danger" (click)="craftingComponent.onRemove()">Премахни ред</button>
-                                            <app-work-material-dropdown-selector [selectedWorkMaterial]="craftingComponent.craftingComponent.workMaterial" (workMaterialChanged)="craftingComponent.onPickWorkMaterial($event)"></app-work-material-dropdown-selector>
+                                            <app-work-material-dropdown-selector 
+                                                [selectedWorkMaterial]="craftingComponent.craftingComponent.workMaterial" 
+                                                (workMaterialChanged)="craftingComponent.onPickWorkMaterial($event)"></app-work-material-dropdown-selector>
                                             <!-- <input [ngModel]="craftingComponent.craftingComponent.workMaterial?.name" readonly type="text" class="form-control"> -->
                                         </div>
                                         <div class="col-4 form-group">
@@ -101,7 +103,9 @@
                                                 <app-work-material-picker (workMaterialChanged)="craftingComponent.workMaterialTemp=$event"></app-work-material-picker>
                                             </app-modal-frame>
                                             <button class="btn btn-sm col-sm-6 btn-danger" (click)="craftingComponent.onRemove()">Премахни ред</button>
-                                            <app-work-material-dropdown-selector [selectedWorkMaterial]="craftingComponent.craftingComponent.workMaterial" (workMaterialChanged)="craftingComponent.onPickWorkMaterial($event)" [showPriceColumn]="'purchasingPrice'"></app-work-material-dropdown-selector>
+                                            <app-work-material-dropdown-selector [selectedWorkMaterial]="craftingComponent.craftingComponent.workMaterial" 
+                                                (workMaterialChanged)="craftingComponent.onPickWorkMaterial($event)" 
+                                                [showPriceColumn]="'purchasingPrice'"></app-work-material-dropdown-selector>
                                             <!-- <input [ngModel]="craftingComponent.craftingComponent.workMaterial?.name" readonly type="text" class="form-control"> -->
                                         </div>
                                         <div class="col-4 form-group">

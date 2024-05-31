@@ -28,6 +28,7 @@ interface CraftingComponentFormCreationExtensions {
   craftingComponent: OrderCraftingComponentCreationModel;
   workMaterialTemp?: WorkMaterialModel;
   workMaterialCallback: ModalFrameCallback<WorkMaterialModel>;
+  onPickWorkMaterial: (wm: WorkMaterialModel) => void
   onRemove: () => void;
 }
 
@@ -172,6 +173,12 @@ export class EditOrderComponent implements OnInit {
               this.triggerComponentRecalculation(newEntry.craftingComponent);
             },
           },
+          onPickWorkMaterial: (wm) => {
+            newEntry.craftingComponent.workMaterial = wm,
+            console.log('WOrk material, ', newEntry.craftingComponent.workMaterial)
+            newEntry.craftingComponent.workMaterialPrice = (newEntry.craftingComponent.isDeposit ? wm?.relevantPrice?.purchasingPrice : wm?.relevantPrice?.sellingPrice) || 0; 
+            this.triggerComponentRecalculation(newEntry.craftingComponent);
+          },
           onRemove: () => {
             if (!this.editOrder) {
               return;
@@ -238,6 +245,12 @@ export class EditOrderComponent implements OnInit {
           }
           this.triggerComponentRecalculation(newEntry.craftingComponent);
         },
+      },
+      onPickWorkMaterial: (wm) => {
+        newEntry.craftingComponent.workMaterial = wm,
+        console.log('WOrk material, ', newEntry.craftingComponent.workMaterial)
+        newEntry.craftingComponent.workMaterialPrice = (isDeposit ? wm?.relevantPrice?.purchasingPrice : wm?.relevantPrice?.sellingPrice) || 0; 
+        this.triggerComponentRecalculation(newEntry.craftingComponent);
       },
       onRemove: () => {
         if (!this.editOrder) {
