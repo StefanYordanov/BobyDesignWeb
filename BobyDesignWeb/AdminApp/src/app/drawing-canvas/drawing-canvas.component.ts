@@ -18,6 +18,11 @@ export class DrawingCanvasComponent implements AfterViewInit, OnInit {
 
   @Input() initialBackground?: CanvasBackground;
   canvas?: fabric.Canvas;
+
+  states: { newBackground?: string, canvasJson: string}[] = [];
+  index = -1;
+  undoRedoInProgress = false;
+
   canvasMenuModes = CanvasMenuMode;
   currentCanvasMenuMode = CanvasMenuMode.Common;
 
@@ -38,8 +43,57 @@ export class DrawingCanvasComponent implements AfterViewInit, OnInit {
   }
   ngAfterViewInit(): void {
     this.canvas = new fabric.Canvas('drawingCanvas', { })
-    console.log('CANVAS!', this.canvas)
+    const self = this;
+
+    console.log('CANVAS!', this.canvas);
+    const addToStackFunction = function (e: fabric.IEvent<MouseEvent>) {
+      if(self.undoRedoInProgress){
+        return;
+      }
+
+      self.states = self.states.slice(0, self.index + 1);
+      self.states.push({ canvasJson: JSON.stringify(self.canvas) });
+      self.index++;
+    }
+
+    this.canvas.on("object:modified", addToStackFunction);
+    this.canvas.on("object:added", addToStackFunction);
+
   }
+
+  undo(){
+    if (this.index <= 0 || !this.canvas) {
+      this.index = 0;
+      return;
+    }
+    this.undoRedoInProgress = true;
+    const self = this;
+    this.canvas.loadFromJSON(this.states[this.index-1].canvasJson, function() {
+      if(self.states[self.index-1].newBackground){
+        self.onChangeBackground(self.states[self.index-1].newBackground)
+      }
+      self.canvas!.renderAll();
+      self.undoRedoInProgress = false;
+      self.index--;
+    })
+  }
+
+  redo() {
+    if (this.index >= this.states.length - 1  || !this.canvas) {
+        return;
+    }
+    this.undoRedoInProgress = true;
+    console.log('redo');
+    const self = this;
+    this.canvas.loadFromJSON(this.states[this.index+1].canvasJson, function() {
+      if(self.states[self.index+1].newBackground){
+        self.onChangeBackground(self.states[self.index+1].newBackground)
+      }
+      self.canvas!.renderAll();
+      self.undoRedoInProgress = false;
+      self.index++
+    })
+}
 
   onChangeBackground(newBackground?: string) {
     if(!this.canvas){
@@ -65,6 +119,12 @@ export class DrawingCanvasComponent implements AfterViewInit, OnInit {
           // Needed to position overlayImage at 0/0
           originX: 'left',
           originY: 'top'});
+    }
+
+    if(!this.undoRedoInProgress){
+      this.states = this.states.slice(0, this.index + 1);
+      this.states.push({ canvasJson: JSON.stringify(this.canvas), newBackground});
+      this.index++;
     }
   }
 

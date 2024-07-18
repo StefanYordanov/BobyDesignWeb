@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Server\" />
     <Folder Include="wwwroot\images\canvasBackgrounds\" />
     <Folder Include="wwwroot\lib\bootstrap-select\" />
   </ItemGroup>
