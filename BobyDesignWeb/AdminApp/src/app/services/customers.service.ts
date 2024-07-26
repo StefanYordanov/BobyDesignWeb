@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService, Params } from './api.service';
-import { CustomerModel } from '../models/customers.model';
+import { CustomerModel, CustomerReviewModel } from '../models/customers.model';
 import { PageView } from '../models/common.model';
 
 @Injectable({
@@ -29,6 +29,15 @@ export class CustomersService {
   async addNewCustomer(model: CustomerModel): Promise<CustomerModel | null> {
     const response = await this.apiService.post<CustomerModel>(
       'customers/create',
+      model
+    );
+    console.log(response);
+    return response;
+  }
+
+  async addNewCustomerReview(model: CustomerReviewModel): Promise<CustomerReviewModel | null> {
+    const response = await this.apiService.post<CustomerReviewModel>(
+      'customers/createReview',
       model
     );
     console.log(response);

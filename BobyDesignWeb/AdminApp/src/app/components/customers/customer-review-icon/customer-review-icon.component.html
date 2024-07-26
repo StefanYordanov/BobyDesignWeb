@@ -1,0 +1,5 @@
+<ng-container *ngIf="iconProps(type) as calculatedIconProps">
+    <app-icon [class]="calculatedIconProps.textClass" [iconName]="calculatedIconProps.iconName"></app-icon>
+</ng-container>
+
+

@@ -235,6 +235,17 @@ namespace BobyDesignWeb.Controllers
                         Id = o.Customer.CustomerId,
                         Name = o.Customer.CustomerName,
                         PhoneNumber = o.Customer.CustomerPhone,
+                        Reviews = o.Customer.CustomerReviews
+                            .OrderByDescending(cr => cr.CreatedOn).Take(1)
+                            .Select(x => new CustomerReviewViewModel()
+                            {
+                                Id = x.CustomerReviewId,
+                                CreatedOn = x.CreatedOn,
+                                CustomerId = x.CustomerId,
+                                Text = x.CustomerReviewText,
+                                Type = x.CustomerReviewType
+                            }).ToList()
+
                     },
                     Description = o.OrderDescription,
                     FinishingDate = o.FinishingDate.ToDateOnlyModel(),
@@ -328,6 +339,16 @@ namespace BobyDesignWeb.Controllers
                         Id = o.Customer.CustomerId,
                         Name = o.Customer.CustomerName,
                         PhoneNumber = o.Customer.CustomerPhone,
+                        Reviews = o.Customer.CustomerReviews
+                            .OrderByDescending(cr => cr.CreatedOn).Take(1)
+                            .Select(x => new CustomerReviewViewModel()
+                            {
+                                Id = x.CustomerReviewId,
+                                CreatedOn = x.CreatedOn,
+                                CustomerId = x.CustomerId,
+                                Text = x.CustomerReviewText,
+                                Type = x.CustomerReviewType
+                            }).ToList()
                     },
                     Description = o.OrderDescription,
                     FinishingDate = o.FinishingDate.ToDateOnlyModel(),

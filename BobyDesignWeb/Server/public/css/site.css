@@ -22,6 +22,10 @@ body {
 }
 
 .modal-fullscreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     width: 100vw;
     max-width: none;
     height: 100%;

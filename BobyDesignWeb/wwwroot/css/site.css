@@ -22,8 +22,16 @@ body {
 }
 
 .modal-fullscreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     width: 100vw;
     max-width: none;
     height: 100%;
     margin: 0;
+}
+
+.modal.fade {
+    background-color: rgba(0, 0, 0, .4);
 }

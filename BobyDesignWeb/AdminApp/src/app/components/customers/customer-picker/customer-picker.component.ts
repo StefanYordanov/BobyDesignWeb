@@ -54,7 +54,8 @@ export class CustomerPickerComponent implements OnInit {
         email: '',
         phoneNumber: '',
         totalOrdersCost: 0,
-        totalPaidCost: 0
+        totalPaidCost: 0,
+        reviews:[]
       }
     } else {
       this.newCustomer = undefined;

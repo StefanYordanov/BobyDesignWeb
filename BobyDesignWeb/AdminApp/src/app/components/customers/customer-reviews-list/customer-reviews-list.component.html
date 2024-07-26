@@ -1,0 +1,20 @@
+<button class="btn btn-primary" (click)="showNewReviewForm = !showNewReviewForm">Нова оценка</button>
+<div *ngIf="showNewReviewForm" class="row">
+    <div class="col-3">
+        <select class="form-control form-select" [(ngModel)]="newReviewType">
+            <option [ngValue]="customerReviewType.Negative">Негативна</option>
+            <option [ngValue]="customerReviewType.Neutral">Неутрална</option>
+            <option [ngValue]="customerReviewType.Positive">Положителна</option>
+        </select>
+    </div>
+    <div class="col-7">
+        <textarea class="form-control" [(ngModel)]="newReviewText">
+        </textarea>
+    </div>
+    <button class="btn btn-success" (click)="submitNewReview()">Създай оценка</button>
+</div>
+
+<div *ngFor="let review of customer.reviews" class="container">
+    <h5><app-customer-review-icon [type]="review.type"></app-customer-review-icon> {{ review.createdOn | date: 'dd/MM/yyyy HH:mm' }}</h5>
+    <p>{{ review.text }}</p>
+</div>

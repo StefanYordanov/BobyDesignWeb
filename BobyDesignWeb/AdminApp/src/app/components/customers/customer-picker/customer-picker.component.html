@@ -53,7 +53,9 @@
             <ng-container *ngFor="let customer of customersPage.items">
                     <tr (click)="toggleCustomer(customer)" [class.bg-primary]="selectedCustomer && selectedCustomer.id === customer.id">
                         <td scope="row">{{customer.id}}</td>
-                        <td scope="row">{{customer.name}}</td>
+                        <td scope="row">
+                            <app-customer-review-icon *ngIf="customer.reviews && customer.reviews.length" [type]="customer.reviews[0].type"></app-customer-review-icon>
+                            {{customer.name}}</td>
                         <td scope="row">{{customer.email}}</td>
                         <td scope="row">{{customer.phoneNumber}}</td>
                     </tr>

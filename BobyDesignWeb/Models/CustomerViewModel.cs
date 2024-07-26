@@ -8,5 +8,6 @@
         public string PhoneNumber { get; set; }
         public decimal TotalOrdersCost { get; set; }
         public decimal TotalPaidCost { get; set;}
+        public ICollection<CustomerReviewViewModel> Reviews { get; set; }
     }
 }

@@ -2,13 +2,12 @@
 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" (click)="openModal()">{{buttonText}}</button>
 
 <!-- Modal -->
-<div #modalElement class="modal fade" role="dialog" [style.display]="opened ? 'block': 'none'" [style.opacity]="opened ? '1': '0'">
-  <div class="modal-dialog modal-fullscreen" [style.transform]="'none'">
+<div #modalElement class="modal fade" role="dialog" [style.display]="opened ? 'block': 'none'" [style.opacity]="opened ? '1': '0'" (click)="clickClose()">
+  <div class="modal-dialog modal-fullscreen" [style.transform]="'none'" (click)="$event.stopPropagation()">
 
     <!-- Modal content-->
     <div class="modal-content app-modal-content">
       <div class="modal-header">
-        <button type="button" class="close" (click)="clickClose()" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">{{title}}</h4>
       </div>
       <div class="modal-body app-modal-body">

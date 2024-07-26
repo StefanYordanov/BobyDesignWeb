@@ -15,6 +15,8 @@ namespace BobyDesignWeb.Data
 
         public DbSet<Customer> Customers { get; set; }
 
+        public DbSet<CustomerReview> CustomerReviews { get; set; }
+
         public DbSet<JewelryShop> JewelryShops { get; set; }
 
         public DbSet<Order> Orders { get; set; }

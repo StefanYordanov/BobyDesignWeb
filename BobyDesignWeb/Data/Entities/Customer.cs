@@ -16,5 +16,7 @@ namespace BobyDesignWeb.Data.Entities
         [MaxLength(20)]
         public string CustomerPhone { get; set; }
 
+        public ICollection<CustomerReview> CustomerReviews { get; set; }
+
     }
 }

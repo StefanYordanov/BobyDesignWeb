@@ -75,11 +75,18 @@
                 <ng-template #displayCustomer>
                     <tr>
                         <td scope="row">{{customer.id}}</td>
-                        <td scope="row">{{customer.name}}</td>
+                        <td scope="row">
+                            <app-customer-review-icon *ngIf="customer.reviews && customer.reviews.length" [type]="customer.reviews[0].type"></app-customer-review-icon>
+                            {{customer.name}}</td>
                         <td scope="row">{{customer.email}}</td>
                         <td scope="row">{{customer.phoneNumber}}</td>
-                        <td scope="row"><button type="button" class="btn btn-primary" (click)="toggleEditCustomer(customer)">Редактиране</button>
-                            <a class="btn btn-primary" routerLink="/orders-view" [queryParams]="{customerId: customer.id}" role="button">Поръчки</a></td>
+                        <td scope="row">
+                            <button type="button" class="btn btn-primary btn-sm" (click)="toggleEditCustomer(customer)">Редактиране</button>
+                            <a class="btn btn-primary btn-sm" routerLink="/orders-view" [queryParams]="{customerId: customer.id}" role="button">Поръчки</a>
+                            <app-modal-frame [title]="'Оценки'" [buttonText]="'Оценки'" [callbacks]="{}">
+                                <app-customer-reviews-list [customer]="customer"></app-customer-reviews-list>
+                            </app-modal-frame>
+                        </td>
                     </tr>
                 </ng-template>
             

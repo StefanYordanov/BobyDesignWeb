@@ -44,6 +44,8 @@ import { ReportsService } from './services/reports.service';
 import { IconComponent } from './components/icon/icon.component';
 import { SuppliersService } from './services/suppliers.service';
 import { WorkMaterialDropdownSelectorComponent } from './components/work-materials/work-material-dropdown-selector/work-material-dropdown-selector.component';
+import { CustomerReviewIconComponent } from './components/customers/customer-review-icon/customer-review-icon.component';
+import { CustomerReviewsListComponent } from './components/customers/customer-reviews-list/customer-reviews-list.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,9 @@ import { WorkMaterialDropdownSelectorComponent } from './components/work-materia
     EditOrderComponent,
     WorkMaterialsReportComponent,
     IconComponent,
-    WorkMaterialDropdownSelectorComponent
+    WorkMaterialDropdownSelectorComponent,
+    CustomerReviewIconComponent,
+    CustomerReviewsListComponent
   ],
   imports: [
     BrowserModule,

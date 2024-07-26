@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageView } from '../../models/common.model';
-import { CustomerModel } from '../../models/customers.model';
+import { CustomerModel, CustomerReviewType } from '../../models/customers.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomersService } from '../../services/customers.service';
 import { Params } from '../../services/api.service';
@@ -16,6 +16,7 @@ export class CustomersComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private router: Router,
     private customersService: CustomersService, private toastr: ToastrService) { }
 
+  customerReviewType=CustomerReviewType;
   showNewCustomerMenu: boolean = false;
   newCustomer?: CustomerModel
   customersPage?: PageView<CustomerModel>;
@@ -68,7 +69,8 @@ export class CustomersComponent implements OnInit {
         email: '',
         phoneNumber: '',
         totalOrdersCost: 0,
-        totalPaidCost: 0
+        totalPaidCost: 0,
+        reviews: []
       }
     } else {
       this.newCustomer = undefined;

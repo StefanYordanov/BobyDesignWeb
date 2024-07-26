@@ -77,7 +77,8 @@
                 <tr routerLink="/orders/details" [queryParams]="{orderId: order.id}">
                     <td scope="row">{{order.id}}</td>
                     <td scope="row">{{order.description | truncate:[40]}}</td>
-                    <td scope="row">{{customersService.customerString(order.customer)}}</td>
+                    <td scope="row"><app-customer-review-icon *ngIf="order.customer && order.customer.reviews && order.customer.reviews.length" [type]="order.customer.reviews[0].type"></app-customer-review-icon>
+                        {{customersService.customerString(order.customer)}}</td>
                      <td scope="row">{{dateService.dateOnlyToString(order.finishingDate)}}</td>
                      <td scope="row">{{order.totalPrice | currency:'BGN':'лв.'}}</td>
                      <td scope="row">{{order.deposit | currency:'BGN':'лв.'}}</td>
