@@ -17,12 +17,7 @@ namespace BobyDesignWeb.Controllers
         public IActionResult Get(string fileName)
         {
             var fileEntity = _context.StoredFiles.FirstOrDefault(s => s.FileName == fileName) ?? throw new ArgumentException("Невалидно име на файл");
-
-            //Stream stream = new MemoryStream(fileEntity.Content);
-            //HttpResponseMessage response = new HttpResponseMessage { Content = new StreamContent(stream) };
-            //response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
-            //response.Content.Headers.ContentLength = stream.Length;
-            return File(fileEntity.Content, "image/png");
+            return File(fileEntity.Content, fileEntity.ContentType);
         }
     }
 }
