@@ -39,6 +39,9 @@ export class DrawingCanvasComponent implements AfterViewInit, OnInit {
       this.canvasBackgrounds.push(this.initialBackground)
       this.currentCanvasBackgroundUrl = this.initialBackground.url;
       this.onChangeBackground(this.currentCanvasBackgroundUrl)
+    } else {
+      this.states.push({ canvasJson: JSON.stringify(this.canvas) });
+      this.index++;
     }
   }
   ngAfterViewInit(): void {
@@ -243,5 +246,9 @@ export class DrawingCanvasComponent implements AfterViewInit, OnInit {
     });
 
     return dataURL;
+  }
+
+  printStates() {
+    return JSON.stringify(this.states) + '///' + this.index
   }
 }
