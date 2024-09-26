@@ -1,4 +1,9 @@
-<div *ngIf="order">
+<div *ngIf="order" style="position: relative;">
+    <div class="print-overlay hide-on-print">
+        <button *ngIf="!alreadyPrinted" class="btn btn-primary btn-lg" (click)="print()">ПЕЧАТ</button>
+        <button *ngIf="alreadyPrinted" class="btn btn-primary btn-lg" (click)="back()">НАЗАД</button>
+    </div>
+    
     <ng-container *ngFor="let item of [].constructor(2); let i = index">
         <hr *ngIf="i!==0">
         <h2 style="text-align: center;"> 

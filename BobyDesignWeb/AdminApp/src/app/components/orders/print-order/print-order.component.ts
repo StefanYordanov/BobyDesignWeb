@@ -10,7 +10,7 @@ import { DateService } from 'src/app/services/date.service';
 })
 export class PrintOrderComponent implements OnInit {
 
-  
+  alreadyPrinted: boolean = false;;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, public dateService: DateService) { }
   order?: Order
 
@@ -18,18 +18,34 @@ export class PrintOrderComponent implements OnInit {
     this.activatedRoute.data.subscribe((response: any) => {
       this.order = response.order;
       
-      setTimeout(() => {
-        const hideOnPrintElements = $('.hide-on-print');
-        $('textarea').each(function() {
-          this.style.height = "";
-          this.style.height = (this.scrollHeight + 1) + "px";
-        });
-        hideOnPrintElements.hide();
-        window.print();
-        hideOnPrintElements.show();
-        this.router.navigateByUrl('orders/details?orderId='+this.order?.id);
-      }, 1000);
+      // setTimeout(() => {
+      //   const hideOnPrintElements = $('.hide-on-print');
+      //   $('textarea').each(function() {
+      //     this.style.height = "";
+      //     this.style.height = (this.scrollHeight + 1) + "px";
+      //   });
+      //   hideOnPrintElements.hide();
+      //   window.print();
+      //   hideOnPrintElements.show();
+      //   this.router.navigateByUrl('orders/details?orderId='+this.order?.id);
+      // }, 1000);
     });
+  }
+
+  print(){
+    const hideOnPrintElements = $('.hide-on-print');
+      $('textarea').each(function() {
+        this.style.height = "";
+        this.style.height = (this.scrollHeight + 1) + "px";
+      });
+      hideOnPrintElements.hide();
+      window.print();
+      hideOnPrintElements.show();
+      this.alreadyPrinted = true;
+  }
+
+  back(){
+    this.router.navigateByUrl('orders/details?orderId='+this.order?.id);
   }
 
   workMaterialsString(): string{
